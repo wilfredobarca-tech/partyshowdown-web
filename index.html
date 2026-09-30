@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Party Showdown · The House Always Wins</title>
+<meta name="description" content="The party board game that will ruin your friendships. Up to 6 players, 20+ minigames and a greedy piggy bank who owns the whole fair. On Kickstarter November 10, 2026.">
+<meta name="theme-color" content="#0A0610">
+<meta property="og:title" content="Party Showdown · The House Always Wins">
+<meta property="og:description" content="The party board game that will ruin your friendships. 20+ minigames, up to 6 players. Kickstarter: November 10, 2026.">
+<meta property="og:image" content="https://partyshowdown.com/media/og.jpg">
+<meta property="og:url" content="https://partyshowdown.com/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://partyshowdown.com/">
+<link rel="icon" href="media/favicon.png">
+<link rel="preload" href="fonts/LuckiestGuy-Regular.ttf" as="font" type="font/ttf" crossorigin>
+<style>
+@font-face { font-family: "Luckiest"; src: url("fonts/LuckiestGuy-Regular.ttf"); font-display: swap; }
+@font-face { font-family: "Fredoka"; src: url("fonts/Fredoka.ttf"); font-weight: 300 700; font-display: swap; }
+
+:root {
+  --night: #0A0610;
+  --night-2: #140B1E;
+  --night-3: #1F1030;
+  --blood: #E0162E;
+  --blood-2: #8E0A1A;
+  --gold: #FFC83D;
+  --gold-2: #FFE7A3;
+  --bone: #F5EBDD;
+  --paper: #EFE2C8;
+  --ink: #1A0F1F;
+  --muted: #B9A9C9;
+  --ks: #05CE78;
+  --pink: #FF3E8A;
+  --r: 18px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; background: var(--night); }
+body { margin: 0; background: var(--night); color: var(--bone); font: 18px/1.55 "Fredoka", system-ui, sans-serif; overflow-x: hidden; }
+img, video, svg { display: block; max-width: 100%; }
+img { height: auto; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 16px; }
+.d { font-family: "Luckiest", "Fredoka", sans-serif; font-weight: normal; text-transform: uppercase; letter-spacing: .5px; line-height: .98; }
+html[lang="en"] [lang="es"], html[lang="es"] [lang="en"] { display: none !important; }
+
+/* grano de película y viñeta encima de todo */
+body::before { content: ""; position: fixed; inset: -50%; z-index: 90; pointer-events: none; opacity: .07;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  animation: grano .9s steps(4) infinite; }
+@keyframes grano { 0% { transform: translate(0,0) } 25% { transform: translate(-3%,2%) } 50% { transform: translate(2%,-3%) } 75% { transform: translate(-2%,-1%) } }
+
+/* ---------- barra ---------- */
+.nav { position: fixed; inset: 0 0 auto 0; z-index: 50; transition: background .3s, box-shadow .3s; }
+.nav.solid { background: rgba(10, 6, 16, .88); backdrop-filter: blur(10px); box-shadow: 0 1px 0 rgba(224, 22, 46, .35); }
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 66px; gap: 10px; }
+.brand img { height: 42px; width: auto; filter: drop-shadow(0 3px 0 rgba(0,0,0,.5)); }
+.nav-r { display: flex; align-items: center; gap: 8px; }
+.tix { display: flex; align-items: center; gap: 7px; background: var(--gold); color: var(--ink); font: 700 16px "Fredoka"; padding: 6px 12px 6px 10px; border-radius: 999px; border: 2px solid var(--ink); box-shadow: 0 3px 0 #000; transition: transform .2s; }
+.tix svg { width: 22px; height: 22px; }
+.tix.hit { animation: golpe .45s; }
+.tix.broke { background: var(--blood); color: #fff; }
+@keyframes golpe { 0% { transform: scale(1) } 30% { transform: scale(1.25) rotate(-6deg) } 60% { transform: scale(.95) rotate(3deg) } 100% { transform: scale(1) } }
+.icon-btn { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; border: 2px solid rgba(255,255,255,.25); background: rgba(255,255,255,.06); cursor: pointer; }
+.icon-btn svg { width: 20px; height: 20px; }
+.lang { display: flex; background: rgba(255,255,255,.08); border: 2px solid rgba(255,255,255,.18); border-radius: 999px; padding: 2px; }
+.lang button { border: 0; background: none; font-weight: 700; font-size: 14px; padding: 5px 10px; border-radius: 999px; cursor: pointer; }
+.lang button.on { background: var(--bone); color: var(--ink); }
+
+/* ---------- botones ---------- */
+.btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; font: 700 19px "Fredoka"; padding: 16px 26px; border-radius: 14px; border: 3px solid #000; box-shadow: 0 6px 0 #000; transition: transform .12s, box-shadow .12s; cursor: pointer; }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 0 #000; }
+.btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #000; }
+.btn svg { width: 22px; height: 22px; flex: none; }
+.btn-ks { background: var(--ks); color: #fff; text-shadow: 0 2px 0 rgba(0,0,0,.35); }
+.btn-ks.glow { animation: latido 2.2s infinite; }
+@keyframes latido { 0%, 100% { box-shadow: 0 6px 0 #000, 0 0 0 0 rgba(5,206,120,.55) } 50% { box-shadow: 0 6px 0 #000, 0 0 0 14px rgba(5,206,120,0) } }
+.btn-ghost { background: rgba(255,255,255,.08); color: var(--bone); border-color: var(--bone); box-shadow: 0 6px 0 rgba(0,0,0,.6); }
+.btn-sm { font-size: 15px; padding: 8px 14px; border-width: 2px; box-shadow: 0 3px 0 #000; border-radius: 10px; }
+
+/* ---------- telón de entrada ---------- */
+.telon { position: fixed; inset: 0; z-index: 80; pointer-events: none; display: flex; }
+.telon i { flex: 1; height: 100%; transition: transform 1.3s cubic-bezier(.7,0,.2,1); transition-delay: .35s;
+  background: repeating-linear-gradient(90deg, #5c0712 0 26px, #a30f22 40px, #c8182c 52px, #a30f22 64px, #5c0712 90px);
+  box-shadow: inset 0 -30px 0 -6px var(--gold), inset 0 -40px 30px rgba(0,0,0,.4); }
+.abierto .telon i:first-child { transform: translateX(-102%); }
+.abierto .telon i:nth-of-type(2) { transform: translateX(102%); }
+.telon b { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); font-family: "Luckiest"; font-weight: normal; font-size: clamp(28px, 6vw, 64px); color: var(--gold); text-shadow: 0 5px 0 #000; white-space: nowrap; transition: opacity .3s; }
+.abierto .telon b { opacity: 0; }
+
+/* ---------- portada ---------- */
+.hero { position: relative; min-height: 100svh; display: grid; place-items: center; overflow: hidden; text-align: center; padding: 96px 0 90px; isolation: isolate; }
+.hero video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -3; filter: saturate(1.2) contrast(1.1); }
+.hero::before { content: ""; position: absolute; inset: 0; z-index: -2; background: linear-gradient(rgba(10,6,16,.58), rgba(10,6,16,.58)), radial-gradient(ellipse 50% 45% at 50% 58%, rgba(10,6,16,.5), transparent 100%), radial-gradient(ellipse at 50% 40%, rgba(224,22,46,0) 30%, rgba(142,10,26,.55) 75%, rgba(10,6,16,.95) 100%), linear-gradient(180deg, rgba(10,6,16,.7) 0, rgba(10,6,16,0) 22%, rgba(10,6,16,0) 70%, var(--night) 100%); }
+.hero-in { position: relative; max-width: 1000px; padding: 0 16px; }
+.hero .logo { width: min(440px, 72vw); margin: 0 auto 6px; filter: drop-shadow(0 10px 0 rgba(0,0,0,.55)) drop-shadow(0 0 40px rgba(224,22,46,.45)); animation: flota 5s ease-in-out infinite; }
+@keyframes flota { 50% { transform: translateY(-8px) rotate(-1deg) } }
+.fecha { display: inline-flex; align-items: center; gap: 10px; background: var(--blood); color: #fff; font-weight: 700; font-size: 15px; letter-spacing: 1.5px; text-transform: uppercase; padding: 7px 14px; border-radius: 6px; border: 2px solid #000; transform: rotate(-2deg); box-shadow: 0 4px 0 #000; }
+.fecha i { width: 10px; height: 10px; border-radius: 50%; background: #fff; animation: rec 1s steps(2) infinite; }
+@keyframes rec { 50% { opacity: .15 } }
+.hero h1 { position: relative; font-size: clamp(54px, 11.5vw, 168px); margin: 22px 0 14px; color: var(--bone);
+  text-shadow: 0 6px 0 var(--blood-2), 0 12px 0 #000, 0 0 60px rgba(224,22,46,.5); }
+.hero h1 .rojo { color: var(--blood); text-shadow: 0 6px 0 #000, 0 0 50px rgba(224,22,46,.7); }
+.glitch { animation: glitch 5s infinite; }
+@keyframes glitch {
+  0%, 91%, 100% { transform: none; clip-path: none; filter: none }
+  92% { transform: translate(-6px, 2px) skewX(-8deg); filter: drop-shadow(6px 0 0 rgba(0,255,255,.6)) drop-shadow(-6px 0 0 rgba(255,0,60,.8)) }
+  93% { transform: translate(5px, -3px); clip-path: inset(10% 0 55% 0) }
+  94% { transform: translate(-3px, 0); clip-path: inset(60% 0 5% 0) }
+  95% { transform: none; clip-path: none; filter: none }
+}
+.lead { font-size: clamp(19px, 2.5vw, 26px); font-weight: 600; margin: 0 auto 30px; max-width: 700px; color: var(--gold-2); }
+.lead b { color: #fff; }
+.cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.reloj { display: flex; gap: 10px; justify-content: center; margin-top: 34px; }
+.reloj > div { width: 84px; }
+.reloj b { display: block; font: normal 44px/1 "Luckiest"; color: var(--gold); background: linear-gradient(180deg, #1c0f26 0 48%, #120818 52% 100%); border: 3px solid var(--gold); border-radius: 12px; padding: 14px 0 8px; box-shadow: 0 5px 0 #000, inset 0 0 18px rgba(0,0,0,.8); text-shadow: 0 3px 0 #000; }
+.reloj span { display: block; margin-top: 7px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+.cerdo-hero { position: absolute; right: -2vw; bottom: -30px; width: min(34vw, 470px); z-index: 1; filter: drop-shadow(0 0 30px rgba(224,22,46,.55)) brightness(.95); cursor: pointer; animation: acecha 6s ease-in-out infinite; -webkit-mask-image: linear-gradient(180deg, #000 70%, transparent 98%); mask-image: linear-gradient(180deg, #000 70%, transparent 98%); }
+@keyframes acecha { 0%, 100% { transform: translateY(0) rotate(0) } 50% { transform: translateY(-12px) rotate(-2deg) } }
+.bajar { position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%); font-weight: 700; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); text-decoration: none; z-index: 2; }
+.bajar::after { content: ""; display: block; width: 2px; height: 34px; margin: 8px auto 0; background: linear-gradient(var(--blood), transparent); animation: gota 1.6s infinite; }
+@keyframes gota { 0% { transform: scaleY(0); transform-origin: top } 60% { transform: scaleY(1); transform-origin: top } 100% { transform: scaleY(1); opacity: 0 } }
+
+/* ---------- cintas de peligro ---------- */
+.cintas { position: relative; height: 170px; overflow: hidden; margin: -40px 0 -20px; z-index: 3; }
+.cinta { position: absolute; left: -10%; width: 120%; padding: 12px 0; white-space: nowrap; font: normal 28px/1 "Luckiest"; letter-spacing: 1px; border-top: 4px solid #000; border-bottom: 4px solid #000; box-shadow: 0 10px 30px rgba(0,0,0,.6); }
+.cinta span { display: inline-block; animation: corre 26s linear infinite; }
+.cinta.a { top: 40px; transform: rotate(-3deg); background: repeating-linear-gradient(-45deg, var(--gold) 0 34px, #111 34px 68px); }
+.cinta.a span { background: var(--gold); color: #111; padding: 4px 18px; }
+.cinta.b { top: 88px; transform: rotate(2.5deg); background: var(--blood); color: #fff; }
+.cinta.b span { animation-direction: reverse; animation-duration: 32s; }
+@keyframes corre { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+
+/* ---------- secciones ---------- */
+section { position: relative; padding: 110px 0; }
+.eyebrow { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; font-size: 14px; letter-spacing: 3px; text-transform: uppercase; color: var(--blood); margin-bottom: 12px; }
+.eyebrow::before { content: ""; width: 34px; height: 3px; background: currentColor; }
+h2.d { font-size: clamp(44px, 7vw, 92px); margin: 0 0 18px; text-shadow: 0 5px 0 #000; }
+h2.d em { font-style: normal; color: var(--blood); }
+.sub { font-size: 21px; color: var(--muted); max-width: 660px; margin: 0 0 42px; }
+.sangre { background: linear-gradient(180deg, var(--night) 0, #1a0610 40%, var(--night) 100%); }
+.revela { opacity: 0; transform: translateY(40px); transition: opacity .8s, transform .8s cubic-bezier(.2,.8,.2,1); }
+.revela.ok { opacity: 1; transform: none; }
+
+/* evidencia: el tráiler */
+.tv { position: relative; border-radius: 22px; padding: 14px; background: linear-gradient(145deg, #2b1a36, #120818); border: 3px solid #000; box-shadow: 0 16px 0 #000, 0 0 90px rgba(224,22,46,.25); }
+.tv video { width: 100%; aspect-ratio: 16/9; border-radius: 12px; background: #000; }
+.tv .rec { position: absolute; top: 30px; left: 32px; z-index: 2; display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; letter-spacing: 2px; color: #fff; text-shadow: 0 2px 4px #000; pointer-events: none; transition: opacity .3s; }
+.tv .rec i { width: 12px; height: 12px; border-radius: 50%; background: var(--blood); animation: rec 1s steps(2) infinite; }
+.tv.play .rec { opacity: 0; }
+.sello-ev { position: absolute; right: -14px; top: -26px; z-index: 3; background: var(--gold); color: #000; font: normal 22px/1 "Luckiest"; padding: 12px 16px 8px; border: 3px solid #000; border-radius: 8px; transform: rotate(6deg); box-shadow: 0 5px 0 #000; }
+
+/* reglamento */
+.reglas-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: start; }
+.contrato { position: relative; background: var(--paper); color: var(--ink); padding: 44px 42px 60px; border-radius: 4px; transform: rotate(-1deg); box-shadow: 0 30px 60px rgba(0,0,0,.6), 0 0 0 1px rgba(0,0,0,.2);
+  background-image: radial-gradient(circle at 85% 12%, rgba(142,10,26,.25) 0 36px, rgba(142,10,26,.08) 37px 52px, transparent 53px), radial-gradient(circle at 12% 88%, rgba(120,80,30,.18), transparent 120px), linear-gradient(180deg, #F3E7CF, #E6D3B0);
+  clip-path: polygon(0 1%, 4% 0, 12% 1%, 20% 0, 31% 1%, 45% 0, 58% 1%, 70% 0, 83% 1%, 94% 0, 100% 1%, 100% 99%, 93% 100%, 81% 99%, 66% 100%, 52% 99%, 38% 100%, 24% 99%, 10% 100%, 0 99%); }
+.contrato h3 { font: normal 38px/1 "Luckiest"; margin: 0 0 6px; text-align: center; }
+.contrato .sub2 { text-align: center; font-weight: 700; font-size: 14px; letter-spacing: 3px; text-transform: uppercase; color: #6a4a3a; margin-bottom: 26px; }
+.art { display: grid; grid-template-columns: 70px 1fr; gap: 14px; padding: 16px 0; border-top: 2px dashed rgba(26,15,31,.3); }
+.art .n { font: normal 20px/1.2 "Luckiest"; color: var(--blood-2); }
+.art b { display: block; font-size: 22px; line-height: 1.2; }
+.art p { margin: 4px 0 0; font-size: 17px; color: #4a3a42; }
+.sello { position: absolute; right: 22px; bottom: 26px; width: 170px; height: 170px; border-radius: 50%; border: 6px double var(--blood); color: var(--blood); display: grid; place-items: center; text-align: center; font: normal 22px/1.05 "Luckiest"; transform: rotate(-16deg); opacity: .85; mix-blend-mode: multiply; }
+.sello small { display: block; font-size: 14px; }
+.letra-chica { margin-top: 26px; font-size: 11px; line-height: 1.35; color: #6a5a52; max-width: 70%; }
+.firma { margin-top: 20px; font: italic 700 30px/1 "Fredoka"; color: #2b1a36; transform: rotate(-4deg); display: inline-block; border-bottom: 2px solid #2b1a36; padding: 0 30px 4px 0; }
+.lado { position: sticky; top: 100px; }
+.feria-card { border-radius: var(--r); overflow: hidden; border: 3px solid #000; box-shadow: 0 12px 0 #000; transform: rotate(1.5deg); }
+.feria-card video { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+.atracciones { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+.atracciones span { background: var(--night-3); border: 2px solid rgba(255,200,61,.4); color: var(--gold-2); padding: 6px 12px; border-radius: 999px; font-weight: 600; font-size: 15px; }
+
+/* minijuegos */
+.filtros { display: flex; gap: 8px; flex-wrap: wrap; margin: -14px 0 30px; }
+.filtros button { border: 2px solid rgba(255,255,255,.2); background: rgba(255,255,255,.04); padding: 8px 16px; border-radius: 999px; font-weight: 700; font-size: 15px; cursor: pointer; transition: .2s; }
+.filtros button.on { background: var(--blood); border-color: #000; box-shadow: 0 3px 0 #000; }
+.juegos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.juego { position: relative; background: var(--night-2); border-radius: 16px; overflow: hidden; border: 2px solid rgba(255,255,255,.1); transition: transform .25s, border-color .25s, box-shadow .25s; }
+.juego:hover { transform: translateY(-6px) rotate(-1deg); border-color: var(--blood); box-shadow: 0 16px 40px rgba(224,22,46,.35); }
+.juego .vid { position: relative; aspect-ratio: 16/9; background: #000 center/cover; }
+.juego video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.juego .modo { position: absolute; left: 10px; top: 10px; z-index: 1; background: rgba(0,0,0,.75); font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 4px 9px; border-radius: 6px; }
+.juego .modo.m1v { background: var(--blood); } .juego .modo.meq { background: #2F6FE0; }
+.juego .txt { padding: 12px 14px 16px; }
+.juego h3 { margin: 0 0 4px; font: normal 21px/1.05 "Luckiest"; letter-spacing: .5px; color: var(--bone); }
+.juego p { margin: 0 0 10px; font-size: 15px; line-height: 1.35; color: var(--muted); }
+.peligro { display: flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; }
+.peligro svg { width: 17px; height: 17px; color: rgba(255,255,255,.14); }
+.peligro svg.on { color: var(--blood); }
+.peligro em { font-style: normal; margin-right: 6px; }
+.juego.oculto { display: none; }
+.mas { margin-top: 34px; color: var(--muted); font-size: 17px; line-height: 1.7; }
+.mas b { color: var(--bone); }
+
+/* se busca */
+.busca-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 60px; align-items: center; }
+.cartel { position: relative; background: linear-gradient(160deg, #E9D6A8, #CDB27A); color: #3a2410; padding: 32px 30px 36px; text-align: center; transform: rotate(-2.5deg); box-shadow: 0 30px 60px rgba(0,0,0,.65);
+  clip-path: polygon(2% 0, 30% 1%, 55% 0, 80% 2%, 100% 0, 99% 30%, 100% 62%, 98% 100%, 70% 98%, 40% 100%, 12% 98%, 0 100%, 1% 70%, 0 35%); }
+.cartel::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 20% 15%, rgba(80,40,10,.25), transparent 30%), radial-gradient(circle at 85% 80%, rgba(80,40,10,.3), transparent 35%); pointer-events: none; }
+.cartel .t1 { font: normal clamp(56px, 7vw, 88px)/.9 "Luckiest"; letter-spacing: 3px; }
+.cartel .t2 { font-weight: 700; letter-spacing: 4px; font-size: 15px; text-transform: uppercase; margin: 8px 0 14px; }
+.cartel .foto { position: relative; background: #3a2410; border: 5px solid #3a2410; margin: 0 auto 14px; max-width: 340px; overflow: hidden; }
+.cartel .foto img { width: 100%; filter: sepia(.85) contrast(1.15) brightness(.95); cursor: pointer; transition: filter .3s; }
+.cartel .foto img:hover { filter: sepia(0) contrast(1.05); }
+.cartel .nombre { font: normal 44px/1 "Luckiest"; }
+.cartel .alias { font-size: 15px; font-weight: 600; margin: 4px 0 12px; }
+.cartel .delitos { font-size: 15px; line-height: 1.4; border-top: 2px solid rgba(58,36,16,.5); border-bottom: 2px solid rgba(58,36,16,.5); padding: 10px 0; margin-bottom: 12px; }
+.cartel .recompensa { font: normal 30px/1 "Luckiest"; color: var(--blood-2); }
+.cartel .recompensa small { display: block; font: 700 14px "Fredoka"; color: #3a2410; margin-top: 4px; }
+.cartel .clavo { position: absolute; top: 12px; left: 50%; width: 18px; height: 18px; margin-left: -9px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #bbb, #333); box-shadow: 0 2px 3px rgba(0,0,0,.6); }
+.globo { position: relative; background: var(--bone); color: var(--ink); border: 3px solid #000; border-radius: 22px; padding: 22px 26px; font-size: 24px; font-weight: 700; line-height: 1.3; box-shadow: 0 8px 0 #000; min-height: 124px; margin: 8px 0 34px; }
+.globo::after { content: ""; position: absolute; left: 44px; bottom: -18px; width: 28px; height: 28px; background: var(--bone); border-right: 3px solid #000; border-bottom: 3px solid #000; transform: rotate(45deg); }
+.globo small { display: block; font-size: 13px; letter-spacing: 2px; color: var(--blood); margin-bottom: 6px; }
+.globo #frase { transition: opacity .25s; }
+.cargos { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+.cargos li { display: grid; grid-template-columns: 38px 1fr; gap: 12px; align-items: start; font-size: 19px; }
+.cargos li svg { width: 34px; height: 34px; color: var(--blood); }
+
+/* capacidad */
+.neon-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.neon { border: 2px solid rgba(255,62,138,.35); border-radius: 18px; padding: 26px 22px; background: linear-gradient(180deg, rgba(255,62,138,.07), transparent); }
+.neon .n { font: normal 64px/1 "Luckiest"; color: #fff; text-shadow: 0 0 8px var(--pink), 0 0 22px var(--pink), 0 0 44px rgba(255,62,138,.7); animation: parpadeo 6s infinite; }
+.neon:nth-child(2) .n { animation-delay: 1.7s; } .neon:nth-child(3) .n { animation-delay: 3.1s; } .neon:nth-child(4) .n { animation-delay: 4.4s; }
+@keyframes parpadeo { 0%, 18%, 22%, 25%, 100% { opacity: 1 } 20%, 24% { opacity: .35 } }
+.neon h3 { margin: 12px 0 6px; font-size: 21px; }
+.neon p { margin: 0; color: var(--muted); font-size: 16px; }
+
+/* kickstarter: las entradas */
+.ks-cab { display: flex; justify-content: space-between; align-items: end; gap: 30px; flex-wrap: wrap; margin-bottom: 40px; }
+.meta { min-width: 300px; flex: 1; max-width: 460px; background: var(--night-2); border: 2px solid rgba(255,255,255,.12); border-radius: 16px; padding: 18px 20px; }
+.meta .fila { display: flex; justify-content: space-between; font-weight: 700; font-size: 15px; margin-bottom: 8px; }
+.meta .barra { height: 16px; border-radius: 999px; background: #000; border: 2px solid rgba(255,255,255,.18); position: relative; overflow: hidden; }
+.meta .barra i { position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, rgba(255,255,255,.07) 0 10px, transparent 10px 20px); }
+.meta .barra b { position: absolute; top: -2px; bottom: -2px; left: 33.3%; width: 3px; background: var(--gold); }
+.meta p { margin: 10px 0 0; font-size: 15px; color: var(--muted); }
+.meta p strong { color: var(--gold); }
+.entradas { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.entrada { position: relative; display: flex; flex-direction: column; background: var(--gold-2); color: var(--ink); border-radius: 14px; padding: 22px 20px 20px;
+  -webkit-mask: radial-gradient(circle 12px at 0 62%, #0000 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 12px at 100% 62%, #0000 98%, #000) right / 51% 100% no-repeat;
+  mask: radial-gradient(circle 12px at 0 62%, #0000 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 12px at 100% 62%, #0000 98%, #000) right / 51% 100% no-repeat;
+  transition: transform .25s; }
+.entrada:hover { transform: translateY(-6px) rotate(-1.5deg); }
+.entrada .p { font: normal 50px/1 "Luckiest"; }
+.entrada .p small { font-size: 20px; vertical-align: top; }
+.entrada h3 { margin: 8px 0 6px; font: normal 22px/1.05 "Luckiest"; letter-spacing: .5px; }
+.entrada p { margin: 0; font-size: 15px; line-height: 1.4; color: #4a3a42; flex: 1; }
+.entrada .corte { margin: 16px -20px 12px; border-top: 3px dashed rgba(26,15,31,.35); }
+.entrada .pie { font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #6a5a52; }
+.entrada .pie b { color: var(--blood-2); }
+.entrada.star { background: var(--blood); color: #fff; }
+.entrada.star p, .entrada.star .pie { color: #ffd9de; }
+.entrada.star .corte { border-color: rgba(255,255,255,.4); }
+.entrada.star .tag { position: absolute; top: 14px; right: 14px; background: var(--gold); color: #000; font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 6px; transform: rotate(4deg); }
+.entrada.dark { background: #2a1740; color: var(--bone); }
+.entrada.dark p, .entrada.dark .pie { color: var(--muted); }
+.entrada.dark .corte { border-color: rgba(255,255,255,.25); }
+.entrada.dark .pie b { color: var(--gold); }
+.ks-pie { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-top: 44px; padding: 26px; border-radius: 20px; background: linear-gradient(90deg, rgba(5,206,120,.14), rgba(5,206,120,.04)); border: 2px solid rgba(5,206,120,.4); }
+.ks-pie p { margin: 0; font-size: 18px; max-width: 620px; }
+
+/* culpables */
+.fila-policial { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+.ficha { position: relative; display: flex; gap: 22px; align-items: center; padding: 26px; border-radius: 18px; overflow: hidden; background: var(--night-2); border: 2px solid rgba(255,255,255,.1);
+  background-image: repeating-linear-gradient(180deg, transparent 0 27px, rgba(255,255,255,.07) 27px 29px); }
+.ficha .cara { flex: none; width: 96px; height: 96px; border-radius: 12px; display: grid; place-items: center; font: normal 50px/1 "Luckiest"; color: #fff; border: 3px solid #000; box-shadow: 0 5px 0 #000; }
+.ficha h3 { margin: 0; font-size: 26px; }
+.ficha .cargo { font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--blood); }
+.ficha p { margin: 4px 0 0; color: var(--muted); font-size: 16px; }
+.ficha .num { position: absolute; right: 18px; top: 14px; font: normal 16px "Luckiest"; color: rgba(255,255,255,.25); }
+
+/* recibo final */
+footer { padding: 90px 0 60px; background: linear-gradient(180deg, var(--night), #000); }
+.recibo { max-width: 460px; margin: 0 auto; background: #FFF8EC; color: #1a1a1a; padding: 30px 30px 40px; font: 700 16px/1.6 "Courier New", monospace; box-shadow: 0 20px 50px rgba(0,0,0,.7); transform: rotate(1deg);
+  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 22px 100%; mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 22px 100%; }
+.recibo .cab { text-align: center; font: normal 30px/1 "Luckiest"; letter-spacing: 1px; }
+.recibo .cab small { display: block; font: 700 13px "Courier New", monospace; margin-top: 6px; }
+.recibo hr { border: 0; border-top: 3px dashed #1a1a1a; margin: 16px 0; }
+.recibo .l { display: flex; justify-content: space-between; gap: 12px; }
+.recibo .total { font-size: 26px; }
+.recibo .total span:last-child { color: var(--blood); }
+.recibo .gracias { text-align: center; font-size: 13px; margin-top: 16px; }
+.redes { display: flex; justify-content: center; gap: 12px; margin: 44px 0 18px; flex-wrap: wrap; }
+.redes a { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; border: 2px solid rgba(255,255,255,.2); text-decoration: none; font-weight: 700; font-size: 15px; transition: .2s; }
+.redes a:hover { border-color: var(--blood); background: rgba(224,22,46,.15); }
+.redes svg { width: 18px; height: 18px; }
+.legal { text-align: center; color: #6f6180; font-size: 14px; }
+
+/* aviso de cobro de Mr. Admin */
+.cobro { position: fixed; left: 16px; bottom: 16px; z-index: 60; display: flex; align-items: center; gap: 12px; max-width: min(380px, calc(100vw - 32px)); background: var(--bone); color: var(--ink); border: 3px solid #000; border-radius: 16px; padding: 10px 16px 10px 10px; box-shadow: 0 6px 0 #000; transform: translateY(160%); transition: transform .45s cubic-bezier(.2,1.4,.4,1); }
+.cobro.ver { transform: none; }
+.cobro img { width: 58px; height: 58px; flex: none; border-radius: 12px; background: var(--gold); object-fit: cover; }
+.cobro b { display: block; color: var(--blood); font: normal 22px/1 "Luckiest"; }
+.cobro span { font-size: 15px; font-weight: 600; line-height: 1.25; }
+.ja { position: fixed; z-index: 70; pointer-events: none; font: normal 44px/1 "Luckiest"; color: var(--gold); text-shadow: 0 4px 0 #000; animation: ja 1.1s ease-out forwards; }
+@keyframes ja { from { opacity: 1; transform: translate(-50%, 0) scale(.6) } to { opacity: 0; transform: translate(calc(-50% + var(--dx)), -160px) scale(1.4) rotate(var(--rot)) } }
+
+@media (max-width: 1000px) {
+  .juegos, .entradas { grid-template-columns: repeat(2, 1fr); }
+  .neon-grid { grid-template-columns: repeat(2, 1fr); }
+  .reglas-grid, .busca-grid { grid-template-columns: 1fr; gap: 50px; }
+  .lado { position: static; }
+  .cerdo-hero { width: 44vw; opacity: .9; }
+}
+@media (max-width: 640px) {
+  section { padding: 80px 0; }
+  .nav .btn-sm, .nav .icon-btn { display: none; }
+  .juegos { gap: 14px; }
+  .juego h3 { font-size: 17px; } .juego p { font-size: 13px; } .juego .txt { padding: 10px 10px 12px; }
+  .peligro em { display: none; }
+  .entradas, .fila-policial { grid-template-columns: 1fr; }
+  .neon-grid { gap: 12px; } .neon { padding: 18px 14px; } .neon .n { font-size: 44px; } .neon h3 { font-size: 17px; } .neon p { font-size: 14px; }
+  .reloj > div { width: 70px; } .reloj b { font-size: 34px; padding: 12px 0 6px; }
+  .contrato { padding: 34px 22px 190px; transform: none; }
+  .art { grid-template-columns: 1fr; gap: 2px; }
+  .letra-chica { max-width: 100%; }
+  .sello { right: 50%; margin-right: -80px; bottom: 30px; width: 150px; height: 150px; }
+  .cerdo-hero { width: 60vw; right: -12vw; bottom: -20px; opacity: .55; }
+  .bajar { display: none; }
+  .cintas { height: 130px; } .cinta { font-size: 20px; } .cinta.a { top: 30px; } .cinta.b { top: 70px; }
+  .btn { font-size: 17px; padding: 14px 20px; width: 100%; }
+  .cta { flex-direction: column; }
+}
+/* ?captura=1: sin telón, todo visible y la portada de alto fijo (para fotos de la página y la imagen para redes) */
+.captura .telon { display: none; } .captura .revela { opacity: 1; transform: none; transition: none; } .captura .hero { min-height: var(--alto, 900px); }
+.og .lead, .og .cta, .og .reloj, .og .bajar, .og .nav { display: none; } .og .hero { padding: 30px 0; } .og .hero .logo { width: 330px; } .og .hero h1 { font-size: 118px; margin: 16px 0 0; } .og .cerdo-hero { width: 360px; right: -10px; } .og .hero-in { transform: translateX(-120px); } .og .cintas { display: none; }
+.captura .cobro { display: none; } .captura body::before, .captura::before { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .telon { display: none; }
+  .revela { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-ticket" viewBox="0 0 24 24"><path fill="currentColor" d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2.2a2.3 2.3 0 0 0 0 4.6V16a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2.2a2.3 2.3 0 0 0 0-4.6z"/><path fill="#FFE7A3" d="M14 7h1.4v2H14zm0 4h1.4v2H14zm0 4h1.4v2H14z"/></symbol>
+  <symbol id="i-calavera" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 2a8.5 8.5 0 0 0-8.5 8.5c0 3 1.5 5.2 3.3 6.4V20a1.5 1.5 0 0 0 1.5 1.5h7.4a1.5 1.5 0 0 0 1.5-1.5v-3.1c1.8-1.2 3.3-3.4 3.3-6.4A8.5 8.5 0 0 0 12 2zM8.6 9.2a2 2 0 1 0 0 4 2 2 0 1 0 0-4zm6.8 0a2 2 0 1 0 0 4 2 2 0 1 0 0-4zM12 13.6l-1.3 2.2h2.6z"/></symbol>
+  <symbol id="i-campana" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5.5v13l11-6.5z"/></symbol>
+  <symbol id="i-sonido" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M4 9v6h4l5 4V5L8 9zm12.5-.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></symbol>
+  <symbol id="i-mudo" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M4 9v6h4l5 4V5L8 9zm12 0 5 6m0-6-5 6"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" d="M5 5l14 14M19 5L5 19"/></symbol>
+  <symbol id="i-ig" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.4" cy="6.6" r="1.3" fill="currentColor"/></symbol>
+  <symbol id="i-tt" viewBox="0 0 24 24"><path fill="currentColor" d="M16.6 3c.4 2.2 1.8 3.7 4 3.9v3.2a7.4 7.4 0 0 1-4-1.3v6.4A6 6 0 1 1 10.6 9v3.3a2.8 2.8 0 1 0 2.8 2.8V3z"/></symbol>
+  <symbol id="i-fb" viewBox="0 0 24 24"><path fill="currentColor" d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4a21 21 0 0 0-2.3-.1c-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21z"/></symbol>
+  <symbol id="i-ks" viewBox="0 0 24 24"><path fill="currentColor" d="M7 3h4v6.2L15.3 3H20l-5.4 8.3L20 21h-4.9L11 13.9V21H7z"/></symbol>
+</svg>
+
+<div class="telon" aria-hidden="true"><i></i><i></i><b><span lang="en">Step right up...</span><span lang="es">Pasen, pasen...</span></b></div>
+
+<header class="nav" id="nav"><div class="wrap">
+  <a class="brand" href="#top" aria-label="Party Showdown"><img src="media/logo.png" alt="Party Showdown" width="1000" height="631"></a>
+  <div class="nav-r">
+    <div class="tix" id="tix" title=""><svg><use href="#i-ticket"/></svg><span id="tix-n">10</span></div>
+    <button class="icon-btn" id="sonido" aria-label="Sound"><svg><use href="#i-mudo"/></svg></button>
+    <div class="lang" role="group" aria-label="Language"><button data-lang="en" class="on">EN</button><button data-lang="es">ES</button></div>
+    <a class="btn btn-ks btn-sm ks-link" href="#kickstarter"><svg><use href="#i-ks"/></svg>Kickstarter</a>
+  </div>
+</div></header>
+
+<!-- ============ PORTADA ============ -->
+<section class="hero" id="top">
+  <video src="media/hero.mp4" poster="media/hero.jpg" autoplay muted loop playsinline preload="auto"></video>
+  <div class="hero-in">
+    <img class="logo" src="media/logo.png" alt="Party Showdown" width="1000" height="631">
+    <span class="fecha"><i></i><span lang="en">Kickstarter · Nov 10, 2026</span><span lang="es">Kickstarter · 10 nov 2026</span></span>
+    <h1 class="d glitch"><span lang="en">The house<br><span class="rojo">always wins</span></span><span lang="es">La casa<br><span class="rojo">siempre gana</span></span></h1>
+    <p class="lead"><span lang="en">The party board game that will <b>ruin your friendships.</b> Up to 6 players, 20+ minigames and a greedy piggy bank who owns the whole fair.</span><span lang="es">El juego de tablero que va a <b>arruinar tus amistades.</b> Hasta 6 jugadores, más de 20 minijuegos y un cerdito alcancía codicioso que es dueño de toda la feria.</span></p>
+    <div class="cta">
+      <a class="btn btn-ks glow ks-link" href="#kickstarter"><svg><use href="#i-campana"/></svg><span lang="en">Notify me on Kickstarter</span><span lang="es">Avísame en Kickstarter</span></a>
+      <a class="btn btn-ghost" href="#evidencia"><svg><use href="#i-play"/></svg><span lang="en">Watch the evidence</span><span lang="es">Ver la evidencia</span></a>
+    </div>
+    <div class="reloj" data-reloj>
+      <div><b data-k="d">--</b><span lang="en">days</span><span lang="es">días</span></div>
+      <div><b data-k="h">--</b><span lang="en">hours</span><span lang="es">horas</span></div>
+      <div><b data-k="m">--</b><span lang="en">min</span><span lang="es">min</span></div>
+      <div><b data-k="s">--</b><span lang="en">sec</span><span lang="es">seg</span></div>
+    </div>
+  </div>
+  <img class="cerdo-hero cerdo" src="media/admin_risa.webp" alt="Mr. Admin" width="900" height="720">
+  <a class="bajar" href="#evidencia"><span lang="en">Scroll... if you dare</span><span lang="es">Baja... si te atreves</span></a>
+</section>
+
+<div class="cintas" aria-hidden="true">
+  <div class="cinta a"><span data-cinta="a"></span></div>
+  <div class="cinta b"><span data-cinta="b"></span></div>
+</div>
+
+<!-- ============ EVIDENCIA (TRÁILER) ============ -->
+<section id="evidencia" data-cobro="1" data-motivo-en="Watching the trailer" data-motivo-es="Impuesto por ver el tráiler"><div class="wrap revela">
+  <span class="eyebrow"><span lang="en">Exhibit A</span><span lang="es">Evidencia A</span></span>
+  <h2 class="d"><span lang="en">It's real. <em>It's playable.</em></span><span lang="es">Es real. <em>Ya se juega.</em></span></h2>
+  <p class="sub"><span lang="en">Everything in this video is the actual game running. No mockups, no fake footage. Just a lot of friends betraying each other.</span><span lang="es">Todo lo que ves es el juego funcionando. Nada de maquetas ni imágenes de mentira. Solo muchos amigos traicionándose.</span></p>
+  <div class="tv" id="tv">
+    <span class="sello-ev"><span lang="en">Real gameplay</span><span lang="es">Juego real</span></span>
+    <span class="rec"><i></i>REC</span>
+    <video src="media/trailer.mp4" poster="media/trailer.jpg" controls preload="none" playsinline></video>
+  </div>
+</div></section>
+
+<!-- ============ REGLAMENTO ============ -->
+<section class="sangre" id="reglas" data-cobro="1" data-motivo-en="Reading the rules (reading is extra)" data-motivo-es="Leer las reglas (leer se cobra aparte)"><div class="wrap">
+  <div class="revela">
+    <span class="eyebrow"><span lang="en">How it works</span><span lang="es">Cómo se juega</span></span>
+    <h2 class="d"><span lang="en">House <em>rules</em></span><span lang="es">Reglamento <em>de la casa</em></span></h2>
+  </div>
+  <div class="reglas-grid">
+    <div class="contrato revela">
+      <h3><span lang="en">Terms of entry</span><span lang="es">Condiciones de entrada</span></h3>
+      <div class="sub2">The Grand Fair · Mr. Admin S.A.</div>
+      <div class="art"><span class="n">Art. 1</span><div><b lang="en">The house always wins.</b><b lang="es">La casa siempre gana.</b><p lang="en">Mr. Admin owns the fair. He's the host, the shopkeeper and the villain. Every ticket you lose falls into his slot.</p><p lang="es">Mr. Admin es el dueño de la feria: presentador, vendedor y villano. Cada ticket que pierdes cae en su ranura.</p></div></div>
+      <div class="art"><span class="n">Art. 2</span><div><b lang="en">You roll the dice. With your head.</b><b lang="es">El dado se tira de un cabezazo.</b><p lang="en">Move around The Grand Fair: Ferris wheel, carousel, haunted house, roller coaster. Every space costs or pays.</p><p lang="es">Recorres La Gran Feria: noria, carrusel, casa embrujada, montaña rusa. Cada casilla cobra o paga.</p></div></div>
+      <div class="art"><span class="n">Art. 3</span><div><b lang="en">After every round, somebody suffers.</b><b lang="es">Después de cada ronda, alguien sufre.</b><p lang="en">20+ minigames: free-for-all, 1 vs All or teams. Each one starts with a quick practice, so nobody reads manuals.</p><p lang="es">Más de 20 minijuegos: todos contra todos, 1 contra todos o por equipos. Cada uno arranca con una práctica corta, así nadie lee manuales.</p></div></div>
+      <div class="art"><span class="n">Art. 4</span><div><b lang="en">Everything has a price.</b><b lang="es">Todo tiene precio.</b><p lang="en">His shop sells double dice, golden magnets and other "totally original" items. His wheel has 6 prizes. 5 are for him.</p><p lang="es">Su tienda vende dados dobles, imanes dorados y otras cosas "totalmente originales". Su ruleta tiene 6 premios. 5 son para él.</p></div></div>
+      <div class="art"><span class="n">Art. 5</span><div><b lang="en">Most Golden Tickets takes the fair.</b><b lang="es">El que junte más Tickets Dorados se queda con la feria.</b><p lang="en">If you can buy them. If he doesn't move them. If your friends let you.</p><p lang="es">Si puedes comprarlos. Si él no los cambia de lugar. Si tus amigos te dejan.</p></div></div>
+      <div class="art"><span class="n">Art. 6</span><div><b lang="en">No refunds.</b><b lang="es">No hay reembolsos.</b><p lang="en">No returns. No friendships after this.</p><p lang="es">Ni devoluciones. Ni amistades después de esto.</p></div></div>
+      <span class="firma">Mr. Admin</span>
+      <p class="letra-chica"><span lang="en">*The house reserves the right to change these rules whenever it feels like it. Tickets are non-transferable, non-refundable and, frankly, already his. Friendship damage not covered.</span><span lang="es">*La casa se reserva el derecho de cambiar estas reglas cuando le dé la gana. Los tickets no son transferibles, no son reembolsables y, siendo sinceros, ya son suyos. Daños a la amistad no cubiertos.</span></p>
+      <div class="sello"><div><small lang="en">Approved by</small><small lang="es">Aprobado por</small>MR.<br>ADMIN</div></div>
+    </div>
+    <div class="lado revela">
+      <div class="feria-card"><video data-src="media/feria.mp4" poster="media/feria.jpg" muted loop playsinline></video></div>
+      <h3 class="d" style="font-size:40px;margin:34px 0 10px"><span lang="en">The Grand Fair</span><span lang="es">La Gran Feria</span></h3>
+      <p style="color:var(--muted);margin:0"><span lang="en">A living amusement park you move through with the dice. It's beautiful. It's colorful. It's a trap.</span><span lang="es">Un parque de diversiones vivo que recorres con el dado. Es bonito. Es colorido. Es una trampa.</span></p>
+      <div class="atracciones">
+        <span lang="en">Ferris wheel</span><span lang="es">Noria</span>
+        <span lang="en">Carousel</span><span lang="es">Carrusel</span>
+        <span lang="en">Haunted house</span><span lang="es">Casa embrujada</span>
+        <span lang="en">Roller coaster</span><span lang="es">Montaña rusa</span>
+        <span lang="en">Golden ring</span><span lang="es">Sortija dorada</span>
+        <span lang="en">Shell game</span><span lang="es">Las tapitas</span>
+        <span lang="en">The shop</span><span lang="es">La tienda</span>
+        <span lang="en">Ladder of Fortune</span><span lang="es">Escalera de la Fortuna</span>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ MINIJUEGOS ============ -->
+<section id="juegos" data-cobro="2" data-motivo-en="Looking at MY minigames" data-motivo-es="Mirar MIS minijuegos"><div class="wrap">
+  <div class="revela">
+    <span class="eyebrow"><span lang="en">After every round</span><span lang="es">Después de cada ronda</span></span>
+    <h2 class="d"><span lang="en">20+ ways <em>to lose</em></span><span lang="es">20+ formas <em>de perder</em></span></h2>
+    <p class="sub"><span lang="en">A wheel picks the next one. Nobody is safe. Especially not you.</span><span lang="es">Una ruleta elige el siguiente. Nadie está a salvo. Tú menos.</span></p>
+  </div>
+  <div class="filtros" role="group">
+    <button class="on" data-f="todos"><span lang="en">All</span><span lang="es">Todos</span></button>
+    <button data-f="ffa"><span lang="en">Free-for-all</span><span lang="es">Todos contra todos</span></button>
+    <button data-f="1v"><span lang="en">1 vs All</span><span lang="es">1 contra todos</span></button>
+    <button data-f="eq"><span lang="en">Teams</span><span lang="es">Equipos</span></button>
+  </div>
+  <div class="juegos" id="lista-juegos"></div>
+  <p class="mas revela"><span lang="en"><b>And also:</b> Wild West Duel · Sumo · Foot Painting · Freeze Party · Tug of War · Mini Golf · King of the Hill · Deadly Rhythm · Bumper Bully · Shooting Gallery · Escape in the Dark · Extreme Tug of War · Mr. Admin's Vault · Investment Rain · Cake Relay · and more on the way.</span><span lang="es"><b>Y también:</b> Duelo del Oeste · Sumo · Pintar con los pies · Fiesta Congelada · La Soga · Minigolf · Rey de la colina · Ritmo Mortal · Carritos Disparejos · Tiro al Blanco · Fuga en la Oscuridad · Tira y Afloja Extremo · La Bóveda de Mr. Admin · Lluvia de Inversiones · Relevos del Pastel · y vienen más.</span></p>
+</div></section>
+
+<!-- ============ SE BUSCA ============ -->
+<section class="sangre" id="mr-admin" data-cobro="1" data-motivo-en="Staring at the boss" data-motivo-es="Quedarse mirando al jefe"><div class="wrap busca-grid">
+  <div class="cartel revela">
+    <span class="clavo"></span>
+    <div class="t1"><span lang="en">Wanted</span><span lang="es">Se busca</span></div>
+    <div class="t2"><span lang="en">Dead or broke</span><span lang="es">Vivo o arruinado</span></div>
+    <div class="foto"><img class="cerdo" src="media/admin_presenta.webp" alt="Mr. Admin" width="900" height="720" loading="lazy"></div>
+    <div class="nombre">Mr. Admin</div>
+    <div class="alias"><span lang="en">a.k.a. "The Boss", "The House", "The Pig"</span><span lang="es">alias "El Jefe", "La Casa", "El Cerdo"</span></div>
+    <div class="delitos"><span lang="en">Ticket theft · Rigged wheels · Inflation · Selling used dice as new · Tax on breathing</span><span lang="es">Robo de tickets · Ruletas arregladas · Inflación · Vender dados usados como nuevos · Impuesto a la respiración</span></div>
+    <div class="recompensa"><span lang="en">Reward: 0 tickets</span><span lang="es">Recompensa: 0 tickets</span><small lang="en">(he kept them)</small><small lang="es">(se los quedó él)</small></div>
+  </div>
+  <div class="revela">
+    <span class="eyebrow"><span lang="en">Your host</span><span lang="es">Tu anfitrión</span></span>
+    <h2 class="d"><span lang="en">Meet <em>Mr. Admin</em></span><span lang="es">Te presento a <em>Mr. Admin</em></span></h2>
+    <p class="sub" style="margin-bottom:26px"><span lang="en">A ceramic piggy bank in a top hat. Not evil. Just <i>very</i> greedy. Tap him if you want. It'll cost you.</span><span lang="es">Un cerdito alcancía de cerámica con galera. No es malo. Solo <i>muy</i> codicioso. Tócalo si quieres. Te va a costar.</span></p>
+    <div class="globo"><small>MR. ADMIN</small><span id="frase"></span></div>
+    <ul class="cargos">
+      <li><svg><use href="#i-ticket"/></svg><span lang="en">Charges you for landing on his spaces</span><span lang="es">Te cobra por caer en sus casillas</span></li>
+      <li><svg><use href="#i-calavera"/></svg><span lang="en">Ties you to his wheel. 5 of the 6 prizes are for him</span><span lang="es">Te amarra a su ruleta. 5 de los 6 premios son para él</span></li>
+      <li><svg><use href="#i-x"/></svg><span lang="en">Lends you tickets. Collects double</span><span lang="es">Te presta tickets. Te cobra el doble</span></li>
+    </ul>
+  </div>
+</div></section>
+
+<!-- ============ CAPACIDAD ============ -->
+<section id="modos" style="padding-top:60px"><div class="wrap">
+  <div class="revela">
+    <span class="eyebrow"><span lang="en">Play your way</span><span lang="es">Juega como quieras</span></span>
+    <h2 class="d"><span lang="en">Bring friends. <em>Lose them.</em></span><span lang="es">Trae amigos. <em>Piérdelos.</em></span></h2>
+  </div>
+  <div class="neon-grid revela" style="margin-top:36px">
+    <div class="neon"><div class="n">6</div><h3 lang="en">Players max</h3><h3 lang="es">Víctimas máximo</h3><p lang="en">Bots fill the empty seats. You can even lose alone.</p><p lang="es">Los bots llenan los puestos vacíos. Puedes perder hasta solo.</p></div>
+    <div class="neon"><div class="n">1 PC</div><h3 lang="en">On the couch</h3><h3 lang="es">En el sofá</h3><p lang="en">Keyboard and gamepads on the same screen.</p><p lang="es">Teclado y controles en la misma pantalla.</p></div>
+    <div class="neon"><div class="n">ONLINE</div><h3 lang="en">With Steam friends</h3><h3 lang="es">Con amigos de Steam</h3><p lang="en">Invite them from inside the game.</p><p lang="es">Invítalos desde dentro del juego.</p></div>
+    <div class="neon"><div class="n">EN/ES</div><h3 lang="en">Two languages</h3><h3 lang="es">Dos idiomas</h3><p lang="en">Fully playable in English and Spanish.</p><p lang="es">Completo en inglés y en español.</p></div>
+  </div>
+</div></section>
+
+<!-- ============ KICKSTARTER ============ -->
+<section class="sangre" id="kickstarter" data-cobro="1" data-motivo-en="Window shopping fee" data-motivo-es="Cargo por mirar vitrina"><div class="wrap">
+  <div class="ks-cab revela">
+    <div>
+      <span class="eyebrow"><span lang="en">Kickstarter · November 10, 2026</span><span lang="es">Kickstarter · 10 de noviembre de 2026</span></span>
+      <h2 class="d" style="margin:0"><span lang="en">Buy your <em>ticket</em></span><span lang="es">Compra tu <em>entrada</em></span></h2>
+    </div>
+    <div class="meta">
+      <div class="fila"><span lang="en">Goal: $5,000</span><span lang="es">Meta: 5.000 USD</span><span lang="en">Stretch: $15,000</span><span lang="es">Meta extra: 15.000 USD</span></div>
+      <div class="barra"><i></i><b></b></div>
+      <p><span lang="en"><strong>At $15,000: Break the Piggy Bank!</strong> The final battle. Whoever has the most Golden Tickets fights Mr. Admin himself.</span><span lang="es"><strong>A los 15.000: ¡Rompe la alcancía!</strong> La batalla final: el que junte más Tickets Dorados pelea contra el mismísimo Mr. Admin.</span></p>
+    </div>
+  </div>
+  <div class="entradas revela" id="entradas"></div>
+  <div class="ks-pie revela">
+    <p><span lang="en">Digital rewards only: Steam keys, no shipping. Estimated delivery June 2027 (VIP beta in January 2027). Follow the page now and Kickstarter emails you the moment it opens. Early Birds go fast.</span><span lang="es">Recompensas solo digitales: claves de Steam, sin envíos. Entrega estimada junio de 2027 (beta VIP en enero de 2027). Sigue la página ahora y Kickstarter te avisa por correo apenas abra. Los Early Bird vuelan.</span></p>
+    <a class="btn btn-ks glow ks-link" href="#kickstarter"><svg><use href="#i-campana"/></svg><span lang="en">Notify me</span><span lang="es">Avísame</span></a>
+  </div>
+</div></section>
+
+<!-- ============ CULPABLES ============ -->
+<section id="equipo" style="padding-top:70px"><div class="wrap">
+  <div class="revela">
+    <span class="eyebrow"><span lang="en">Who's behind the fair</span><span lang="es">Quiénes están detrás de la feria</span></span>
+    <h2 class="d"><span lang="en">The <em>suspects</em></span><span lang="es">Los <em>culpables</em></span></h2>
+  </div>
+  <div class="fila-policial revela" style="margin-top:30px">
+    <div class="ficha"><span class="num">#001</span><div class="cara" style="background:#2F6FE0">W</div><div><span class="cargo"><span lang="en">Game design & code</span><span lang="es">Diseño y código</span></span><h3>Wilfredo</h3><p lang="en">Computer engineer, CEO of Está Fino Agency. Built the fair. Regrets nothing.</p><p lang="es">Ingeniero en informática, CEO de Está Fino Agency. Construyó la feria. No se arrepiente de nada.</p></div></div>
+    <div class="ficha"><span class="num">#002</span><div class="cara" style="background:var(--blood)">P</div><div><span class="cargo"><span lang="en">3D art & animation</span><span lang="es">Arte 3D y animación</span></span><h3>Paul</h3><p lang="en">Characters, animation and every single thing you see, made in Blender. Gave the pig a monocle.</p><p lang="es">Personajes, animación y todo lo que ves, hecho en Blender. Le puso el monóculo al cerdo.</p></div></div>
+  </div>
+</div></section>
+
+<!-- ============ RECIBO ============ -->
+<footer data-cobro="0"><div class="wrap">
+  <div class="recibo revela">
+    <div class="cab">MR. ADMIN S.A.<small lang="en">RECEIPT OF YOUR VISIT</small><small lang="es">RECIBO DE TU VISITA</small></div>
+    <hr>
+    <div class="l"><span lang="en">Entry to the site</span><span lang="es">Entrada a la web</span><span lang="en">FREE</span><span lang="es">GRATIS</span></div>
+    <div class="l"><span lang="en">Time wasted</span><span lang="es">Tiempo perdido</span><span id="r-tiempo">0:00</span></div>
+    <div class="l"><span lang="en">Tickets collected</span><span lang="es">Tickets cobrados</span><span id="r-tix">0</span></div>
+    <div class="l"><span lang="en">Friendships</span><span lang="es">Amistades</span><span lang="en">AT RISK</span><span lang="es">EN RIESGO</span></div>
+    <hr>
+    <div class="l total"><span>TOTAL</span><span lang="en">EVERYTHING</span><span lang="es">TODO</span></div>
+    <div class="gracias"><span lang="en">Thanks for your visit. Come back soon.<br>Leaving is extra.</span><span lang="es">Gracias por su visita. Vuelva pronto.<br>La salida se cobra aparte.</span></div>
+  </div>
+  <div class="redes">
+    <a class="ks-link" href="#kickstarter"><svg><use href="#i-ks"/></svg>Kickstarter</a>
+    <a href="https://www.instagram.com/partyshowdown/" target="_blank" rel="noopener"><svg><use href="#i-ig"/></svg>Instagram</a>
+    <a href="https://www.tiktok.com/@partyshowdown" target="_blank" rel="noopener"><svg><use href="#i-tt"/></svg>TikTok</a>
+    <a id="fb" href="#" target="_blank" rel="noopener"><svg><use href="#i-fb"/></svg>Facebook</a>
+  </div>
+  <p class="legal">© 2026 Party Showdown · <a href="https://estafinoagency.com" target="_blank" rel="noopener">Está Fino Agency</a></p>
+</div></footer>
+
+<div class="cobro" id="cobro" role="status" aria-live="polite"><img src="media/admin_burlon.webp" alt=""><div><b id="cobro-t">-1</b><span id="cobro-m"></span></div></div>
+
+<script>
+/* ===== CAMBIAR AQUÍ ===== */
+const KICKSTARTER_URL = "https://www.kickstarter.com/projects/estafino/party-showdown-the-house-always-wins";
+const FACEBOOK_URL = "";      // vacío = se esconde el botón
+const LAUNCH = Date.UTC(2026, 10, 10, 15, 0, 0);   // martes 10/11/2026, 10:00 hora de Nueva York
+/* ======================== */
+
+const $ = (s, el = document) => el.querySelector(s), $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const L = () => document.documentElement.lang;
+
+if (KICKSTARTER_URL) $$(".ks-link").forEach(a => { a.href = KICKSTARTER_URL; a.target = "_blank"; a.rel = "noopener"; });
+if (FACEBOOK_URL) $("#fb").href = FACEBOOK_URL; else $("#fb").remove();
+
+/* ---------- minijuegos ---------- */
+// id | nombre EN | nombre ES | EN | ES | peligro 1-5 | modo: ffa / 1v / eq
+const JUEGOS = [
+  ["parca", "The Reaper", "La Parca", "It wakes up. It hunts. If it touches you, you're gone.", "Despierta. Te busca. Si te toca, te lleva.", 5, "ffa"],
+  ["ruleta", "Detonator Roulette", "Ruleta del Detonador", "Pick a lever. Pray.", "Elige una palanca. Reza.", 5, "ffa"],
+  ["lava", "The Lava Is Rising!", "¡Que sube la lava!", "Outjump the lava. And your friends.", "Salta más rápido que la lava. Y que tus amigos.", 4, "ffa"],
+  ["papa", "Hot Potato", "Papa caliente", "Pass it. Pass it. PASS IT. Boom.", "Pásala. Pásala. PÁSALA. Boom.", 4, "ffa"],
+  ["piso", "Color Drop!", "¡Fuera el color!", "The alarm yells a color. The rest of the floor falls.", "La alarma grita un color. El resto del piso se cae.", 4, "ffa"],
+  ["festin", "The Explosive Feast", "El Festín Explosivo", "Eat fast. Something on the table will explode.", "Come rápido. Algo en la mesa va a explotar.", 4, "ffa"],
+  ["montana", "Disaster Coaster", "La Ruta del Desastre", "Everyone in the same cart. One of you breaks the track.", "Todos en el mismo carrito. Uno rompe la vía.", 4, "1v"],
+  ["topo", "Whack-a-Pal", "El Mazo del Topo", "One has the mallet. Everyone else is the mole.", "Uno tiene el mazo. Los demás son los topos.", 3, "1v"],
+  ["garra", "The Plushie Claw", "La Garra de Peluches", "One drives the claw. You're the plushie.", "Uno maneja la garra. Tú eres el peluche.", 3, "1v"],
+  ["carrusel", "Carousel Chaos", "El Baile del Carrusel", "Faster. And faster. Hold on to something.", "Cada vez más rápido. Agárrate de algo.", 3, "1v"],
+  ["fantasmas", "Ghost Hunt", "Caza Espectral", "Vacuum the ghosts. The red ones explode.", "Aspira fantasmas. Los rojos explotan.", 3, "ffa"],
+  ["futbol", "Chaos Soccer", "Fútbol caótico", "No rules. The goal belongs to the last one who touched it.", "Sin reglas. El gol es del último que la toca.", 2, "ffa"],
+  ["desalojo", "Eviction!", "¡Desalojo!", "Mr. Admin kicks you out. Carry the couch. Together.", "Mr. Admin los echa. Carguen el sofá. Juntos.", 2, "eq"],
+  ["voley", "Piggy Bank Volleyball", "Voleibol de Alcancías", "The referee is Mr. Admin. Tough luck.", "El árbitro es Mr. Admin. Mala suerte.", 2, "eq"],
+  ["torre", "The Tallest Tower", "La Torre más Alta", "Build. Don't let it fall. It will fall.", "Construye. Que no se caiga. Se va a caer.", 2, "eq"],
+  ["pesca", "Lake Fishing", "Pesca en el Lago", "Row with your team. Catch tickets... and old boots.", "Rema con tu equipo. Pesca tickets... y botas viejas.", 1, "eq"],
+];
+const MODO = { ffa: ["Free-for-all", "Todos contra todos", ""], "1v": ["1 vs All", "1 contra todos", "m1v"], eq: ["Teams", "Equipos", "meq"] };
+const calavera = on => `<svg class="${on ? "on" : ""}"><use href="#i-calavera"/></svg>`;
+$("#lista-juegos").innerHTML = JUEGOS.map(([id, en, es, den, des, p, m]) => `
+  <article class="juego revela" data-modo="${m}">
+    <div class="vid" style="background-image:url(media/j_${id}.jpg)"><span class="modo ${MODO[m][2]}"><span lang="en">${MODO[m][0]}</span><span lang="es">${MODO[m][1]}</span></span>
+      <video data-src="media/j_${id}.mp4" muted loop playsinline></video></div>
+    <div class="txt"><h3><span lang="en">${en}</span><span lang="es">${es}</span></h3><p><span lang="en">${den}</span><span lang="es">${des}</span></p>
+      <div class="peligro"><em lang="en">Danger</em><em lang="es">Peligro</em>${[1,2,3,4,5].map(i => calavera(i <= p)).join("")}</div></div>
+  </article>`).join("");
+$$(".filtros button").forEach(b => b.addEventListener("click", () => {
+  $$(".filtros button").forEach(x => x.classList.toggle("on", x === b));
+  $$(".juego").forEach(j => j.classList.toggle("oculto", b.dataset.f !== "todos" && j.dataset.modo !== b.dataset.f));
+}));
+
+/* ---------- entradas de Kickstarter ---------- */
+// precio | nombre | EN | ES | pie EN | pie ES | clase
+const ENTRADAS = [
+  [5, "Piggy Bank Tip", "Just support. Mr. Admin says thanks (he won't).", "Solo apoyo. Mr. Admin te da las gracias (no lo hará).", "Unlimited", "Sin límite", ""],
+  [12, "Early Bird Ticket", "The game on Steam at the lowest price it will ever have.", "El juego en Steam al precio más bajo que va a tener.", "<b>Only 200</b>", "<b>Solo 200</b>", ""],
+  [15, "General Admission", "The game on Steam + your name in the credits + digital wallpapers. Entry is free. Leaving is extra.", "El juego en Steam + tu nombre en los créditos + fondos de pantalla. La entrada es gratis. La salida se cobra aparte.", "Unlimited", "Sin límite", ""],
+  [40, "Squad Pack", "4 copies: one for you, three for the friends you're about to betray. + credits + wallpapers.", "4 copias: una para ti y tres para los amigos que vas a traicionar. + créditos + fondos.", "$10 per copy", "10 USD por copia", "star"],
+  [60, "VIP Pass", "Squad Pack + play the beta before anyone else (Jan 2027) + an exclusive hat + the digital artbook.", "Squad Pack + la beta antes que nadie (ene. 2027) + un sombrero exclusivo + el libro de arte digital.", "Beta Jan 2027", "Beta ene. 2027", ""],
+  [150, "Mr. Admin's Scriptwriter", "Everything in VIP + write a line Mr. Admin will say in the game. He has standards. Sort of.", "Todo lo del VIP + escribe una frase que Mr. Admin dirá en el juego. Tiene estándares. Más o menos.", "<b>Only 20</b>", "<b>Solo 20</b>", "dark"],
+  [400, "Haunted Portrait", "Everything above + your portrait hanging in the haunted mansion. Forever.", "Todo lo anterior + tu retrato colgado en la mansión embrujada. Para siempre.", "<b>Only 5</b>", "<b>Solo 5</b>", "dark"],
+];
+$("#entradas").innerHTML = ENTRADAS.map(([p, n, en, es, pen, pes, c]) => `
+  <a class="entrada ${c} ks-link" href="${KICKSTARTER_URL || "#kickstarter"}" target="_blank" rel="noopener" style="text-decoration:none">
+    ${c === "star" ? '<span class="tag"><span lang="en">Best value</span><span lang="es">El que más conviene</span></span>' : ""}
+    <div class="p"><small>$</small>${p}</div><h3>${n}</h3>
+    <p><span lang="en">${en}</span><span lang="es">${es}</span></p>
+    <div class="corte"></div><div class="pie"><span lang="en">${pen}</span><span lang="es">${pes}</span></div>
+  </a>`).join("") + `
+  <div class="entrada" style="background:transparent;border:3px dashed rgba(255,231,163,.35);color:var(--gold-2);justify-content:center;text-align:center">
+    <div class="p" style="font-size:40px">?</div><h3><span lang="en">Your friends</span><span lang="es">Tus amigos</span></h3>
+    <p style="color:var(--muted)"><span lang="en">Priceless. Until the first minigame.</span><span lang="es">No tienen precio. Hasta el primer minijuego.</span></p>
+  </div>`;
+
+/* ---------- cintas ---------- */
+const CINTAS = {
+  en: { a: "DANGER · THE HOUSE ALWAYS WINS · NO REFUNDS · ", b: "FRIENDSHIPS RUINED TODAY: LOTS · KICKSTARTER NOV 10 · LEAVING IS EXTRA · " },
+  es: { a: "PELIGRO · LA CASA SIEMPRE GANA · NO HAY REEMBOLSOS · ", b: "AMISTADES ARRUINADAS HOY: MUCHAS · KICKSTARTER 10 NOV · LA SALIDA SE COBRA APARTE · " },
+};
+const pintarCintas = () => $$("[data-cinta]").forEach(s => s.textContent = CINTAS[L()][s.dataset.cinta].repeat(8));
+
+/* ---------- frases de Mr. Admin ---------- */
+const FRASES = {
+  en: ["Welcome to MY fair! Entry is free. Leaving... we'll see.", "A Golden Ticket: 20 tickets. It used to be 10. It's called inflation.",
+       "-3 tickets. Relax, I'll take good care of them.", "It's not about winning. That's what losers say.",
+       "Everything in my shop is original. Almost everything. Some of it.", "The wheel is not rigged. It's... enthusiastic about me."],
+  es: ["¡Bienvenidos a MI feria! La entrada es gratis. La salida, ya veremos.", "Un Ticket Dorado: 20 tickets. Antes costaba 10. Se llama inflación.",
+       "-3 tickets. Tranquilo, yo te los cuido.", "Lo importante es participar. Eso dicen los que pierden.",
+       "Todo en mi tienda es original. Casi todo. Algo.", "La ruleta no está arreglada. Solo me tiene cariño."],
+};
+let fi = 0;
+const frase = (next) => {
+  const el = $("#frase"); if (next) fi = (fi + 1) % FRASES[L()].length;
+  el.style.opacity = 0; setTimeout(() => { el.textContent = FRASES[L()][fi]; el.style.opacity = 1; }, next ? 250 : 0);
+};
+setInterval(() => frase(true), 5000);
+
+/* ---------- idioma ---------- */
+const setLang = l => {
+  document.documentElement.lang = l;
+  $$(".lang button").forEach(b => b.classList.toggle("on", b.dataset.lang === l));
+  try { localStorage.setItem("ps-lang", l); } catch (e) {}
+  pintarCintas(); frase(false); tixTitulo();
+};
+$$(".lang button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
+
+/* ---------- sonido (apagado hasta que la persona lo prenda) ---------- */
+let sonido = false;
+const SFX = { moneda: new Audio("media/moneda.mp3"), risa: new Audio("media/risa.mp3") };
+const suena = k => { if (!sonido) return; const a = SFX[k].cloneNode(); a.volume = k === "risa" ? .8 : .5; a.play().catch(() => {}); };
+$("#sonido").addEventListener("click", () => {
+  sonido = !sonido; $("#sonido use").setAttribute("href", sonido ? "#i-sonido" : "#i-mudo");
+  if (sonido) suena("moneda");
+});
+
+/* ---------- los tickets: Mr. Admin te cobra por mirar ---------- */
+let tix = 10, cobrado = 0, toastT;
+const tixTitulo = () => $("#tix").title = L() === "es" ? "Tus tickets. Por ahora." : "Your tickets. For now.";
+function cobrar(n, motivo) {
+  if (n <= 0) return;
+  if (tix <= 0) { aviso("0", L() === "es" ? "Ya no te queda nada. La casa siempre gana." : "You're out. The house always wins."); return; }
+  n = Math.min(n, tix); tix -= n; cobrado += n;
+  $("#tix-n").textContent = tix; $("#r-tix").textContent = cobrado;
+  const t = $("#tix"); t.classList.remove("hit"); void t.offsetWidth; t.classList.add("hit"); t.classList.toggle("broke", tix === 0);
+  suena("moneda");
+  aviso("-" + n, tix === 0 ? (L() === "es" ? motivo + ". Y con eso, te quedaste en cero." : motivo + ". And that's all of them.") : motivo);
+}
+function aviso(t, m) {
+  $("#cobro-t").textContent = t; $("#cobro-m").textContent = m;
+  const c = $("#cobro"); c.classList.add("ver"); clearTimeout(toastT); toastT = setTimeout(() => c.classList.remove("ver"), 3200);
+}
+const cobrados = new Set();
+const obsCobro = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting || cobrados.has(e.target)) return;
+  cobrados.add(e.target);
+  const s = e.target; setTimeout(() => cobrar(+s.dataset.cobro, s.dataset["motivo" + (L() === "es" ? "Es" : "En")]), 700);
+}), { rootMargin: "-45% 0px -45% 0px" });   // cobra cuando la sección cruza el medio de la pantalla
+$$("[data-cobro]").forEach(s => +s.dataset.cobro > 0 && obsCobro.observe(s));
+
+// tocar al jefe: se ríe y cobra
+$$(".cerdo").forEach(img => img.addEventListener("click", ev => {
+  suena("risa");
+  for (let i = 0; i < 3; i++) setTimeout(() => {
+    const j = document.createElement("span"); j.className = "ja"; j.textContent = "JA";
+    j.style.left = ev.clientX + "px"; j.style.top = ev.clientY + "px";
+    j.style.setProperty("--dx", (i - 1) * 70 + "px"); j.style.setProperty("--rot", (i - 1) * 14 + "deg");
+    document.body.appendChild(j); setTimeout(() => j.remove(), 1200);
+  }, i * 180);
+  cobrar(1, L() === "es" ? "Tocar al jefe cuesta" : "Touching the boss costs extra");
+}));
+
+/* ---------- cuenta regresiva ---------- */
+function reloj() {
+  const s = Math.floor(Math.max(0, LAUNCH - Date.now()) / 1000);
+  const v = { d: Math.floor(s / 86400), h: Math.floor(s / 3600) % 24, m: Math.floor(s / 60) % 60, s: s % 60 };
+  $$("[data-reloj] b").forEach(b => b.textContent = String(v[b.dataset.k]).padStart(2, "0"));
+}
+reloj(); setInterval(reloj, 1000);
+
+/* ---------- tiempo perdido (para el recibo) ---------- */
+const t0 = Date.now();
+setInterval(() => { const s = Math.floor((Date.now() - t0) / 1000); $("#r-tiempo").textContent = Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); }, 1000);
+
+/* ---------- aparecer al bajar + videos que solo corren cuando se ven ---------- */
+const obsRev = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("ok"); obsRev.unobserve(e.target); } }), { threshold: .12 });
+$$(".revela").forEach(el => obsRev.observe(el));
+const obsVid = new IntersectionObserver(es => es.forEach(e => {
+  const v = e.target;
+  if (e.isIntersecting) { if (!v.src) v.src = v.dataset.src; v.play().catch(() => {}); } else v.pause();
+}), { rootMargin: "200px 0px" });
+$$("video[data-src]").forEach(v => obsVid.observe(v));
+const tv = $("#tv"); $("video", tv).addEventListener("play", () => tv.classList.add("play"));
+
+/* ---------- barra y telón ---------- */
+const nav = $("#nav");
+addEventListener("scroll", () => nav.classList.toggle("solid", scrollY > 40), { passive: true });
+addEventListener("load", () => document.body.classList.add("abierto"));
+setTimeout(() => document.body.classList.add("abierto"), 2500);   // por si el video tarda
+
+let saved = null;
+try { saved = localStorage.getItem("ps-lang"); } catch (e) {}
+const Q = new URLSearchParams(location.search);
+if (Q.has("captura")) { document.body.classList.add("abierto", "captura"); if (Q.has("og")) document.body.classList.add("og"); if (Q.get("alto")) document.body.style.setProperty("--alto", Q.get("alto") + "px"); }
+setLang(new URLSearchParams(location.search).get("lang") || saved || ((navigator.language || "en").toLowerCase().startsWith("es") ? "es" : "en"));
+</script>
+</body>
+</html>
