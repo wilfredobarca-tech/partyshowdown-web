@@ -730,7 +730,8 @@ setTimeout(() => document.body.classList.add("abierto"), 2500);   // por si el v
 let saved = null;
 try { saved = localStorage.getItem("ps-lang"); } catch (e) {}
 const Q = new URLSearchParams(location.search);
-if (Q.has("captura")) { document.body.classList.add("abierto", "captura"); if (Q.has("og")) document.body.classList.add("og"); if (Q.get("alto")) document.body.style.setProperty("--alto", Q.get("alto") + "px"); }
+if (Q.has("captura")) { document.body.classList.add("abierto", "captura"); if (Q.has("og")) document.body.classList.add("og");
+  const hv = $(".hero video"); if (Q.get("t")) { hv.autoplay = false; hv.pause(); hv.addEventListener("loadeddata", () => { hv.pause(); hv.currentTime = +Q.get("t"); }); } if (Q.get("alto")) document.body.style.setProperty("--alto", Q.get("alto") + "px"); }
 setLang(new URLSearchParams(location.search).get("lang") || saved || ((navigator.language || "en").toLowerCase().startsWith("es") ? "es" : "en"));
 </script>
 </body>
