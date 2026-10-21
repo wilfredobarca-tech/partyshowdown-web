@@ -492,6 +492,62 @@ body.con-frente #frente { display: block; }
 .warp { position: fixed; inset: 0; z-index: 78; pointer-events: none; }
 .cae { position: fixed; left: 0; top: 0; width: 26px; height: 26px; z-index: 50; pointer-events: none; }
 @media (prefers-reduced-motion: reduce) { .mj .barra i { transition: none; } .ticket.viva.gano .brillo { animation: none; } }
+/* ---------------------------------------------------------------- el historial y el resumen de una partida */
+button.pt { width: 100%; text-align: left; font: inherit; cursor: pointer; }
+button.pt:active { transform: translateY(2px); }
+.pt .tit { display: inline-block; margin-top: 4px; font-weight: 700; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; padding: 2px 7px; border-radius: 6px; background: rgba(0,0,0,.12); }
+.mas-partidas { margin-top: 14px; }
+.resumen .volver { width: auto; padding: 8px 14px; margin: 4px 0 12px; font-size: 14px; }
+.resumen .letrero b { font-size: clamp(22px, 6.6vw, 30px); text-transform: uppercase; }
+.podio { display: grid; grid-template-columns: 1fr 1.15fr 1fr; align-items: end; gap: 8px; margin: 34px 0 6px; }
+.pod { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; min-width: 0; }
+.pod .av { width: 74px; height: 74px; margin-bottom: 6px; }
+.pod.p1 .av { width: 94px; height: 94px; }
+.pod .corona { position: absolute; top: -30px; width: 40px; z-index: 3; }
+.pod .pn { font-weight: 700; font-size: 14px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pod .pn a { color: inherit; text-decoration: none; }
+.pod .pn small { font-size: 11px; opacity: .7; }
+.pod .pd { display: flex; align-items: center; gap: 3px; font: normal 16px "Luckiest"; margin: 2px 0 6px; }
+.pod .pd svg { width: 18px; height: 18px; }
+.pod .base { width: 100%; display: grid; place-items: center; }
+.pod .base b { font: normal 34px/1 "Luckiest"; }
+.pod.p1 .base { height: 110px; } .pod.p2 .base { height: 80px; } .pod.p3 .base { height: 58px; }
+.pod.vacio-pod { visibility: hidden; }
+[data-tema="feria"] .pod { color: #2b1a3e; }
+[data-tema="feria"] .pod .base { border: 3px solid #000; border-radius: 8px 8px 0 0; box-shadow: 0 5px 0 #000; background: repeating-linear-gradient(90deg, #e0162e 0 16px, #fff6e5 16px 32px); }
+[data-tema="feria"] .pod .base b { color: #fff; text-shadow: 0 3px 0 #000; -webkit-text-stroke: 1px #000; }
+[data-tema="feria"] .pod.p1 .base { background: repeating-linear-gradient(90deg, #ffc83d 0 16px, #fff6e5 16px 32px); }
+[data-tema="feria"] .pod .av { background-color: #cfeaff; }
+[data-tema="feria"] .pod .pd { color: #e3a400; text-shadow: 0 2px 0 #000; }
+[data-tema="embrujada"] .pod .base { border: 3px solid #000; border-radius: 40px 40px 6px 6px; background: radial-gradient(ellipse at 30% 15%, rgba(255,255,255,.14), transparent 60%), linear-gradient(180deg, #7d7196, #4e4366); box-shadow: 0 5px 0 #000, inset 0 -6px 0 rgba(92,255,157,.2); }
+[data-tema="embrujada"] .pod .base b { color: #2a1d3a; text-shadow: 0 1px 0 rgba(255,255,255,.35); }
+[data-tema="embrujada"] .pod.p1 .base b { color: #b8ffd6; text-shadow: 0 0 10px #5cff9d, 0 2px 0 #000; }
+[data-tema="embrujada"] .pod .av { box-shadow: 0 0 0 3px #5cff9d, 0 0 16px rgba(92,255,157,.6); background-color: #2a1640; }
+[data-tema="embrujada"] .pod .pd { color: #ffd76a; }
+[data-tema="espacial"] .pod .base { border: 1.5px solid #3fe0ff; border-bottom: 0; border-radius: 12px 12px 0 0; background: linear-gradient(180deg, rgba(63,224,255,.28), rgba(10,22,58,.5)); box-shadow: 0 0 22px rgba(63,224,255,.35), inset 0 2px 0 rgba(255,255,255,.3); }
+[data-tema="espacial"] .pod.p1 .base { border-color: #ffd76a; background: linear-gradient(180deg, rgba(255,215,106,.3), rgba(10,22,58,.5)); box-shadow: 0 0 26px rgba(255,200,61,.4); }
+[data-tema="espacial"] .pod .base b { color: #dff9ff; text-shadow: 0 0 12px #3fe0ff; }
+[data-tema="espacial"] .pod .av { border: 2px solid #3fe0ff; box-shadow: 0 0 18px rgba(63,224,255,.7); background-color: #0b1640; }
+[data-tema="espacial"] .pod .pd { color: #ffd76a; }
+.pod.yo .pn { text-decoration: underline 3px; text-underline-offset: 4px; }
+.datos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.dato { display: flex; align-items: center; gap: 10px; padding: 10px; min-width: 0; }
+.dato .a { width: 44px; height: 44px; flex: none; }
+.dato b { display: block; font: normal 14.5px/1.15 "Luckiest"; letter-spacing: .3px; }
+.dato small { display: block; font-weight: 600; font-size: 12px; margin-top: 3px; opacity: .8; }
+.dato.chico b { font: 700 13.5px/1.2 "Fredoka"; }
+[data-tema="feria"] .dato { background: #fff6e5; color: #2b1a3e; border: 3px solid #000; border-radius: 12px; box-shadow: 0 4px 0 #000; }
+[data-tema="feria"] .dato:not(.chico) { background: #ffc83d; }
+[data-tema="embrujada"] .dato { background: linear-gradient(180deg, #efe6d6, #d8cab0); color: #1a0f1f; border-radius: 6px 18px 6px 18px; box-shadow: 0 4px 0 #000; }
+[data-tema="embrujada"] .dato:not(.chico) { background: linear-gradient(180deg, #3a1d5a, #1c0f30); color: #b8ffd6; box-shadow: 0 4px 0 #000, 0 0 14px rgba(92,255,157,.3); }
+[data-tema="espacial"] .dato { background: rgba(10,22,58,.7); color: #dff9ff; border: 1px solid rgba(63,224,255,.45); border-radius: 10px; }
+[data-tema="espacial"] .dato:not(.chico) { border-color: #ff4fd8; box-shadow: 0 0 14px rgba(255,79,216,.35); }
+.fila-av { display: flex; align-items: center; gap: 4px; margin-top: 8px; }
+.dato .a, .mini-av { border-radius: 50%; border: 2px solid #000; background: #fff center/cover; display: grid; place-items: center; font: normal 18px "Luckiest"; color: #fff; }
+[data-tema="feria"] .dato .a, [data-tema="feria"] .mini-av { background-color: #cfeaff; } [data-tema="embrujada"] .dato .a, [data-tema="embrujada"] .mini-av { background-color: #2a1640; } [data-tema="espacial"] .dato .a, [data-tema="espacial"] .mini-av { background-color: #0b1640; border-color: #3fe0ff; }
+.mini-av { width: 30px !important; height: 30px !important; border-width: 2px !important; font-size: 13px !important; opacity: .55; }
+.mini-av.gana-av { opacity: 1; width: 36px !important; height: 36px !important; box-shadow: 0 0 0 2px #ffc83d; }
+.ronda .pct { font-size: 20px; }
 .admin-say .cerdo img.casco { width: 96px; }
 [data-tema] .entrar { color: #fff; }
 [data-tema="feria"] .pj { background-color: #cfeaff; } [data-tema="embrujada"] .pj { background-color: #2a1640; } [data-tema="espacial"] .pj { background-color: #0b1640; border-color: #3fe0ff; }
@@ -596,6 +652,12 @@ const T = {
     listo: "Listo", puesto: "Puesto", en_pc: "En la PC de",
     tu_ticket: "TU TICKET DE LA FERIA", racha: (n) => `RACHA ×${n}`, abre: "¡ABRE LA FERIA!", abre_sub: "TU PERFIL DE JUGADOR", a_jugar: "¡A jugar!", ver_perfil: "Ver mi perfil",
     tema_h: "Tema de tu perfil", tema_p: "Así te ven tus amigos cuando abren tu perfil.", tema_auto: "Automático · el tablero que más juegas", tema_btn: "Tema", yo_lado: "Tú",
+    ver_historial: (n) => `Ver mis ${n} partidas`, hist_sub: "toca una para ver cómo fue", volver: "Volver", bot: "bot",
+    res_noche: "La noche en números", res_mj: "Minijuego por minijuego", res_mj_sub: (n) => `${n} ${n === 1 ? "minijuego" : "minijuegos"}`,
+    ronda_n: (n) => `Ronda ${n}`, gano_x: (n) => `ganó ${n}`, res_no_existe: "Esa partida ya no está.",
+    res_incompleta: "Es una partida de antes: de los bots y los invitados sin perfil no sabemos cómo les fue en cada minijuego.",
+    d_robo: (n) => `Robó ${n} tickets`, d_robado: (n) => `Le robaron ${n}`, d_rojas: (n) => `${n} casillas rojas`, d_compras: (n) => `${n} objetos comprados`,
+    d_perdio: (n) => `Perdió ${n} tickets`, d_dado: (x) => `${x} por tirada`,
   },
   en: {
     titulo_pag: "Player profile · Party Showdown",
@@ -658,6 +720,12 @@ const T = {
     listo: "Done", puesto: "Seat", en_pc: "On the PC of",
     tu_ticket: "YOUR FAIR TICKET", racha: (n) => `STREAK ×${n}`, abre: "THE FAIR IS OPEN!", abre_sub: "YOUR PLAYER PROFILE", a_jugar: "Let's play!", ver_perfil: "See my profile",
     tema_h: "Your profile theme", tema_p: "This is how your friends see your profile.", tema_auto: "Automatic · the board you play most", tema_btn: "Theme", yo_lado: "You",
+    ver_historial: (n) => `See my ${n} games`, hist_sub: "tap one to see how it went", volver: "Back", bot: "bot",
+    res_noche: "The night in numbers", res_mj: "Minigame by minigame", res_mj_sub: (n) => `${n} ${n === 1 ? "minigame" : "minigames"}`,
+    ronda_n: (n) => `Round ${n}`, gano_x: (n) => `${n} won`, res_no_existe: "That game is gone.",
+    res_incompleta: "This is an older game: we don't know how the bots and guests without a profile did in each minigame.",
+    d_robo: (n) => `Stole ${n} tickets`, d_robado: (n) => `Got robbed of ${n}`, d_rojas: (n) => `${n} red spaces`, d_compras: (n) => `${n} items bought`,
+    d_perdio: (n) => `Lost ${n} tickets`, d_dado: (x) => `${x} per roll`,
   },
 };
 function ord(n) { const s = ["th", "st", "nd", "rd"], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
@@ -712,11 +780,39 @@ let DATOS = null, AM = null;
 const OTRO_DEMO = { codigo: "PUP3K9", nombre: "Lupe", personaje: "leon", tema: "embrujada" };     // (el que se puede agregar escribiendo PUP-3K9)
 const MIO_DEMO = "WYZ7Q2";
 const norm = (c) => String(c ?? "").toUpperCase().replace(/[\s-]/g, "");
+// (modo de prueba) 30 partidas con id, y el resumen inventado de cada una (siempre el mismo para el mismo id)
+const demoId = (i) => "00000000-0000-4000-8000-" + String(i).padStart(12, "0");
+function conHistorial(R) {
+  if (!R?.ultimas?.length) return R;
+  const b = R.ultimas, t0 = Date.parse(b[0].fecha);
+  return { ...R, ultimas: Array.from({ length: 30 }, (_, i) => ({ ...b[i % b.length], id: demoId(i), fecha: new Date(t0 - i * 1.4 * 864e5).toISOString(),
+    mapa: b[i % b.length].modo === "tablero" ? ["embrujada", "feria", "espacial"][i % 3] : null, titulo: [null, "ladron", null, "salado", "rey_minijuegos"][i % 5] })) };
+}
+function demoPartida(id, yo) {
+  const i = Number(String(id).slice(-12)), u = conHistorial(DATOS.resumen).ultimas[i];
+  if (!u) throw Object.assign(new Error("no_existe"), { status: 400 });
+  let s = i * 97 + 13; const rnd = () => ((s = (s * 16807) % 2147483647) / 2147483647);
+  const gente = [{ codigo: MIO_DEMO, nombre: yo?.nombre ?? "Willy", personaje: yo?.personaje ?? "tiburon" }, ...DATOS.resumen.rivales.map((r) => ({ codigo: r.codigo, nombre: r.nombre, personaje: r.personaje })),
+    { codigo: null, nombre: "Bot Pepe", personaje: "robot", bot: true }, { codigo: null, nombre: "Bot Lola", personaje: "pollo", bot: true }].slice(0, u.jugadores || 4);
+  const lugares = gente.map((_, k) => k + 1).filter((l) => l !== u.lugar).sort(() => rnd() - 0.5);
+  const jugadores = gente.map((g, k) => ({ puesto: k + 1, codigo: g.codigo, nombre: g.nombre, personaje: g.personaje, bot: !!g.bot, lugar: k === 0 ? u.lugar : lugares[k - 1],
+    dorados: k === 0 ? u.dorados : Math.floor(rnd() * 6), tickets: Math.floor(rnd() * 120), titulo: null,
+    stats: u.modo === "tablero" ? { stolen: Math.floor(rnd() * 40), robbed: Math.floor(rnd() * 30), reds: Math.floor(rnd() * 5), buys: Math.floor(rnd() * 4), dice: 40 + Math.floor(rnd() * 40), rolls: 12 } : {} }))
+    .sort((a, b) => a.lugar - b.lugar);
+  jugadores[0].titulo = "rey_minijuegos";
+  if (jugadores[1]) jugadores[1].titulo = u.titulo === "ladron" ? "ladron" : "salado";
+  const ids = Object.keys(FOTOS);
+  const rondas = Array.from({ length: Math.min(8, u.turnos || 6) }, (_, k) => {
+    const orden = jugadores.map((j) => j.puesto).sort(() => rnd() - 0.5);
+    return { ronda: k + 1, minijuego: ids[(i * 3 + k * 5) % ids.length], lugares: orden.map((p, n) => [p, n + 1]) };
+  });
+  return { partida: { id, fecha: u.fecha, modo: u.modo, turnos: u.turnos, en_linea: u.en_linea, jugadores: jugadores.length, mapa: u.mapa, completa: true }, jugadores, rondas };
+}
 async function demoApi(metodo, ruta, cuerpo) {
   DATOS ??= (await import("./demo.js")).DEMO;
   await new Promise((r) => setTimeout(r, 300));
   const vacio = q.get("demo") === "vacio";
-  const res = () => vacio ? DATOS.vacio : DATOS.resumen;
+  const res = () => vacio ? DATOS.vacio : conHistorial(DATOS.resumen);
   const yo = () => { const j = guardado.get("ps_demo_jugador"); return j ? JSON.parse(j) : null; };
   const falla = (c) => { throw Object.assign(new Error(c), { status: 400 }); };
   if (!AM) {
@@ -740,6 +836,7 @@ async function demoApi(metodo, ruta, cuerpo) {
     const p = quien(n) ?? falla("no_existe");
     return { jugador: { codigo: p.codigo, nombre: p.nombre, personaje: p.personaje, tema: p.tema ?? "auto" }, resumen: { ...DATOS.resumen, rivales: DATOS.resumen.rivales.filter((r) => r.codigo !== n) }, relacion: S.token ? relacion(n) : null };
   }
+  if (ruta.startsWith("/partida/")) return demoPartida(ruta.split("/")[2], yo());
   if (ruta === "/amigos") return structuredClone(AM);
   if (ruta.startsWith("/vincular/")) return metodo === "GET" ? { estado: q.get("demo") === "otra" ? "esperando" : "esperando", otra_cuenta: q.get("demo") === "otra" } : { ok: true };
   if (ruta.startsWith("/asiento/")) return metodo === "GET" ? { puesto: 3, de: { codigo: "RKU2Q7", nombre: "Razziel", personaje: "dragon" }, estado: "libre", es_tu_pc: false } : { ok: true, puesto: 3 };
@@ -1210,23 +1307,23 @@ function temaVista() {
 const TEMA_INFO = {
   feria: {
     iconos: ["estrella", "bolsa_monedas"], admin: "admin_risa",
-    es: { nombre: "La Gran Feria", letrero: "LA GRAN FERIA", sub: "Tu ticket de la feria", bien: "Tus puestos de la suerte", mal: "Los puestos que te roban", duelos: "Revanchas", partidas: "Tus últimas funciones", opt: "De día, con globos y confeti",
+    es: { nombre: "La Gran Feria", letrero: "LA GRAN FERIA", sub: "Tu ticket de la feria", bien: "Tus puestos de la suerte", mal: "Los puestos que te roban", duelos: "Revanchas", partidas: "Tus últimas funciones", opt: "De día, con globos y confeti", res: (f) => `La función del ${f}`,
       frase: (n, p, v) => p > v ? `${p} ${p === 1 ? "partida" : "partidas"} y solo ${v} ${v === 1 ? "victoria" : "victorias"}. Las otras ${p - v} fueron mías. Pase usted, que la feria nunca cierra.` : null },
-    en: { nombre: "The Grand Fair", letrero: "THE GRAND FAIR", sub: "Your fair ticket", bien: "Your lucky booths", mal: "The booths that rob you", duelos: "Rematches", partidas: "Your latest shows", opt: "Daytime, balloons and confetti",
+    en: { nombre: "The Grand Fair", letrero: "THE GRAND FAIR", sub: "Your fair ticket", bien: "Your lucky booths", mal: "The booths that rob you", duelos: "Rematches", partidas: "Your latest shows", opt: "Daytime, balloons and confetti", res: (f) => `The show of ${f}`,
       frase: (n, p, v) => p > v ? `${p} ${p === 1 ? "game" : "games"} and only ${v} ${v === 1 ? "win" : "wins"}. The other ${p - v} were mine. Step right up, the fair never closes.` : null },
   },
   embrujada: {
     iconos: ["calabaza", "lapida"], admin: "admin_risa",
-    es: { nombre: "La Feria Embrujada", letrero: "LA FERIA EMBRUJADA", sub: "Tu ticket de ultratumba", bien: "Donde resucitas", mal: "Donde te entierran", duelos: "Duelos de ultratumba", partidas: "El libro de visitas", opt: "Zombis, niebla y velas",
+    es: { nombre: "La Feria Embrujada", letrero: "LA FERIA EMBRUJADA", sub: "Tu ticket de ultratumba", bien: "Donde resucitas", mal: "Donde te entierran", duelos: "Duelos de ultratumba", partidas: "El libro de visitas", opt: "Zombis, niebla y velas", res: (f) => `La noche del ${f}`,
       frase: (n, p, v) => p > v ? "Bienvenido de vuelta del más allá. Tus tickets, lamentablemente, no volvieron." : null },
-    en: { nombre: "The Haunted Fair", letrero: "THE HAUNTED FAIR", sub: "Your ticket from beyond", bien: "Where you rise again", mal: "Where they bury you", duelos: "Duels from beyond", partidas: "The guest book", opt: "Zombies, fog and candles",
+    en: { nombre: "The Haunted Fair", letrero: "THE HAUNTED FAIR", sub: "Your ticket from beyond", bien: "Where you rise again", mal: "Where they bury you", duelos: "Duels from beyond", partidas: "The guest book", opt: "Zombies, fog and candles", res: (f) => `The night of ${f}`,
       frase: (n, p, v) => p > v ? "Welcome back from the great beyond. Your tickets, sadly, didn't make it back." : null },
   },
   espacial: {
     iconos: ["ovni", "meteorito"], admin: "admin_feliz",
-    es: { nombre: "La Feria Espacial", letrero: "LA FERIA ESPACIAL", sub: "Tu pase de tripulante", bien: "Tus planetas", mal: "Tus agujeros negros", duelos: "Rivales en órbita", partidas: "Bitácora de misión", opt: "Gravedad cero y neón",
+    es: { nombre: "La Feria Espacial", letrero: "LA FERIA ESPACIAL", sub: "Tu pase de tripulante", bien: "Tus planetas", mal: "Tus agujeros negros", duelos: "Rivales en órbita", partidas: "Bitácora de misión", opt: "Gravedad cero y neón", res: (f) => `Misión del ${f}`,
       frase: (n, p, v) => p > v ? `Tripulante ${n}: ${p} ${p === 1 ? "misión" : "misiones"}, ${v} ${v === 1 ? "éxito" : "éxitos"}. El resto de tu oxígeno ahora es mío.` : null },
-    en: { nombre: "The Space Fair", letrero: "THE SPACE FAIR", sub: "Your crew pass", bien: "Your planets", mal: "Your black holes", duelos: "Rivals in orbit", partidas: "Mission log", opt: "Zero gravity and neon",
+    en: { nombre: "The Space Fair", letrero: "THE SPACE FAIR", sub: "Your crew pass", bien: "Your planets", mal: "Your black holes", duelos: "Rivals in orbit", partidas: "Mission log", opt: "Zero gravity and neon", res: (f) => `Mission of ${f}`,
       frase: (n, p, v) => p > v ? `Crew member ${n}: ${p} ${p === 1 ? "mission" : "missions"}, ${v} ${v === 1 ? "success" : "successes"}. The rest of your oxygen is mine now.` : null },
   },
 };
@@ -1457,9 +1554,11 @@ function vistaPerfil() {
     cuerpo = `<div class="fila-tema"><button class="btn-tema" data-accion="tema"><i style="background-image:url(${retrato(PERSONAJES[j.personaje] ? j.personaje : "base")})"></i>${t("tema_btn")}: ${esc(ti("nombre"))}</button></div>` +
       letrero() + tarjeta(j, r, true) + (r?.partidas ? `<div class="admin-say quip">${cerdo()}<div class="bubble" data-escribe="${esc(frase)}">${esc(frase)}</div></div>` +
       bloqueMinijuegos(r) + bloqueRivales(r) +
-      `<h3>${esc(ti("partidas"))}</h3>` + listaPartidas(r, 5) : bloqueVacio() + bloqueMinijuegos(r)) +
+      `<h3>${esc(ti("partidas"))}</h3>` + listaPartidas(r, 5) + (r.ultimas.length > 5 ? `<button class="btn btn-ghost mas-partidas" data-tab="partidas">${t("ver_historial", r.ultimas.length)}</button>` : "") : bloqueVacio() + bloqueMinijuegos(r)) +
       `<div class="acciones"><div class="fila-btn"><button class="btn btn-ghost" data-accion="editar">${t("editar")}</button><button class="btn btn-ghost" data-accion="compartir">${t("compartir")}</button></div>
        <button class="btn btn-ghost" data-accion="salir">${t("salir")}</button></div>`;
+  } else if (S.tab === "partidas") {
+    cuerpo = `<div class="resumen"><button class="btn btn-ghost volver" data-tab="perfil">← ${t("volver")}</button></div><h3 style="margin-top:12px">${esc(ti("partidas"))} <small>${t("hist_sub")}</small></h3>` + listaPartidas(r, 30);
   } else if (S.tab === "sentarme") {
     cuerpo = `<h3 style="margin-top:12px">${t("sentarme_h")}</h3>
       <div class="pasos">
@@ -1472,7 +1571,7 @@ function vistaPerfil() {
   } else {
     cuerpo = cuerpoAmigos();
   }
-  const tab = (id, icono, txt, mid = false) => `<button class="${mid ? "mid " : ""}${S.tab === id ? "on" : ""}" data-tab="${id}" aria-current="${S.tab === id ? "page" : "false"}">${mid ? `<i><svg aria-hidden="true"><use href="#${icono}"/></svg></i>` : `<svg aria-hidden="true"><use href="#${icono}"/></svg>`}${txt}</button>`;
+  const tab = (id, icono, txt, mid = false) => `<button class="${mid ? "mid " : ""}${S.tab === id || (id === "perfil" && S.tab === "partidas") ? "on" : ""}" data-tab="${id}" aria-current="${S.tab === id ? "page" : "false"}">${mid ? `<i><svg aria-hidden="true"><use href="#${icono}"/></svg></i>` : `<svg aria-hidden="true"><use href="#${icono}"/></svg>`}${txt}</button>`;
   return barra() + `<main class="main">${cuerpo}</main>
     <nav class="tabs">${tab("perfil", "i-card", t("tab_perfil"))}${tab("sentarme", "i-qr", t("tab_sentarme"), true)}${tab("amigos", "i-amigos", t("tab_amigos"))}</nav>`;
 }
@@ -1560,11 +1659,11 @@ async function mostrarQr() {
 function listaPartidas(r, max = 10) {
   if (!r?.ultimas?.length) return `<div class="vacio"><p>${t("sin_partidas")}</p></div>`;
   const fmt = new Intl.DateTimeFormat(lang === "es" ? "es" : "en", { weekday: "short", day: "numeric", month: "short" });
-  return `<div class="partidas">` + r.ultimas.slice(0, max).map((p) => `<div class="pt">${TEMA === "espacial" ? '<i class="led"></i>' : ""}
+  return `<div class="partidas">` + r.ultimas.slice(0, max).map((p) => `<${p.id ? `button type="button" data-partida="${p.id}"` : "div"} class="pt">${TEMA === "espacial" ? '<i class="led"></i>' : ""}
     <div class="lug${p.lugar === 1 ? " l1" : ""}">${esc(t("lugar", p.lugar))}</div>
-    <div class="n">${esc(p.modo === "rapido" ? t("rapido", p.turnos) : t("tablero", p.turnos))}${TEMA_INFO[p.mapa] ? " · " + esc(ti("nombre", p.mapa)) : ""}<small>${p.fecha ? esc(fmt.format(new Date(p.fecha))) : ""} · ${p.en_linea ? t("en_linea") : t("local")}${p.jugadores ? " · " + esc(t("de", p.lugar, p.jugadores)) : ""}</small></div>
+    <div class="n">${esc(p.modo === "rapido" ? t("rapido", p.turnos) : t("tablero", p.turnos))}${TEMA_INFO[p.mapa] ? " · " + esc(ti("nombre", p.mapa)) : ""}<small>${p.fecha ? esc(fmt.format(new Date(p.fecha))) : ""} · ${p.en_linea ? t("en_linea") : t("local")}${p.jugadores ? " · " + esc(t("de", p.lugar, p.jugadores)) : ""}</small>${p.titulo && TITULOS[p.titulo] ? `<span class="tit">${esc(TITULOS[p.titulo][lang === "es" ? 0 : 1])}</span>` : ""}</div>
     <div class="dor">${ticketIcon}${p.dorados}</div>
-  </div>`).join("") + `</div>`;
+  </${p.id ? "button" : "div"}>`).join("") + `</div>`;
 }
 
 function vistaPublico() {
@@ -1593,6 +1692,68 @@ function vistaPublico() {
   </main>`;
 }
 
+// ================================================================= el resumen de una partida (21/10)
+// Desde el historial: el podio con los retratos, la noche en números (títulos y contadores del tablero) y cómo
+// quedó cada uno en cada minijuego. El tema es el del perfil desde el que se abrió.
+const DATO_STATS = [["stolen", "d_robo"], ["robbed", "d_robado"], ["reds", "d_rojas"], ["buys", "d_compras"], ["lost", "d_perdio"]];
+async function abrirPartida(id) {
+  const volver = S.tab;
+  pintar(vistaCargando(t("cargando")));
+  try { S.detalle = { ...(await api("GET", "/partida/" + id)), volver }; }
+  catch (e) {
+    if (e.status === 401) { salirLocal(); return pintar(vistaEntrar()); }
+    S.detalle = null; aviso(e.message === "no_existe" ? t("res_no_existe") : t("err_red"));
+    return pintar(S.publico ? vistaPublico() : vistaPerfil());
+  }
+  pintar(vistaPartida());
+}
+
+function vistaPartida() {
+  ponerTema();
+  const { partida: P, jugadores: J, rondas } = S.detalle;
+  const dueno = (S.publico?.jugador ?? S.jugador)?.codigo;
+  const fmt = new Intl.DateTimeFormat(lang === "es" ? "es" : "en", { weekday: "short", day: "numeric", month: "short" });
+  const sub = [P.modo === "rapido" ? t("rapido", P.turnos) : t("tablero", P.turnos), TEMA_INFO[P.mapa] ? ti("nombre", P.mapa) : "", P.en_linea ? t("en_linea") : t("local")].filter(Boolean).join(" · ");
+  const quien = (j) => j.codigo ? `<a href="?j=${j.codigo}">${esc(j.nombre)}</a>` : esc(j.nombre);
+  const porPuesto = new Map(J.map((j) => [j.puesto, j]));
+  // el podio: 2.º, 1.º, 3.º
+  const pod = (j, n) => j ? `<div class="pod p${n}${j.codigo && j.codigo === dueno ? " yo" : ""}">${n === 1 ? `<img class="corona" src="tema/feria/estrella.webp" alt="">` : ""}${avatar("av", j.personaje, j.nombre)}
+      <div class="pn">${quien(j)}${j.bot ? ` <small>${t("bot")}</small>` : ""}</div><div class="pd">${ticketIcon}${j.dorados}</div>
+      <div class="base"><b>${n}</b></div></div>` : `<div class="pod p${n} vacio-pod"></div>`;
+  const resto = J.filter((j) => j.lugar > 3);
+  // la noche en números: los títulos primero, después los contadores del tablero
+  const datos = [];
+  for (const j of J) {
+    if (j.titulo && TITULOS[j.titulo]) datos.push([j, TITULOS[j.titulo][lang === "es" ? 0 : 1], ""]);
+    const s = j.stats || {};
+    for (const [k, txt] of DATO_STATS) if ((s[k] ?? 0) > 0) datos.push([j, t(txt, s[k]), "chico"]);
+    if ((s.rolls ?? 0) >= 3) datos.push([j, t("d_dado", (s.dice / s.rolls).toFixed(1)), "chico"]);
+  }
+  const noche = datos.filter((d) => !d[2]).concat(datos.filter((d) => d[2]).sort((a, b) => a[0].lugar - b[0].lugar)).slice(0, 12);
+  // minijuego por minijuego
+  const mio = J.find((j) => j.codigo && j.codigo === dueno);
+  const rondaHtml = (r, i) => {
+    const orden = [...r.lugares].sort((a, b) => a[1] - b[1]);
+    const g = porPuesto.get(orden[0]?.[0]);
+    const miLugar = mio ? r.lugares.find((l) => l[0] === mio.puesto)?.[1] : null;
+    const foto = FOTOS[r.minijuego] ? ` style="background-image:url(../media/j_${FOTOS[r.minijuego]}.jpg)"` : "";
+    return `<div class="mj ronda${miLugar && miLugar > 1 ? " malo" : ""}" style="--c1:${["#e0162e", "#3d8bff", "#2fcb86"][i % 3]}">
+      <div class="th"${foto}>${foto ? "" : esc([...nombreMj(r.minijuego).replace(/^[¡¿]/, "")][0])}</div>
+      <div class="n">${esc(nombreMj(r.minijuego))}<small>${t("ronda_n", r.ronda)}${g ? " · " + esc(t("gano_x", g.nombre)) : ""}</small>
+        <div class="fila-av">${orden.map((l) => { const j = porPuesto.get(l[0]); return j ? avatar("a mini-av" + (l[1] === 1 ? " gana-av" : ""), j.personaje, j.nombre) : ""; }).join("")}</div></div>
+      ${miLugar ? `<span class="pct">${esc(t("lugar", miLugar))}</span>` : ""}</div>`;
+  };
+  return barra() + `<main class="main resumen">
+    <button class="btn btn-ghost volver" data-accion="volver_partida">← ${t("volver")}</button>
+    <div class="letrero"><b>${esc(ti("res")(fmt.format(new Date(P.fecha))))}</b><span>${esc(sub)}</span></div>
+    <div class="podio">${pod(J.find((j) => j.lugar === 2), 2)}${pod(J.find((j) => j.lugar === 1), 1)}${pod(J.find((j) => j.lugar === 3), 3)}</div>
+    ${resto.length ? `<div class="partidas">${resto.map((j) => `<div class="pt"><div class="lug">${esc(t("lugar", j.lugar))}</div><div class="n">${quien(j)}${j.bot ? `<small>${t("bot")}</small>` : ""}</div><div class="dor">${ticketIcon}${j.dorados}</div></div>`).join("")}</div>` : ""}
+    ${noche.length ? `<h3>${t("res_noche")}</h3><div class="datos">${noche.map(([j, txt, c]) => `<div class="dato ${c}">${avatar("a", j.personaje, j.nombre)}<div><b>${esc(txt)}</b><small>${esc(j.nombre)}</small></div></div>`).join("")}</div>` : ""}
+    ${rondas.length ? `<h3>${t("res_mj")} <small>${t("res_mj_sub", rondas.length)}</small></h3><div class="mjs">${rondas.map(rondaHtml).join("")}</div>` : ""}
+    ${P.completa ? "" : `<p class="nota">${t("res_incompleta")}</p>`}
+  </main>`;
+}
+
 // ================================================================= botones
 function conectar() {
   app.querySelectorAll("[data-lang]").forEach((b) => b.addEventListener("click", () => {
@@ -1606,6 +1767,7 @@ function conectar() {
     if (S.tab === "amigos") cargarAmigos();     // (siempre al día: alguien pudo aceptar mientras tanto)
   }));
   app.querySelectorAll("[data-accion]").forEach((b) => b.addEventListener("click", () => acciones[b.dataset.accion]?.(b)));
+  app.querySelectorAll("[data-partida]").forEach((b) => b.addEventListener("click", () => abrirPartida(b.dataset.partida)));
   const fa = document.getElementById("form-agregar");
   fa?.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -1653,6 +1815,7 @@ function conectar() {
 function repintar() {
   if (!API && !DEMO) return pintar(vistaPronto());
   if (S.publico) return pintar(vistaPublico());
+  if (S.detalle?.partida) return pintar(vistaPartida());
   if (document.getElementById("form-perfil")) return pintar(vistaCrear());
   if (S.jugador) return pintar(vistaPerfil());
   pintar(vistaEntrar());
@@ -1685,6 +1848,7 @@ const acciones = {
     pintar(vistaPendiente());
   },
   fin_pend() { terminarPendiente(); S.pend = null; S.tab = "perfil"; mostrarPerfil(); },
+  volver_partida: () => { const v = S.detalle?.volver ?? "perfil"; S.detalle = null; if (S.publico) return pintar(vistaPublico()); S.tab = v; pintar(vistaPerfil()); },
   ver_todos: () => { S.verTodos = !S.verTodos; pintar(S.publico ? vistaPublico() : vistaPerfil(), false); },
   async compartir() {
     const url = location.origin + location.pathname + "?j=" + S.jugador.codigo;
