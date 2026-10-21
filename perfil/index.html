@@ -548,6 +548,69 @@ button.pt:active { transform: translateY(2px); }
 .mini-av { width: 30px !important; height: 30px !important; border-width: 2px !important; font-size: 13px !important; opacity: .55; }
 .mini-av.gana-av { opacity: 1; width: 36px !important; height: 36px !important; box-shadow: 0 0 0 2px #ffc83d; }
 .ronda .pct { font-size: 20px; }
+/* ---------------------------------------------------------------- los logros: la vitrina y las medallas */
+.vitrina { position: relative; padding: 18px 10px 12px; margin-top: 4px; }
+.meds { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 6px; }
+.med { --tier: #3a3346; position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; background: none; border: 0; padding: 0; font: inherit; color: inherit; cursor: pointer; min-width: 0; }
+.med.n1 { --tier: #d0874a; } .med.n2 { --tier: #d9e2ee; } .med.n3 { --tier: #ffc83d; }
+.med .aro { position: relative; width: 66px; height: 66px; border-radius: 50%; display: grid; place-items: center; overflow: hidden; box-shadow: 0 0 0 4px var(--tier), 0 5px 0 4px #000; transition: transform .15s; }
+.med:active .aro { transform: scale(.94); }
+.med .aro img { width: 82%; height: 82%; object-fit: contain; filter: drop-shadow(0 3px 2px rgba(0,0,0,.35)); }
+.med .aro img[src*="/j_"] { width: 100%; height: 100%; object-fit: cover; filter: none; }
+.med .aro img[src*="admin_"] { width: 96%; height: 96%; object-position: 50% 15%; }
+.med.n0 .aro img { filter: brightness(0) opacity(.32); }
+.med.n0 .aro img[src*="/j_"] { filter: grayscale(1) brightness(.35); }
+.med.n3 .aro::after { content: ""; position: absolute; inset: -20%; background: linear-gradient(115deg, transparent 40%, rgba(255,255,255,.75) 50%, transparent 60%); animation: brilloMed 3.2s ease-in-out infinite; }
+@keyframes brilloMed { 0%, 55% { transform: translateX(-70%); } 85%, 100% { transform: translateX(70%); } }
+.med .q { font: normal 30px/1 "Luckiest"; opacity: .7; }
+.med .mn { font-weight: 700; font-size: 11.5px; line-height: 1.15; text-align: center; max-width: 100%; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.med.n0 .mn { opacity: .6; }
+.pips { display: flex; gap: 3px; margin-top: -2px; }
+.pips i { width: 8px; height: 8px; border-radius: 50%; background: rgba(0,0,0,.28); border: 1.5px solid #000; }
+.pips i.on.n1 { background: #d0874a; } .pips i.on.n2 { background: #d9e2ee; } .pips i.on.n3 { background: #ffc83d; box-shadow: 0 0 6px #ffc83d; }
+.med.nuevo .aro { animation: medNueva 1.1s cubic-bezier(.2,1.6,.4,1) both, medBrilla 1.6s 1.1s ease-in-out 3; }
+@keyframes medNueva { 0% { transform: translateY(-60px) scale(1.6) rotate(-25deg); opacity: 0; } 60% { opacity: 1; } 100% { transform: none; } }
+@keyframes medBrilla { 50% { box-shadow: 0 0 0 4px var(--tier), 0 5px 0 4px #000, 0 0 28px 10px var(--tier); } }
+/* feria: rosetas en una caseta de premios */
+[data-tema="feria"] .vitrina { background: #fff6e5; border: 3px solid #000; border-radius: 8px 8px 16px 16px; box-shadow: 0 5px 0 #000; color: #2b1a3e; margin-top: 22px;
+  background-image: repeating-linear-gradient(180deg, transparent 0 118px, #e8d6b4 118px 124px); }
+[data-tema="feria"] .vitrina::before { content: ""; position: absolute; left: -3px; right: -3px; top: -20px; height: 20px; border: 3px solid #000; border-bottom: 0; border-radius: 10px 10px 0 0; background: repeating-linear-gradient(90deg, #e0162e 0 18px, #fff 18px 36px); }
+[data-tema="feria"] .med .aro { background: radial-gradient(circle at 35% 30%, #fff, #ffe9b8); }
+[data-tema="feria"] .med:not(.n0) .aro::before { content: ""; position: absolute; inset: 3px; border-radius: 50%; border: 2px dashed rgba(0,0,0,.18); }
+[data-tema="feria"] .med.n0 .aro { background: #e9dcc4; }
+/* embrujada: nichos de la cripta */
+[data-tema="embrujada"] .vitrina { background: linear-gradient(180deg, rgba(40,20,64,.92), rgba(16,8,28,.94)); border: 3px solid #000; border-radius: 60px 60px 12px 12px; box-shadow: 0 5px 0 #000, 0 0 24px rgba(92,255,157,.15); padding-top: 26px; }
+[data-tema="embrujada"] .med .aro { border-radius: 34px 34px 8px 8px; background: radial-gradient(ellipse at 30% 15%, rgba(255,255,255,.14), transparent 60%), linear-gradient(180deg, #7d7196, #4e4366); box-shadow: 0 0 0 3px var(--tier), 0 5px 0 3px #000; }
+[data-tema="embrujada"] .med:not(.n0) .aro { box-shadow: 0 0 0 3px var(--tier), 0 5px 0 3px #000, 0 0 18px rgba(92,255,157,.35); }
+[data-tema="embrujada"] .med.n0 .aro { background: #2a1d3a; }
+[data-tema="embrujada"] .med .mn { color: #e9dcff; } [data-tema="embrujada"] .pips i { background: rgba(255,255,255,.12); }
+/* espacial: cápsulas de neón */
+[data-tema="espacial"] .vitrina { background: rgba(10,22,58,.66); border: 1.5px solid rgba(63,224,255,.55); border-radius: 16px; box-shadow: 0 0 18px rgba(63,224,255,.2); backdrop-filter: blur(4px); color: #e6f6ff; }
+[data-tema="espacial"] .med .aro { background: radial-gradient(circle at 40% 30%, #1d2f7a, #070d2a); box-shadow: 0 0 0 2px var(--tier), 0 0 18px color-mix(in srgb, var(--tier) 70%, transparent); }
+[data-tema="espacial"] .med.n0 .aro { box-shadow: 0 0 0 1.5px rgba(63,224,255,.35); }
+[data-tema="espacial"] .med .aro::before { content: ""; position: absolute; inset: -1px; border-radius: 50%; border: 1px dashed rgba(159,240,255,.5); animation: orbitaMed 14s linear infinite; }
+@keyframes orbitaMed { to { transform: rotate(360deg); } }
+[data-tema="espacial"] .pips i { border-color: #3fe0ff; background: rgba(63,224,255,.12); }
+.sub-mj small { font-weight: 600; letter-spacing: 0; opacity: .75; margin-left: 4px; }
+/* la ficha de un logro */
+.ficha { text-align: center; }
+.ficha .med { pointer-events: none; margin: 4px auto 10px; }
+.ficha .med .aro { width: 120px; height: 120px; }
+.ficha .med .mn, .ficha .med .pips { display: none; }
+.ficha h2 { margin-top: 6px; }
+.ficha .avance { margin: 6px 20px 14px; }
+.ficha .avance .barra { height: 12px; border-radius: 6px; background: rgba(255,255,255,.12); overflow: hidden; border: 2px solid #000; }
+.ficha .avance .barra i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #ffc83d, #ff9f1a); border-radius: 6px; box-shadow: none; transition: none; }
+.ficha .avance small { display: block; margin-top: 6px; color: #d9c7ff; font-weight: 700; }
+.ficha .hecho { color: #ffc83d; font-weight: 700; }
+.niveles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 6px 0 16px; }
+.niv { display: flex; flex-direction: column; align-items: center; gap: 3px; opacity: .45; }
+.niv.on { opacity: 1; }
+.niv i { width: 30px; height: 30px; border-radius: 50%; border: 2.5px solid #000; box-shadow: 0 3px 0 #000; }
+.niv.n1 i { background: radial-gradient(circle at 35% 30%, #f0b27a, #a85d24); } .niv.n2 i { background: radial-gradient(circle at 35% 30%, #fff, #9aa7b8); } .niv.n3 i { background: radial-gradient(circle at 35% 30%, #fff1a8, #e3a400); }
+.niv b { font: normal 14px "Luckiest"; color: #fff; } .niv small { color: #b9a9c9; font-weight: 700; }
+.ficha .admin-say { justify-content: center; text-align: left; margin: 0 0 14px; }
+@media (prefers-reduced-motion: reduce) { .med.n3 .aro::after, .med.nuevo .aro, [data-tema="espacial"] .med .aro::before { animation: none; } }
 .admin-say .cerdo img.casco { width: 96px; }
 [data-tema] .entrar { color: #fff; }
 [data-tema="feria"] .pj { background-color: #cfeaff; } [data-tema="embrujada"] .pj { background-color: #2a1640; } [data-tema="espacial"] .pj { background-color: #0b1640; border-color: #3fe0ff; }
@@ -658,6 +721,9 @@ const T = {
     res_incompleta: "Es una partida de antes: de los bots y los invitados sin perfil no sabemos cómo les fue en cada minijuego.",
     d_robo: (n) => `Robó ${n} tickets`, d_robado: (n) => `Le robaron ${n}`, d_rojas: (n) => `${n} casillas rojas`, d_compras: (n) => `${n} objetos comprados`,
     d_perdio: (n) => `Perdió ${n} tickets`, d_dado: (x) => `${x} por tirada`,
+    lg_cuenta: (g, n, v, m) => `${g} de ${n} logros · ${v} de ${m} niveles`, lg_cuenta_corta: (g, n) => `${g} de ${n} logros`, lg_ver: (n) => `Ver los ${n} logros`,
+    lg_secreto: "Es un secreto. Sigue jugando y a lo mejor lo descubres.", lg_llevas: (v, m) => `Llevas ${v} de ${m}`, lg_completo: "¡Completo! Ya tienes el oro.",
+    lg_bronce: "Bronce", lg_plata: "Plata", lg_oro: "Oro", lg_nuevo: (n) => `¡Logro nuevo: ${n}!`, lg_nuevos: (n) => `¡${n} logros nuevos!`,
   },
   en: {
     titulo_pag: "Player profile · Party Showdown",
@@ -726,6 +792,9 @@ const T = {
     res_incompleta: "This is an older game: we don't know how the bots and guests without a profile did in each minigame.",
     d_robo: (n) => `Stole ${n} tickets`, d_robado: (n) => `Got robbed of ${n}`, d_rojas: (n) => `${n} red spaces`, d_compras: (n) => `${n} items bought`,
     d_perdio: (n) => `Lost ${n} tickets`, d_dado: (x) => `${x} per roll`,
+    lg_cuenta: (g, n, v, m) => `${g} of ${n} achievements · ${v} of ${m} levels`, lg_cuenta_corta: (g, n) => `${g} of ${n} achievements`, lg_ver: (n) => `See all ${n} achievements`,
+    lg_secreto: "It's a secret. Keep playing and maybe you'll find it.", lg_llevas: (v, m) => `${v} of ${m} so far`, lg_completo: "Complete! You've got the gold.",
+    lg_bronce: "Bronze", lg_plata: "Silver", lg_oro: "Gold", lg_nuevo: (n) => `New achievement: ${n}!`, lg_nuevos: (n) => `${n} new achievements!`,
   },
 };
 function ord(n) { const s = ["th", "st", "nd", "rd"], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
@@ -1553,10 +1622,12 @@ function vistaPerfil() {
     const frase = r?.partidas ? ti("frase")(j.nombre, r.partidas, r.victorias) ?? t("quip", r.victorias, r.partidas - r.victorias) : "";
     cuerpo = `<div class="fila-tema"><button class="btn-tema" data-accion="tema"><i style="background-image:url(${retrato(PERSONAJES[j.personaje] ? j.personaje : "base")})"></i>${t("tema_btn")}: ${esc(ti("nombre"))}</button></div>` +
       letrero() + tarjeta(j, r, true) + (r?.partidas ? `<div class="admin-say quip">${cerdo()}<div class="bubble" data-escribe="${esc(frase)}">${esc(frase)}</div></div>` +
-      bloqueMinijuegos(r) + bloqueRivales(r) +
+      bloqueLogros(r, true) + bloqueMinijuegos(r) + bloqueRivales(r) +
       `<h3>${esc(ti("partidas"))}</h3>` + listaPartidas(r, 5) + (r.ultimas.length > 5 ? `<button class="btn btn-ghost mas-partidas" data-tab="partidas">${t("ver_historial", r.ultimas.length)}</button>` : "") : bloqueVacio() + bloqueMinijuegos(r)) +
       `<div class="acciones"><div class="fila-btn"><button class="btn btn-ghost" data-accion="editar">${t("editar")}</button><button class="btn btn-ghost" data-accion="compartir">${t("compartir")}</button></div>
        <button class="btn btn-ghost" data-accion="salir">${t("salir")}</button></div>`;
+  } else if (S.tab === "logros") {
+    cuerpo = vistaLogros(r);
   } else if (S.tab === "partidas") {
     cuerpo = `<div class="resumen"><button class="btn btn-ghost volver" data-tab="perfil">← ${t("volver")}</button></div><h3 style="margin-top:12px">${esc(ti("partidas"))} <small>${t("hist_sub")}</small></h3>` + listaPartidas(r, 30);
   } else if (S.tab === "sentarme") {
@@ -1571,7 +1642,7 @@ function vistaPerfil() {
   } else {
     cuerpo = cuerpoAmigos();
   }
-  const tab = (id, icono, txt, mid = false) => `<button class="${mid ? "mid " : ""}${S.tab === id || (id === "perfil" && S.tab === "partidas") ? "on" : ""}" data-tab="${id}" aria-current="${S.tab === id ? "page" : "false"}">${mid ? `<i><svg aria-hidden="true"><use href="#${icono}"/></svg></i>` : `<svg aria-hidden="true"><use href="#${icono}"/></svg>`}${txt}</button>`;
+  const tab = (id, icono, txt, mid = false) => `<button class="${mid ? "mid " : ""}${S.tab === id || (id === "perfil" && ["partidas", "logros"].includes(S.tab)) ? "on" : ""}" data-tab="${id}" aria-current="${S.tab === id ? "page" : "false"}">${mid ? `<i><svg aria-hidden="true"><use href="#${icono}"/></svg></i>` : `<svg aria-hidden="true"><use href="#${icono}"/></svg>`}${txt}</button>`;
   return barra() + `<main class="main">${cuerpo}</main>
     <nav class="tabs">${tab("perfil", "i-card", t("tab_perfil"))}${tab("sentarme", "i-qr", t("tab_sentarme"), true)}${tab("amigos", "i-amigos", t("tab_amigos"))}</nav>`;
 }
@@ -1688,8 +1759,172 @@ function vistaPublico() {
     ${letrero(t("perfil_de"))}
     ${tarjeta(j, r)}
     <div class="relacion">${botones}</div>
-    ${r?.partidas ? bloqueMinijuegos(r, t("mj")) + `<h3>${esc(ti("partidas"))} <small>${t("hist_sub")}</small></h3>` + listaPartidas(r, 10) : bloqueVacio()}
+    ${r?.partidas ? bloqueLogros(r) + bloqueMinijuegos(r, t("mj")) + `<h3>${esc(ti("partidas"))} <small>${t("hist_sub")}</small></h3>` + listaPartidas(r, 10) : bloqueVacio()}
   </main>`;
+}
+
+// ================================================================= los logros (21/10, DISEÑO_LOGROS.md)
+// El servidor manda cuánto lleva en cada uno (resumen.logros: id, nivel 0..3, valor, metas); aquí van los nombres,
+// los dibujos (objetos del juego, retratos y caras de Mr. Admin) y la vitrina de cada tema: rosetas de feria,
+// nichos de cripta o cápsulas de neón. Al tocar una medalla se abre su ficha. En el perfil propio, los niveles
+// nuevos desde la última visita se estrenan con animación.
+const CATS = [
+  ["partidas", "Ganar partidas", "Winning games"], ["tickets", "Dorados y tickets", "Golden tickets and tickets"], ["tablero", "El tablero", "The board"],
+  ["titulos", "Los títulos de la noche", "Titles of the night"], ["mj", "Minijuegos", "Minigames"], ["tableros", "Los tableros", "The boards"],
+  ["amigos", "Amigos y en línea", "Friends and online"], ["constancia", "Constancia", "Regulars"], ["admin", "Los de Mr. Admin", "Mr. Admin's specials"], ["secretos", "Secretos", "Secrets"],
+];
+// id: [dibujo, categoría, nombre es, nombre en, qué pide es (meta), qué pide en (meta)]
+const LOGROS = {
+  primera_funcion: ["f:boleteria", "partidas", "Primera función", "Opening night", () => "Gana tu primera partida", () => "Win your first game"],
+  campeon: ["f:estrella", "partidas", "Campeón de la feria", "Fair champion", (n) => `Gana ${n} partidas`, (n) => `Win ${n} games`],
+  en_racha: ["r:leon", "partidas", "En racha", "On a roll", (n) => `Gana ${n} partidas seguidas`, (n) => `Win ${n} games in a row`],
+  podio: ["f:carpa", "partidas", "Dueño del podio", "Podium regular", (n) => `Termina ${n} veces entre los 3 primeros`, (n) => `Finish in the top 3 ${n} times`],
+  contra_todos: ["r:dragon", "partidas", "Contra todos", "Against everyone", () => "Gana una partida de 6 jugadores", () => "Win a 6-player game"],
+  mesa_de_verdad: ["f:dado", "partidas", "Mesa de verdad", "Real table", (n) => `Gana ${n} ${n === 1 ? "partida" : "partidas"} de 4 o más sin bots`, (n) => `Win ${n} ${n === 1 ? "game" : "games"} of 4+ with no bots`],
+  coleccionista: ["f:ticket_dorado", "tickets", "Coleccionista", "Collector", (n) => `Junta ${n} tickets dorados`, (n) => `Collect ${n} golden tickets`],
+  noche_dorada: ["s:ticket_dorado", "tickets", "Noche dorada", "Golden night", (n) => `Termina una partida con ${n} dorados`, (n) => `Finish a game with ${n} golden tickets`],
+  bolsillo_lleno: ["f:bolsa_monedas", "tickets", "Bolsillo lleno", "Deep pockets", (n) => `Termina una partida con ${n} tickets`, (n) => `Finish a game with ${n} tickets`],
+  buen_negocio: ["f:fajo", "tickets", "Buen negocio", "Good business", (n) => `Gana ${n} tickets en total`, (n) => `Earn ${n} tickets in total`],
+  mano_larga: ["r:pirata", "tablero", "Mano larga", "Sticky fingers", (n) => `Roba ${n} tickets en total`, (n) => `Steal ${n} tickets in total`],
+  comprador: ["f:globo", "tablero", "Comprador compulsivo", "Shopaholic", (n) => `Compra ${n} objetos`, (n) => `Buy ${n} items`],
+  cliente_banco: ["a:admin_presenta", "tablero", "Cliente del banco", "Bank regular", (n) => `Pide ${n} préstamos a Mr. Admin`, (n) => `Take ${n} loans from Mr. Admin`],
+  maraton: ["e:tren", "tablero", "Maratón", "Marathon", (n) => `Termina una partida de ${n} turnos`, (n) => `Finish a ${n}-turn game`],
+  t_ladron: ["r:ninja", "titulos", "El más ladrón", "The biggest thief", (n) => `Gánate el título ${n} ${n === 1 ? "vez" : "veces"}`, (n) => `Earn the title ${n} ${n === 1 ? "time" : "times"}`],
+  t_dado_oro: ["f:dado", "titulos", "El dado de oro", "The golden dice", (n) => `Gánate el título ${n} ${n === 1 ? "vez" : "veces"}`, (n) => `Earn the title ${n} ${n === 1 ? "time" : "times"}`],
+  t_rey_minijuegos: ["r:domador", "titulos", "Rey de los minijuegos", "Minigame king", (n) => `Gánate el título ${n} ${n === 1 ? "vez" : "veces"}`, (n) => `Earn the title ${n} ${n === 1 ? "time" : "times"}`],
+  t_racha: ["r:hombrebala", "titulos", "La mejor racha", "Best streak", (n) => `Gánate el título ${n} ${n === 1 ? "vez" : "veces"}`, (n) => `Earn the title ${n} ${n === 1 ? "time" : "times"}`],
+  t_unicas: ["r:mago", "titulos", "Victorias únicas", "Unique wins", (n) => `Gánate el título ${n} ${n === 1 ? "vez" : "veces"} (modo rápido)`, (n) => `Earn the title ${n} ${n === 1 ? "time" : "times"} (quick mode)`],
+  t_comprador: ["r:heladero", "titulos", "Comprador del año", "Shopper of the year", (n) => `Gánate el título del comprador ${n} ${n === 1 ? "vez" : "veces"}`, (n) => `Earn the shopaholic title ${n} ${n === 1 ? "time" : "times"}`],
+  coleccion_titulos: ["f:farol", "titulos", "Colección de títulos", "Title collection", () => "Gánate todos los títulos al menos una vez", () => "Earn every title at least once"],
+  rey_pista: ["r:forzudo", "mj", "Rey de la pista", "King of the ring", (n) => `Gana ${n} minijuegos`, (n) => `Win ${n} minigames`],
+  todoterreno: ["s:platillo", "mj", "Todoterreno", "All-rounder", (n) => `Gana ${n} minijuegos distintos`, (n) => `Win ${n} different minigames`],
+  explorador: ["s:capsula", "mj", "Explorador", "Explorer", (n) => `Juega ${n} minijuegos distintos`, (n) => `Play ${n} different minigames`],
+  especialista: ["r:samurai", "mj", "Especialista", "Specialist", (n) => `Gana el mismo minijuego ${n} veces`, (n) => `Win the same minigame ${n} times`],
+  imparable: ["s:meteorito", "mj", "Imparable", "Unstoppable", (n) => `Gana ${n} minijuegos seguidos en una partida`, (n) => `Win ${n} minigames in a row in one game`],
+  duelista: ["r:vaquero", "mj", "Duelista", "Duelist", (n) => `Gana ${n} duelos`, (n) => `Win ${n} duels`],
+  mj_parca: ["e:parca", "mj", "Le ganaste a la Parca", "You beat the Reaper", (n) => `Gana La Parca ${n} ${n === 1 ? "vez" : "veces"}`, (n) => `Win The Reaper ${n} ${n === 1 ? "time" : "times"}`],
+  mj_lava: ["j:lava", "mj", "A prueba de lava", "Lava-proof", (n) => `Gana ¡Que sube la lava! ${n} ${n === 1 ? "vez" : "veces"}`, (n) => `Win The Lava Is Rising! ${n} ${n === 1 ? "time" : "times"}`],
+  mj_ghosts: ["e:fantasma", "mj", "Cazafantasmas", "Ghostbuster", (n) => `Gana Caza Espectral ${n} ${n === 1 ? "vez" : "veces"}`, (n) => `Win Ghost Hunt ${n} ${n === 1 ? "time" : "times"}`],
+  mj_copa: ["a:admin_feliz", "mj", "La Copa es mía", "The Cup is mine", (n) => `Gana La Copa de Mr. Admin ${n} ${n === 1 ? "vez" : "veces"}`, (n) => `Win Mr. Admin's Cup ${n} ${n === 1 ? "time" : "times"}`],
+  mj_boveda: ["a:admin_sorpresa", "mj", "Ladrón de bóvedas", "Vault raider", (n) => `Gana La Bóveda de Mr. Admin ${n} ${n === 1 ? "vez" : "veces"}`, (n) => `Win Mr. Admin's Vault ${n} ${n === 1 ? "time" : "times"}`],
+  rey_feria: ["f:globo_aerostatico", "tableros", "Rey de La Gran Feria", "King of the Grand Fair", (n) => `Gana ${n} partidas en La Gran Feria`, (n) => `Win ${n} games on the Grand Fair`],
+  rey_embrujada: ["e:calabaza", "tableros", "Rey de la Feria Embrujada", "King of the Haunted Fair", (n) => `Gana ${n} partidas en la Feria Embrujada`, (n) => `Win ${n} games on the Haunted Fair`],
+  rey_espacial: ["s:ovni", "tableros", "Rey de la Feria Espacial", "King of the Space Fair", (n) => `Gana ${n} partidas en la Feria Espacial`, (n) => `Win ${n} games on the Space Fair`],
+  turista: ["f:nube", "tableros", "Turista", "Tourist", () => "Gana en los tres tableros", () => "Win on all three boards"],
+  primer_amigo: ["r:oso", "amigos", "Primer amigo", "First friend", (n) => `Ten ${n} ${n === 1 ? "amigo" : "amigos"} en la feria`, (n) => `Have ${n} ${n === 1 ? "friend" : "friends"} at the fair`],
+  anfitrion: ["r:payaso", "amigos", "Anfitrión", "Host", (n) => `Juega ${n} ${n === 1 ? "partida" : "partidas"} con invitados en tu PC`, (n) => `Play ${n} ${n === 1 ? "game" : "games"} with guests on your PC`],
+  de_visita: ["r:astronauta", "amigos", "De visita", "Visitor", (n) => `Siéntate ${n} ${n === 1 ? "vez" : "veces"} en la PC de otro`, (n) => `Take a seat on someone else's PC ${n} ${n === 1 ? "time" : "times"}`],
+  revancha_cobrada: ["e:mano_zombi", "amigos", "Revancha cobrada", "Payback", (n) => `Gánale ${n} ${n === 1 ? "vez" : "veces"} a quien te ganó la última vez`, (n) => `Beat whoever beat you last time, ${n} ${n === 1 ? "time" : "times"}`],
+  mesa_llena: ["r:pulpo", "amigos", "Mesa llena", "Full table", () => "Juega una partida de 6 personas sin bots", () => "Play a 6-person game with no bots"],
+  campeon_mes: ["f:sol", "amigos", "Campeón del mes", "Champion of the month", (n) => `Gana la tabla del mes ${n} ${n === 1 ? "vez" : "veces"}`, (n) => `Win the monthly table ${n} ${n === 1 ? "time" : "times"}`],
+  conectado: ["s:asteroide_3", "amigos", "Conectado", "Plugged in", (n) => `Juega ${n} ${n === 1 ? "partida" : "partidas"} en línea`, (n) => `Play ${n} online ${n === 1 ? "game" : "games"}`],
+  ganador_linea: ["s:cohete", "amigos", "Ganador en línea", "Online winner", (n) => `Gana ${n} ${n === 1 ? "partida" : "partidas"} en línea`, (n) => `Win ${n} online ${n === 1 ? "game" : "games"}`],
+  cliente_fiel: ["f:arbol", "constancia", "Cliente fiel", "Loyal customer", (n) => `Juega ${n} partidas`, (n) => `Play ${n} games`],
+  noche_larga: ["e:murcielago", "constancia", "Noche larga", "Long night", (n) => `Juega ${n} partidas en un mismo día`, (n) => `Play ${n} games in one day`],
+  todas_semanas: ["e:zombi", "constancia", "Todas las semanas", "Every week", (n) => `Juega ${n} semanas seguidas`, (n) => `Play ${n} weeks in a row`],
+  cliente_favorito: ["a:admin_burlon", "admin", "Cliente favorito", "Favorite customer", (n) => `Queda último ${n} veces`, (n) => `Finish last ${n} times`],
+  victima: ["a:admin_risa", "admin", "Víctima de la feria", "Fair victim", (n) => `Que te roben ${n} tickets en total`, (n) => `Get robbed of ${n} tickets in total`],
+  salado: ["e:lapida", "admin", "Salado", "Jinxed", (n) => `Cae en ${n} casillas rojas`, (n) => `Land on ${n} red spaces`],
+  bancarrota: ["a:admin_roto", "admin", "Bancarrota", "Bankrupt", () => "Termina una partida con 0 tickets", () => "Finish a game with 0 tickets"],
+  pobre_contento: ["a:admin_normal", "admin", "Pobre pero contento", "Broke but happy", (n) => `Termina ${n} ${n === 1 ? "partida" : "partidas"} sin un dorado`, (n) => `Finish ${n} ${n === 1 ? "game" : "games"} without a golden ticket`],
+  mas_perdio: ["a:admin_enojado", "admin", "El que más perdió", "Biggest loser", () => "Pierde 100 tickets o más en una partida", () => "Lose 100+ tickets in one game"],
+  s_robo_perfecto: ["r:mimo", "secretos", "Robo perfecto", "Perfect heist", () => "Gana una partida siendo el más ladrón", () => "Win a game as the biggest thief"],
+  s_ultimo_primero: ["e:mano_zombi_b", "secretos", "De último a primero", "Last to first", () => "Queda último y gana la partida siguiente", () => "Finish last, then win the next game"],
+  s_sin_piedad: ["r:tiburon", "secretos", "Sin piedad", "No mercy", () => "Gana todos los minijuegos de una partida", () => "Win every minigame in a game"],
+  s_otro_lado: ["r:fantasma", "secretos", "Del otro lado", "From the other side", (n) => `Gana ${n} veces en el embrujado vestido de fantasma o momia`, (n) => `Win ${n} times on the haunted board as a ghost or mummy`],
+};
+// lo que dice Mr. Admin en la ficha de los suyos
+const BURLAS = {
+  cliente_favorito: ["Mi cliente favorito. Siempre vuelve, siempre pierde.", "My favorite customer. Always comes back, always loses."],
+  victima: ["Te roban y yo cobro comisión.", "They rob you and I take a cut."],
+  salado: ["Las casillas rojas te extrañan cuando no vienes.", "The red spaces miss you when you're away."],
+  bancarrota: ["Cero tickets. Así me gusta ver a la gente.", "Zero tickets. That's how I like my customers."],
+  pobre_contento: ["Sin un dorado, pero con una sonrisa. Qué tierno.", "Not one golden ticket, but smiling. How sweet."],
+  mas_perdio: ["Cien tickets en una noche. Gracias por tu donación.", "A hundred tickets in one night. Thanks for the donation."],
+};
+const TIT_VITRINA = { feria: ["Tu vitrina de premios", "Your prize shelf"], embrujada: ["El osario de trofeos", "The trophy crypt"], espacial: ["Tu colección estelar", "Your stellar collection"] };
+const es_ = () => lang === "es";
+const nombreLogro = (id) => (LOGROS[id] ? LOGROS[id][es_() ? 2 : 3] : id);
+function dibujoLogro(id) {
+  const [d] = LOGROS[id] ?? ["f:estrella"];
+  const [k, n] = d.split(":");
+  return { f: `tema/feria/${n}.webp`, e: `tema/embrujada/${n}.webp`, s: `tema/espacial/${n}.webp`, r: retrato(n), a: `../media/${n}.webp`, j: `../media/j_${n}.jpg` }[k];
+}
+const listaLogros = (r) => (r?.logros ?? []).filter((l) => LOGROS[l.id]);
+
+// Una medalla: el dibujo en su aro (sin nivel = silueta; secreto sin ganar = "???"), el nombre y los niveles.
+function medalla(l, nuevo = false) {
+  const oculto = l.secreto && !l.nivel;
+  const tres = (l.metas?.length ?? 1) > 1;
+  const pips = tres ? `<span class="pips">${[1, 2, 3].map((k) => `<i class="${l.nivel >= k ? "on n" + k : ""}"></i>`).join("")}</span>` : "";
+  return `<button type="button" class="med n${l.nivel}${oculto ? " oculto" : ""}${nuevo ? " nuevo" : ""}" data-logro="${l.id}" aria-label="${esc(oculto ? "???" : nombreLogro(l.id))}">
+    <span class="aro">${oculto ? `<b class="q">?</b>` : `<img src="${dibujoLogro(l.id)}" alt="" loading="lazy">`}</span>
+    <span class="mn">${oculto ? "???" : esc(nombreLogro(l.id))}</span>${pips}</button>`;
+}
+
+// La vitrina del perfil: los 8 mejores (los recién ganados primero) y el botón para verlos todos.
+function bloqueLogros(r, propio = false) {
+  const L = listaLogros(r);
+  if (!L.length) return "";
+  const ganados = L.filter((l) => l.nivel), niveles = L.reduce((n, l) => n + l.nivel, 0), maxNiv = L.reduce((n, l) => n + (l.metas?.length ?? 1), 0);
+  const nuevos = propio ? logrosNuevos(L) : new Set();
+  const top = [...ganados].sort((a, b) => nuevos.has(b.id) - nuevos.has(a.id) || b.nivel - a.nivel || L.indexOf(a) - L.indexOf(b)).slice(0, 8);
+  const huecos = L.filter((l) => !l.nivel && !l.secreto).slice(0, Math.max(0, 8 - top.length));
+  return `<h3>${esc(TIT_VITRINA[TEMA][es_() ? 0 : 1])} <small>${t("lg_cuenta", ganados.length, L.length, niveles, maxNiv)}</small></h3>
+    <div class="vitrina"><div class="meds">${[...top, ...huecos].map((l) => medalla(l, nuevos.has(l.id))).join("")}</div></div>
+    <button class="btn btn-ghost mas-partidas" data-tab="logros">${t("lg_ver", L.length)}</button>`;
+}
+
+// Todos, por categoría.
+function vistaLogros(r) {
+  const L = listaLogros(r);
+  const por = new Map(CATS.map(([c]) => [c, []]));
+  for (const l of L) por.get(LOGROS[l.id][1])?.push(l);
+  const ganados = L.filter((l) => l.nivel).length;
+  return `<div class="resumen"><button class="btn btn-ghost volver" data-tab="perfil">← ${t("volver")}</button></div>
+    <div class="letrero"><b>${esc(TIT_VITRINA[TEMA][es_() ? 0 : 1])}</b><span>${esc(t("lg_cuenta_corta", ganados, L.length))}</span></div>` +
+    CATS.filter(([c]) => por.get(c).length).map(([c, es, en]) => `<div class="sub-mj">${esc(es_() ? es : en)} <small>${por.get(c).filter((l) => l.nivel).length}/${por.get(c).length}</small></div>
+      <div class="vitrina"><div class="meds">${por.get(c).map((l) => medalla(l)).join("")}</div></div>`).join("");
+}
+
+// La ficha de un logro (hoja de abajo): la medalla grande, qué pide, cuánto llevas y los tres niveles.
+function abrirLogro(id) {
+  const r = S.publico ? S.publico.resumen : S.resumen;
+  const l = listaLogros(r).find((x) => x.id === id);
+  if (!l) return;
+  const oculto = l.secreto && !l.nivel;
+  const info = LOGROS[id];
+  const metas = l.metas ?? [1];
+  const sig = metas.find((m) => l.valor < m);
+  const desc = oculto ? t("lg_secreto") : info[es_() ? 4 : 5](sig ?? metas.at(-1));
+  const avance = oculto || l.valor == null ? "" : sig ? `<div class="avance"><div class="barra"><i style="width:${Math.min(100, (100 * l.valor) / sig)}%"></i></div><small>${t("lg_llevas", l.valor, sig)}</small></div>` : `<p class="hecho">${t("lg_completo")}</p>`;
+  const niveles = metas.length > 1 && !oculto ? `<div class="niveles">${metas.map((m, k) => `<div class="niv${l.nivel > k ? " on" : ""} n${k + 1}"><i></i><b>${[t("lg_bronce"), t("lg_plata"), t("lg_oro")][k]}</b><small>${m}</small></div>`).join("")}</div>` : "";
+  const burla = BURLAS[id] && l.nivel ? `<div class="admin-say">${cerdo("admin_burlon")}<div class="bubble">${esc(BURLAS[id][es_() ? 0 : 1])}</div></div>` : "";
+  const H = document.createElement("div");
+  H.className = "hoja"; H.setAttribute("role", "dialog"); H.setAttribute("aria-modal", "true");
+  H.innerHTML = `<div class="caja2 ficha">${medalla(l).replace("<button", "<div").replace("</button>", "</div>")}
+    <h2>${oculto ? "???" : esc(nombreLogro(id))}</h2><p>${esc(desc)}</p>${avance}${niveles}${burla}
+    <button class="btn btn-oro" type="button" data-cerrar>${t("cerrar")}</button></div>`;
+  const cerrar = () => { H.remove(); document.removeEventListener("keydown", tecla); };
+  const tecla = (e) => { if (e.key === "Escape") cerrar(); };
+  H.addEventListener("click", (e) => { if (e.target === H || e.target.closest("[data-cerrar]")) cerrar(); });
+  document.addEventListener("keydown", tecla);
+  document.body.appendChild(H);
+  H.querySelector("[data-cerrar]").focus();
+}
+
+// Los niveles nuevos desde la última vez que se vio el perfil propio (en este navegador). La primera vez no
+// se festeja nada: se guarda lo que hay.
+function logrosNuevos(L) {
+  const clave = "ps_logros_" + (S.jugador?.codigo ?? "");
+  let antes = null;
+  try { antes = JSON.parse(guardado.get(clave)); } catch {}
+  const ahora = Object.fromEntries(L.map((l) => [l.id, l.nivel]));
+  guardado.set(clave, JSON.stringify(ahora));
+  if (!antes) return new Set();
+  const nuevos = new Set(L.filter((l) => l.nivel > (antes[l.id] ?? 0)).map((l) => l.id));
+  if (nuevos.size) setTimeout(() => aviso(nuevos.size === 1 ? t("lg_nuevo", nombreLogro([...nuevos][0])) : t("lg_nuevos", nuevos.size)), 2600);
+  return nuevos;
 }
 
 // ================================================================= el resumen de una partida (21/10)
@@ -1768,6 +2003,7 @@ function conectar() {
   }));
   app.querySelectorAll("[data-accion]").forEach((b) => b.addEventListener("click", () => acciones[b.dataset.accion]?.(b)));
   app.querySelectorAll("[data-partida]").forEach((b) => b.addEventListener("click", () => abrirPartida(b.dataset.partida)));
+  app.querySelectorAll("[data-logro]").forEach((b) => b.addEventListener("click", () => abrirLogro(b.dataset.logro)));
   const fa = document.getElementById("form-agregar");
   fa?.addEventListener("submit", (e) => {
     e.preventDefault();
