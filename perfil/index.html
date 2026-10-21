@@ -87,11 +87,12 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .pill { display: inline-block; margin-top: 7px; background: var(--uva); color: #fff; font-weight: 700; font-size: 12.5px; letter-spacing: 1px; padding: 4px 11px; border-radius: 999px; border: 2px solid #000; text-transform: uppercase; }
 .no { position: absolute; right: 14px; top: 12px; font: normal 14px "Luckiest"; color: rgba(0,0,0,.4); }
 .stats { display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 18px 6px 16px; text-align: center; }
+.stats > div { min-width: 0; padding: 0 6px; }
 .stats > div + div { border-left: 2px dashed rgba(26,15,31,.18); }
 .stats b { display: flex; align-items: center; justify-content: center; gap: 4px; font: normal clamp(28px, 8.5vw, 34px)/1 "Luckiest"; }
 .stats b.oro { color: #E3A400; }
 .stats b svg { width: 24px; height: 24px; }
-.stats span { display: block; margin-top: 6px; font-size: 12px; font-weight: 700; letter-spacing: 1px; color: #7c6d86; text-transform: uppercase; }
+.stats span { display: block; margin-top: 6px; line-height: 1.25; font-size: 12px; font-weight: 700; letter-spacing: 1px; color: #7c6d86; text-transform: uppercase; }
 
 h3 { font: normal 19px "Luckiest"; color: var(--bone); letter-spacing: .6px; margin: 26px 2px 10px; text-shadow: 0 2px 0 #000; text-transform: uppercase; }
 h3 small { font-family: "Fredoka"; font-size: 13px; font-weight: 600; color: var(--muted); letter-spacing: 0; text-transform: none; margin-left: 6px; text-shadow: none; }
@@ -159,6 +160,19 @@ h3 small { font-family: "Fredoka"; font-size: 13px; font-weight: 600; color: var
 .tabs .mid i { display: grid; place-items: center; width: 54px; height: 54px; margin-top: -26px; border-radius: 50%; background: var(--gold); color: var(--ink); border: 3px solid #000; box-shadow: 0 4px 0 #000; }
 .tabs .mid.on i { box-shadow: 0 4px 0 #000, 0 0 0 4px rgba(255,200,61,.35); }
 .tabs .mid i svg { width: 28px; height: 28px; }
+
+/* minijuegos */
+.sub-h { margin: 6px 2px 8px; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
+.sub-h.verde { color: var(--menta); } .sub-h.rojo { color: #ff7b7e; }
+.caja.mjl + .sub-h { margin-top: 16px; }
+.mjl .th { width: 48px; height: 48px; flex: none; border-radius: 12px; border: 2px solid #000; background: var(--night-3) center/cover; display: grid; place-items: center; font: normal 20px/1 "Luckiest"; color: var(--muted); padding-top: 3px; }
+.pct { flex: none; min-width: 60px; text-align: center; font: normal 19px/1 "Luckiest"; padding: 7px 8px 4px; border-radius: 10px; border: 2px solid #000; background: rgba(255,255,255,.08); color: var(--muted); }
+.pct.alto { background: var(--menta); color: #fff; text-shadow: 0 2px 0 rgba(0,0,0,.3); }
+.pct.medio { background: var(--gold); color: var(--ink); }
+.pct.bajo { background: var(--rojo); color: #fff; text-shadow: 0 2px 0 rgba(0,0,0,.3); }
+.r.hueco .n i { display: block; width: 62%; height: 12px; border-radius: 6px; background: rgba(255,255,255,.12); }
+.r.hueco .n small i { width: 38%; height: 9px; margin-top: 8px; background: rgba(255,255,255,.07); }
+.ver-todos { margin-top: 12px; }
 
 /* amigos */
 .tabs button { position: relative; }
@@ -250,7 +264,10 @@ const T = {
     nombre_lbl: "Tu nombre en el juego", nombre_pista: "De 2 a 12 letras o números.", nombre_mal: "Tiene que tener de 2 a 12 letras o números.",
     personaje_lbl: "Tu personaje", guardar: "Guardar", cancelar: "Cancelar", guardando: "Guardando…",
     crear_admin: "Elige bien. Te voy a cobrar igual.",
-    partidas: "Partidas", victorias: "Victorias", dorados: "Dorados",
+    partidas: "Partidas jugadas", victorias: "Victorias", dorados: "Tickets dorados",
+    mj_mas_ganas: "Donde más ganas", mj_mas_pierdes: "Donde más pierdes", mj_todos: "Todos tus minijuegos",
+    mj_ver_todos: (n) => `Ver todos mis minijuegos (${n})`, mj_menos: "Ver menos",
+    mj_vacio: "Juega unas partidas y aquí te digo en qué eres bueno. Y en qué no.",
     tus_mj: "Tus minijuegos", mj: "Minijuegos", fuerte: "Tu fuerte", ruina: "Tu ruina", ganados: (g, j) => `${g} de ${j} ganados`,
     revanchas: "Revanchas", revanchas_sub: "contra quién juegas más",
     llevas: (n) => `Le llevas ${n}`, te_lleva: (n) => `Te lleva ${n}. Revancha pendiente`, empate: "Empatados. Que decida el dado",
@@ -299,7 +316,10 @@ const T = {
     nombre_lbl: "Your in-game name", nombre_pista: "2 to 12 letters or numbers.", nombre_mal: "It needs 2 to 12 letters or numbers.",
     personaje_lbl: "Your character", guardar: "Save", cancelar: "Cancel", guardando: "Saving…",
     crear_admin: "Choose wisely. I'll charge you anyway.",
-    partidas: "Games", victorias: "Wins", dorados: "Golden",
+    partidas: "Matches played", victorias: "Wins", dorados: "Golden Tickets",
+    mj_mas_ganas: "Where you win most", mj_mas_pierdes: "Where you lose most", mj_todos: "All your minigames",
+    mj_ver_todos: (n) => `See all my minigames (${n})`, mj_menos: "Show less",
+    mj_vacio: "Play a few games and this will tell you what you're good at. And what you're not.",
     tus_mj: "Your minigames", mj: "Minigames", fuerte: "Your best", ruina: "Your doom", ganados: (g, j) => `${g} of ${j} won`,
     revanchas: "Rematches", revanchas_sub: "who you play the most",
     llevas: (n) => `You're up by ${n}`, te_lleva: (n) => `Down by ${n}. Rematch pending`, empate: "Tied. Let the dice decide",
@@ -607,12 +627,32 @@ function tarjeta(j, r) {
   </div>`;
 }
 
+// Los minijuegos: los 3 donde más ganas, los 3 donde más pierdes y (al tocar el botón) todos los que jugaste.
+// Sin partidas, los espacios vacíos (así se ve que la sección existe). Acepta también el resumen viejo (fuerte/ruina).
 function bloqueMinijuegos(r, titulo = t("tus_mj")) {
-  const { fuerte, ruina } = r?.minijuegos ?? {};
-  if (!fuerte) return "";
-  const card = (m, tag, color) => `<div class="mg"><div class="img" style="${FOTOS[m.id] ? `background-image:url(../media/j_${FOTOS[m.id]}.jpg)` : ""}"><span class="tag" style="background:${color}">${tag}</span></div>
-    <div class="t"><b>${esc(nombreMj(m.id))}</b><span>${t("ganados", m.ganados, m.jugados)}</span></div></div>`;
-  return `<h3>${titulo}</h3><div class="duo">${card(fuerte, t("fuerte"), "var(--menta)")}${ruina ? card(ruina, t("ruina"), "var(--rojo)") : ""}</div>`;
+  const M = r?.minijuegos ?? {};
+  const mejores = M.mejores ?? (M.fuerte ? [M.fuerte] : []);
+  const peores = M.peores ?? (M.ruina ? [M.ruina] : []);
+  const todos = M.todos ?? [...mejores, ...peores];
+  const fila = (m) => {
+    const pct = Math.round((100 * m.ganados) / m.jugados);
+    const clase = pct >= 50 ? "alto" : pct >= 25 ? "medio" : "bajo";
+    const foto = FOTOS[m.id] ? ` style="background-image:url(../media/j_${FOTOS[m.id]}.jpg)"` : "";
+    return `<div class="r"><div class="th"${foto}>${foto ? "" : esc([...nombreMj(m.id).replace(/^[¡¿]/, "")][0])}</div>
+      <div class="n">${esc(nombreMj(m.id))}<small>${t("ganados", m.ganados, m.jugados)}</small></div><span class="pct ${clase}">${pct}%</span></div>`;
+  };
+  let h = `<h3>${titulo}</h3>`;
+  if (!mejores.length) {
+    const hueco = `<div class="r hueco"><div class="th"></div><div class="n"><i></i><small><i></i></small></div><span class="pct">–</span></div>`;
+    return h + `<div class="sub-h verde">${t("mj_mas_ganas")}</div><div class="caja mjl">${hueco.repeat(3)}</div><p class="nota">${t("mj_vacio")}</p>`;
+  }
+  h += `<div class="sub-h verde">${t("mj_mas_ganas")}</div><div class="caja mjl">${mejores.map(fila).join("")}</div>`;
+  if (peores.length) h += `<div class="sub-h rojo">${t("mj_mas_pierdes")}</div><div class="caja mjl">${peores.map(fila).join("")}</div>`;
+  if (todos.length > mejores.length + peores.length) {
+    if (S.verTodos) h += `<div class="sub-h">${t("mj_todos")}</div><div class="caja mjl">${todos.map(fila).join("")}</div>`;
+    h += `<button class="btn btn-ghost ver-todos" data-accion="ver_todos">${S.verTodos ? t("mj_menos") : t("mj_ver_todos", todos.length)}</button>`;
+  }
+  return h;
 }
 
 function bloqueRivales(r) {
@@ -636,7 +676,7 @@ function vistaPerfil() {
   if (S.tab === "perfil") {
     cuerpo = tarjeta(j, r) + (r?.partidas ? bloqueMinijuegos(r) + bloqueRivales(r) +
       `<div class="admin-say quip"><img src="../media/admin_risa.webp" alt="Mr. Admin"><div class="bubble">${esc(t("quip", r.victorias, r.partidas - r.victorias))}</div></div>` +
-      `<h3>${t("partidas_h")}</h3>` + listaPartidas(r, 5) : bloqueVacio()) +
+      `<h3>${t("partidas_h")}</h3>` + listaPartidas(r, 5) : bloqueVacio() + bloqueMinijuegos(r)) +
       `<div class="acciones"><div class="fila-btn"><button class="btn btn-ghost" data-accion="editar">${t("editar")}</button><button class="btn btn-ghost" data-accion="compartir">${t("compartir")}</button></div>
        <button class="btn btn-ghost" data-accion="salir">${t("salir")}</button></div>`;
   } else if (S.tab === "sentarme") {
@@ -839,6 +879,7 @@ const acciones = {
   rechazar: (b) => accionAmigo("/amigos/responder", { codigo: b.dataset.c, aceptar: false }, b),
   quitar: (b) => accionAmigo("/amigos/quitar", { codigo: b.dataset.c }, b),
   mi_qr: () => mostrarQr(),
+  ver_todos: () => { S.verTodos = !S.verTodos; pintar(S.publico ? vistaPublico() : vistaPerfil(), false); },
   async compartir() {
     const url = location.origin + location.pathname + "?j=" + S.jugador.codigo;
     try {

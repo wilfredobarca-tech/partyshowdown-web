@@ -7,6 +7,92 @@ export const DEMO = {
   "tickets": 2387,
   "titulo": "ladron",
   "minijuegos": {
+   "mejores": [
+    {
+     "id": "parca",
+     "jugados": 20,
+     "ganados": 17
+    },
+    {
+     "id": "garra",
+     "jugados": 24,
+     "ganados": 10
+    },
+    {
+     "id": "carrusel",
+     "jugados": 21,
+     "ganados": 7
+    }
+   ],
+   "peores": [
+    {
+     "id": "lava",
+     "jugados": 14,
+     "ganados": 2
+    },
+    {
+     "id": "soccer",
+     "jugados": 20,
+     "ganados": 4
+    },
+    {
+     "id": "tiles",
+     "jugados": 16,
+     "ganados": 4
+    }
+   ],
+   "todos": [
+    {
+     "id": "parca",
+     "jugados": 20,
+     "ganados": 17
+    },
+    {
+     "id": "garra",
+     "jugados": 24,
+     "ganados": 10
+    },
+    {
+     "id": "carrusel",
+     "jugados": 21,
+     "ganados": 7
+    },
+    {
+     "id": "hotpotato",
+     "jugados": 21,
+     "ganados": 7
+    },
+    {
+     "id": "topo",
+     "jugados": 19,
+     "ganados": 6
+    },
+    {
+     "id": "voley",
+     "jugados": 16,
+     "ganados": 5
+    },
+    {
+     "id": "ruleta",
+     "jugados": 21,
+     "ganados": 6
+    },
+    {
+     "id": "tiles",
+     "jugados": 16,
+     "ganados": 4
+    },
+    {
+     "id": "soccer",
+     "jugados": 20,
+     "ganados": 4
+    },
+    {
+     "id": "lava",
+     "jugados": 14,
+     "ganados": 2
+    }
+   ],
    "fuerte": {
     "id": "parca",
     "jugados": 20,
@@ -144,6 +230,9 @@ export const DEMO = {
   "tickets": 0,
   "titulo": null,
   "minijuegos": {
+   "mejores": [],
+   "peores": [],
+   "todos": [],
    "fuerte": null,
    "ruina": null
   },
