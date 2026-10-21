@@ -834,7 +834,7 @@ async function demoApi(metodo, ruta, cuerpo) {
     const n = norm(ruta.split("/")[2]);
     if (n === MIO_DEMO && yo()) return { jugador: yo(), resumen: res(), relacion: "yo" };
     const p = quien(n) ?? falla("no_existe");
-    return { jugador: { codigo: p.codigo, nombre: p.nombre, personaje: p.personaje, tema: p.tema ?? "auto" }, resumen: { ...DATOS.resumen, rivales: DATOS.resumen.rivales.filter((r) => r.codigo !== n) }, relacion: S.token ? relacion(n) : null };
+    return { jugador: { codigo: p.codigo, nombre: p.nombre, personaje: p.personaje, tema: p.tema ?? "auto" }, resumen: { ...conHistorial(DATOS.resumen), rivales: DATOS.resumen.rivales.filter((r) => r.codigo !== n) }, relacion: S.token ? relacion(n) : null };
   }
   if (ruta.startsWith("/partida/")) return demoPartida(ruta.split("/")[2], yo());
   if (ruta === "/amigos") return structuredClone(AM);
@@ -1688,7 +1688,7 @@ function vistaPublico() {
     ${letrero(t("perfil_de"))}
     ${tarjeta(j, r)}
     <div class="relacion">${botones}</div>
-    ${r?.partidas ? bloqueMinijuegos(r, t("mj")) : bloqueVacio()}
+    ${r?.partidas ? bloqueMinijuegos(r, t("mj")) + `<h3>${esc(ti("partidas"))} <small>${t("hist_sub")}</small></h3>` + listaPartidas(r, 10) : bloqueVacio()}
   </main>`;
 }
 
