@@ -1,0 +1,861 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Perfil de jugador · Party Showdown</title>
+<meta name="description" content="Tu perfil de Party Showdown: victorias, tickets dorados, tus minijuegos y tus revanchas. Se llena solo cada vez que juegas.">
+<meta name="theme-color" content="#0A0610">
+<meta property="og:title" content="Perfil de jugador · Party Showdown">
+<meta property="og:image" content="https://partyshowdown.com/media/og.jpg">
+<link rel="icon" href="../media/favicon.png">
+<style>
+@font-face { font-family: "Luckiest"; src: url("../fonts/LuckiestGuy-Regular.ttf"); font-display: swap; }
+@font-face { font-family: "Fredoka"; src: url("../fonts/Fredoka.ttf"); font-weight: 300 700; font-display: swap; }
+
+:root {
+  --night: #0A0610; --night-2: #140B1E; --night-3: #1F1030;
+  --blood: #E0162E; --blood-2: #8E0A1A; --gold: #FFC83D; --gold-2: #FFE7A3;
+  --bone: #F5EBDD; --cream: #FBF3E4; --ink: #1A0F1F; --muted: #B9A9C9; --muted-2: #6d5e78;
+  --uva: #6B4BD8; --cielo: #3D8BFF; --menta: #2FCB86; --rosa: #FF4E9A; --rojo: #F2484B; --steam: #1b2838;
+}
+* { box-sizing: border-box; }
+html { background: var(--night); }
+body { margin: 0; min-height: 100svh; background: var(--night); color: var(--bone); font: 16px/1.4 "Fredoka", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+img { display: block; max-width: 100%; height: auto; }
+button { font: inherit; color: inherit; cursor: pointer; }
+.d { font-family: "Luckiest", "Fredoka", sans-serif; font-weight: normal; text-transform: uppercase; letter-spacing: .4px; line-height: 1; }
+[hidden] { display: none !important; }
+
+/* en pantallas grandes: la feria de fondo y la app al centro */
+.fondo { position: fixed; inset: 0; z-index: 0; background: url("../media/feria_limpio.jpg") center/cover; filter: blur(14px) saturate(1.1); transform: scale(1.08); opacity: .35; }
+.fondo::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 40%, rgba(10,6,16,.2), var(--night) 80%); }
+.app { position: relative; z-index: 1; max-width: 460px; min-height: 100svh; margin: 0 auto; background: var(--night-2); box-shadow: 0 0 0 1px rgba(255,255,255,.06), 0 0 120px rgba(224,22,46,.15); display: flex; flex-direction: column; }
+
+/* barra de arriba */
+.top { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: calc(10px + env(safe-area-inset-top)) 16px 10px; background: rgba(20,11,30,.92); backdrop-filter: blur(10px); }
+.top .marca img { height: 40px; width: auto; }
+.top-r { display: flex; align-items: center; gap: 8px; }
+.lang { display: flex; background: rgba(255,255,255,.08); border: 2px solid rgba(255,255,255,.16); border-radius: 999px; padding: 2px; }
+.lang button { border: 0; background: none; font-weight: 700; font-size: 13px; padding: 4px 9px; border-radius: 999px; }
+.lang button.on { background: var(--bone); color: var(--ink); }
+
+/* botones */
+.btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; border: 3px solid #000; border-radius: 14px; box-shadow: 0 6px 0 #000; padding: 15px 18px; font-weight: 700; font-size: 18px; text-decoration: none; transition: transform .1s, box-shadow .1s; }
+.btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #000; }
+.btn svg { width: 26px; height: 26px; flex: none; }
+.btn-steam { background: var(--steam); color: #fff; }
+.btn-oro { background: var(--gold); color: var(--ink); font: normal 22px/1 "Luckiest"; padding: 16px 18px 12px; text-transform: uppercase; }
+.btn-ghost { background: rgba(255,255,255,.06); color: var(--bone); border-color: rgba(255,255,255,.28); box-shadow: none; font-size: 15px; padding: 11px 14px; border-width: 2px; }
+.btn-ghost:active { transform: none; background: rgba(255,255,255,.12); }
+.btn[disabled] { opacity: .6; pointer-events: none; }
+.fila-btn { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.bubble { background: var(--cream); color: var(--ink); font-weight: 600; font-size: 15px; padding: 10px 14px; border-radius: 14px; border: 3px solid #000; box-shadow: 0 4px 0 #000; }
+.admin-say { display: flex; align-items: flex-end; gap: 6px; }
+.admin-say img { width: 72px; flex: none; filter: drop-shadow(0 0 18px rgba(224,22,46,.45)); }
+
+/* pantalla de entrada */
+.entrar { position: relative; flex: 1; display: flex; flex-direction: column; background: url("../media/feria_limpio.jpg") center top/cover; }
+.entrar::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,6,16,.55) 0, rgba(10,6,16,.55) 26%, rgba(10,6,16,.94) 58%, var(--night) 100%); }
+.entrar .in { position: relative; flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 26px 24px calc(30px + env(safe-area-inset-bottom)); }
+.entrar .logo { width: min(240px, 62vw); filter: drop-shadow(0 6px 0 rgba(0,0,0,.5)); }
+.entrar .cerdo { width: min(200px, 50vw); margin-top: 6px; filter: drop-shadow(0 0 30px rgba(224,22,46,.55)); -webkit-mask-image: linear-gradient(180deg, #000 72%, transparent 100%); mask-image: linear-gradient(180deg, #000 72%, transparent 100%); }
+.entrar h1 { font-size: clamp(34px, 10vw, 44px); margin: 4px 0 0; text-shadow: 0 4px 0 var(--blood-2), 0 8px 0 #000; }
+.entrar h1 em { font-style: normal; color: var(--gold); }
+.entrar p { font-size: 17px; color: var(--gold-2); font-weight: 500; margin: 14px 0 28px; max-width: 340px; }
+.entrar .btn { margin-top: auto; max-width: 360px; }
+.nada { margin-top: 14px; font-size: 14px; color: var(--muted); }
+.nada b { color: var(--bone); }
+.aviso { margin-top: 14px; color: #fff; background: var(--blood); border: 2px solid #000; border-radius: 10px; padding: 8px 12px; font-weight: 600; font-size: 14px; }
+
+/* contenido con scroll */
+.main { flex: 1; padding: 8px 16px 24px; }
+.cargando { flex: 1; display: grid; place-items: center; color: var(--muted); font-weight: 600; letter-spacing: 2px; text-transform: uppercase; font-size: 14px; }
+.cargando i { display: block; width: 46px; height: 46px; margin: 0 auto 14px; border-radius: 50%; border: 4px solid rgba(255,200,61,.2); border-top-color: var(--gold); animation: gira .8s linear infinite; }
+@keyframes gira { to { transform: rotate(1turn) } }
+
+/* la tarjeta-ticket */
+.ticket { position: relative; background: var(--cream); color: var(--ink); border-radius: 22px; border: 4px solid #000; box-shadow: 0 7px 0 #000; }
+.ticket .head { position: relative; background: var(--cielo); border-radius: 17px 17px 0 0; padding: 14px 16px 16px; display: flex; align-items: center; gap: 14px; border-bottom: 3px dashed rgba(0,0,0,.35); }
+.ticket .muesca { position: absolute; bottom: -15px; width: 26px; height: 26px; border-radius: 50%; background: var(--night-2); border: 4px solid #000; z-index: 2; }
+.ticket .muesca.i { left: -17px; clip-path: inset(0 0 0 50%); }
+.ticket .muesca.d { right: -17px; clip-path: inset(0 50% 0 0); }
+.av { width: 82px; height: 82px; border-radius: 50%; border: 4px solid #000; background: #fff center/cover; box-shadow: 0 4px 0 rgba(0,0,0,.5); flex: none; display: grid; place-items: center; font: normal 36px "Luckiest"; color: #fff; }
+.who { min-width: 0; }
+.who .name { font-size: clamp(26px, 8vw, 34px); color: #fff; text-shadow: 0 3px 0 #000; overflow-wrap: anywhere; }
+.pill { display: inline-block; margin-top: 7px; background: var(--uva); color: #fff; font-weight: 700; font-size: 12.5px; letter-spacing: 1px; padding: 4px 11px; border-radius: 999px; border: 2px solid #000; text-transform: uppercase; }
+.no { position: absolute; right: 14px; top: 12px; font: normal 14px "Luckiest"; color: rgba(0,0,0,.4); }
+.stats { display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 18px 6px 16px; text-align: center; }
+.stats > div + div { border-left: 2px dashed rgba(26,15,31,.18); }
+.stats b { display: flex; align-items: center; justify-content: center; gap: 4px; font: normal clamp(28px, 8.5vw, 34px)/1 "Luckiest"; }
+.stats b.oro { color: #E3A400; }
+.stats b svg { width: 24px; height: 24px; }
+.stats span { display: block; margin-top: 6px; font-size: 12px; font-weight: 700; letter-spacing: 1px; color: #7c6d86; text-transform: uppercase; }
+
+h3 { font: normal 19px "Luckiest"; color: var(--bone); letter-spacing: .6px; margin: 26px 2px 10px; text-shadow: 0 2px 0 #000; text-transform: uppercase; }
+h3 small { font-family: "Fredoka"; font-size: 13px; font-weight: 600; color: var(--muted); letter-spacing: 0; text-transform: none; margin-left: 6px; text-shadow: none; }
+.duo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.mg { border-radius: 16px; overflow: hidden; border: 3px solid #000; box-shadow: 0 5px 0 #000; background: var(--cream); color: var(--ink); }
+.mg .img { height: 80px; background: var(--night-3) center/cover; position: relative; }
+.mg .tag { position: absolute; left: 8px; top: 8px; font-weight: 700; font-size: 11px; letter-spacing: 1px; padding: 3px 8px; border-radius: 999px; border: 2px solid #000; color: #fff; text-transform: uppercase; }
+.mg .t { padding: 8px 10px 9px; }
+.mg .t b { display: block; font: normal 15px/1.1 "Luckiest"; text-transform: uppercase; }
+.mg .t span { font-size: 13px; color: var(--muted-2); font-weight: 600; }
+
+.caja { background: rgba(255,255,255,.06); border: 2px solid rgba(255,255,255,.12); border-radius: 16px; padding: 4px 12px; }
+.r { display: flex; align-items: center; gap: 12px; padding: 10px 0; }
+.r + .r { border-top: 1px solid rgba(255,255,255,.1); }
+.r .a { width: 44px; height: 44px; border-radius: 50%; border: 3px solid #000; background: #fff center/cover; flex: none; display: grid; place-items: center; font: normal 20px "Luckiest"; color: #fff; }
+.r .n { flex: 1; min-width: 0; font-weight: 600; font-size: 16px; }
+.r .n small { display: block; color: var(--muted); font-size: 12.5px; font-weight: 500; }
+.score { font: normal 21px/1 "Luckiest"; padding: 7px 10px 4px; border-radius: 10px; border: 2px solid #000; color: #fff; text-shadow: 0 2px 0 rgba(0,0,0,.35); white-space: nowrap; }
+.win { background: var(--menta); } .lose { background: var(--rojo); } .tie { background: var(--gold); color: var(--ink); text-shadow: none; }
+
+.vacio { text-align: center; padding: 22px 16px 8px; color: var(--muted); }
+.vacio .admin-say { justify-content: center; margin-top: 4px; text-align: left; }
+.acciones { margin-top: 26px; display: flex; flex-direction: column; gap: 10px; }
+.quip { margin-top: 26px; }
+
+/* partidas */
+.partida { display: flex; align-items: center; gap: 12px; padding: 12px 0; }
+.partida + .partida { border-top: 1px solid rgba(255,255,255,.1); }
+.lugar { width: 52px; height: 52px; flex: none; border-radius: 14px; border: 3px solid #000; display: grid; place-items: center; font: normal 20px/1 "Luckiest"; color: var(--ink); background: var(--bone); padding-top: 3px; }
+.lugar.l1 { background: var(--gold); box-shadow: 0 0 18px rgba(255,200,61,.45); }
+.partida .n { flex: 1; min-width: 0; font-weight: 600; }
+.partida .n small { display: block; color: var(--muted); font-weight: 500; font-size: 13px; }
+.mini-oro { display: flex; align-items: center; gap: 4px; font: normal 18px "Luckiest"; color: var(--gold); }
+.mini-oro svg { width: 20px; height: 20px; }
+
+/* sentarme */
+.pasos { counter-reset: p; display: flex; flex-direction: column; gap: 12px; margin-top: 6px; }
+.paso { display: flex; gap: 14px; align-items: flex-start; background: rgba(255,255,255,.06); border: 2px solid rgba(255,255,255,.12); border-radius: 16px; padding: 14px; }
+.paso::before { counter-increment: p; content: counter(p); flex: none; width: 36px; height: 36px; border-radius: 50%; background: var(--gold); color: var(--ink); border: 3px solid #000; display: grid; place-items: center; font: normal 18px/1 "Luckiest"; padding-top: 3px; }
+.paso p { margin: 6px 0 0; }
+.qr-ticket { margin: 4px auto 0; width: 210px; }
+.nota { color: var(--muted); font-size: 14px; margin: 16px 2px 0; }
+.sello { display: inline-block; margin-top: 18px; background: var(--blood); color: #fff; font-weight: 700; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; padding: 7px 12px; border-radius: 6px; border: 2px solid #000; transform: rotate(-2deg); box-shadow: 0 4px 0 #000; }
+
+/* crear perfil */
+.crear h2 { font-size: 36px; margin: 10px 0 6px; color: var(--gold); text-shadow: 0 4px 0 #000; }
+.crear .sub { color: var(--muted); margin: 0 0 20px; }
+.lbl { display: block; font: normal 16px "Luckiest"; letter-spacing: .6px; text-transform: uppercase; margin: 18px 2px 8px; }
+.campo { width: 100%; font: 700 22px "Fredoka"; color: var(--ink); background: var(--cream); border: 3px solid #000; border-radius: 14px; padding: 12px 14px; box-shadow: 0 4px 0 #000; outline: none; }
+.campo:focus { box-shadow: 0 4px 0 #000, 0 0 0 4px rgba(255,200,61,.55); }
+.pista { font-size: 13px; color: var(--muted); margin: 8px 2px 0; }
+.pista.mal { color: #ff8a8f; font-weight: 600; }
+.grilla { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.pj { position: relative; aspect-ratio: 1; border-radius: 50%; border: 3px solid #000; background: #fff center/cover; padding: 0; box-shadow: 0 4px 0 #000; transition: transform .12s; }
+.pj[aria-checked="true"] { outline: 4px solid var(--gold); outline-offset: 2px; transform: scale(1.04); }
+.pj-nombre { text-align: center; margin: 12px 0 0; font: normal 18px "Luckiest"; color: var(--gold); text-transform: uppercase; }
+.crear .btn-oro { margin-top: 24px; }
+.crear .admin-say { margin-top: 22px; }
+
+/* pestañas */
+.tabs { position: sticky; bottom: 0; z-index: 10; display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 8px 10px calc(10px + env(safe-area-inset-bottom)); background: rgba(10,6,16,.96); border-top: 2px solid rgba(224,22,46,.35); }
+.tabs button { border: 0; background: none; display: flex; flex-direction: column; align-items: center; gap: 3px; color: var(--muted); font-size: 12px; font-weight: 600; padding: 4px 0; }
+.tabs svg { width: 24px; height: 24px; }
+.tabs .on { color: var(--gold); }
+.tabs .mid i { display: grid; place-items: center; width: 54px; height: 54px; margin-top: -26px; border-radius: 50%; background: var(--gold); color: var(--ink); border: 3px solid #000; box-shadow: 0 4px 0 #000; }
+.tabs .mid.on i { box-shadow: 0 4px 0 #000, 0 0 0 4px rgba(255,200,61,.35); }
+.tabs .mid i svg { width: 28px; height: 28px; }
+
+/* amigos */
+.tabs button { position: relative; }
+.insignia { position: absolute; top: -4px; left: calc(50% + 6px); min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; background: var(--blood); color: #fff; border: 2px solid #000; font-size: 11px; font-weight: 700; display: grid; place-items: center; }
+.r .n a { color: inherit; text-decoration: none; }
+.tabla .pos { width: 24px; flex: none; text-align: center; font: normal 20px/1 "Luckiest"; color: var(--muted); padding-top: 3px; }
+.tabla .pos.p1 { color: var(--gold); }
+.tabla .r.yo { background: rgba(255,200,61,.1); margin: 0 -12px; padding-left: 12px; padding-right: 12px; }
+.tabla .v { text-align: right; font: normal 22px/1 "Luckiest"; flex: none; }
+.tabla .v small { display: block; margin-top: 4px; font: 600 12px "Fredoka"; color: var(--muted); }
+.tu { display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 999px; background: var(--gold); color: var(--ink); font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; vertical-align: 2px; }
+.mini { flex: none; border: 2px solid #000; border-radius: 10px; padding: 7px 11px; font-weight: 700; font-size: 14px; box-shadow: 0 3px 0 #000; }
+.mini:active { transform: translateY(2px); box-shadow: 0 1px 0 #000; }
+.mini.si { background: var(--menta); color: #fff; }
+.mini.oro { background: var(--gold); color: var(--ink); }
+.mini.gris { background: rgba(255,255,255,.08); color: var(--bone); border-color: rgba(255,255,255,.3); box-shadow: none; }
+.mini[disabled] { opacity: .55; pointer-events: none; }
+.fila-mini { display: flex; gap: 8px; }
+.agregar-num { display: flex; gap: 10px; margin-top: 4px; }
+.agregar-num .campo { flex: 1; min-width: 0; font-size: 20px; padding: 10px 12px; }
+.agregar-num .btn { width: auto; flex: none; padding: 10px 16px; font-size: 16px; }
+.caja.pad { padding: 14px; }
+.caja.pad .fila-btn { margin-top: 12px; }
+.caja.pad .pista { margin-top: 10px; }
+.relacion { margin-top: 18px; display: flex; flex-direction: column; gap: 10px; }
+.btn-menta { background: var(--menta); color: #fff; text-shadow: 0 2px 0 rgba(0,0,0,.3); }
+.estado-amigo { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; border-radius: 14px; border: 2px dashed rgba(255,255,255,.3); color: var(--bone); font-weight: 700; }
+.modal { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 16px; background: rgba(10,6,16,.88); }
+.modal .ticket { width: min(340px, 100%); text-align: center; padding-bottom: 18px; }
+.modal .head { justify-content: center; flex-direction: column; gap: 8px; }
+.modal p { color: var(--muted-2); font-weight: 600; margin: 4px 18px 0; }
+.qr { width: 236px; height: 236px; margin: 22px auto 8px; padding: 10px; background: #fff; border: 3px solid #000; border-radius: 12px; }
+.qr svg { display: block; width: 100%; height: 100%; }
+.modal .btn { width: calc(100% - 36px); margin: 16px auto 0; }
+
+.toast { position: fixed; left: 50%; bottom: calc(96px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 30; background: var(--cream); color: var(--ink); font-weight: 700; padding: 10px 16px; border-radius: 12px; border: 3px solid #000; box-shadow: 0 4px 0 #000; }
+.demo { position: fixed; left: 50%; transform: translateX(-50%); top: calc(4px + env(safe-area-inset-top)); z-index: 40; pointer-events: none; background: var(--uva); color: #fff; font-weight: 700; font-size: 11px; letter-spacing: 1.5px; padding: 4px 9px; border-radius: 6px; border: 2px solid #000; text-transform: uppercase; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-tk" viewBox="0 0 24 24"><path fill="currentColor" d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2.2a2.3 2.3 0 0 0 0 4.6V16a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2.2a2.3 2.3 0 0 0 0-4.6z" stroke="#000" stroke-width="1.6"/><path d="M12 8.6l1.1 2.2 2.4.3-1.8 1.7.5 2.4-2.2-1.2-2.2 1.2.5-2.4-1.8-1.7 2.4-.3z" fill="#fff"/></symbol>
+  <symbol id="i-qr" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 14h3v3M21 14v.01M14 21h7v-4M17.5 17.5h.01"/></g></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="11" r="2.2"/><path d="M5.8 16.5c.7-1.6 1.9-2.4 3.2-2.4s2.5.8 3.2 2.4M15 10h3M15 13.5h3"/></g></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></g></symbol>
+  <symbol id="i-amigos" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.2 19c.8-3.2 3-5 5.8-5s5 1.8 5.8 5"/><circle cx="17" cy="9" r="2.5"/><path d="M16.2 14.2c2.4-.3 4.1 1.2 4.7 3.8"/></g></symbol>
+  <symbol id="i-steam" viewBox="0 0 24 24"><path fill="#fff" d="M12 2a10 10 0 0 0-9.96 9.2l5.36 2.2a2.8 2.8 0 0 1 1.6-.5h.15l2.38-3.46v-.05a3.77 3.77 0 1 1 3.77 3.77h-.09l-3.4 2.42v.13a2.83 2.83 0 0 1-5.6.6L2.4 14.8A10 10 0 1 0 12 2Zm-4.7 15.2-1.23-.5a2.12 2.12 0 1 0 1.16-2.9l1.27.52a1.56 1.56 0 1 1-1.2 2.88Zm9.53-7.8a2.51 2.51 0 1 0-2.51 2.51 2.51 2.51 0 0 0 2.51-2.51Zm-4.4 0a1.89 1.89 0 1 1 1.89 1.89 1.89 1.89 0 0 1-1.89-1.89Z"/></symbol>
+</svg>
+<div class="fondo" aria-hidden="true"></div>
+<div class="app" id="app"><div class="cargando"><div><i></i></div></div></div>
+
+<script type="module">
+// ================================================================= ajustes
+// La dirección de la función de Supabase (supabase/LEEME.md). Vacío = todavía no está conectada (en internet sale "muy pronto").
+// En localhost con ?demo=1 (o sin API) funciona en MODO DE PRUEBA con datos inventados, sin tocar la base de datos.
+const API = "https://lnntstdxtgiibpamsdcy.supabase.co/functions/v1/perfil";
+const STEAM = "https://steamcommunity.com/openid/login";
+
+// los personajes que se pueden elegir (mismos ids que Trajes.LIST del juego); retrato en personajes/<id>.webp
+const PERSONAJES = {
+  tiburon: ["Tiburón", "Shark"], momia: ["Momia", "Mummy"], samurai: ["Samurái", "Samurai"], emo: ["Emo", "Emo"],
+  punk: ["Punk", "Punk"], reguetonero: ["Reguetonero", "Reggaeton Star"], dragon: ["Dragón", "Dragon"], ninja: ["Ninja", "Ninja"],
+  payaso: ["Payaso", "Clown"], leon: ["León", "Lion"], banana: ["Banana", "Banana"], hamburguesa: ["Hamburguesa", "Burger"],
+  ovni: ["Ovni", "UFO"], vikingo: ["Vikingo", "Viking"], pulpo: ["Pulpo", "Octopus"], disco: ["Disco", "Disco"],
+};
+// los minijuegos del juego (id = nombre del .gd), con su nombre en el juego
+const MINIJUEGOS = {"alcancias":["Guerra de Alcancías","Piggy Bank Wars"],"arcos":["Los Cuatro Arcos","The Four Goals"],"basquet":["Clavada de Mr. Admin","Mr. Admin's Slam Dunk"],"boveda":["La Bóveda de Mr. Admin","Mr. Admin's Vault"],"carrusel":["El Baile del Carrusel","Carousel Chaos"],"chocones":["Carritos Disparejos","Bumper Bully"],"circuito":["Vueltas al Circuito","Circuit Laps"],"coins":["Monedas","Coin Grab"],"colorfloor":["Color al piso","Color Dash"],"copa":["La Copa de Mr. Admin","Mr. Admin's Cup"],"cruce":["Cruza la Feria","Cross the Fair"],"desalojo":["¡Desalojo!","Eviction!"],"duelo":["Duelo del Oeste","Wild West Duel"],"duelo_esgrima":["Esgrima de Espuma","Foam Fencing"],"duelo_globo":["¡No lo revientes!","Don't Pop It!"],"duelo_pingpong":["Ping-Pong de Feria","Fair Ping-Pong"],"duelo_pulseada":["La Pulseada","Arm Wrestling"],"duelo_subibaja":["El Subibaja","The Seesaw"],"duelo_tejo":["El Tejo de Tickets","Ticket Shuffleboard"],"escondidas":["Escondidos a la Vista","Hidden in Plain Sight"],"festin":["El Festín Explosivo","The Explosive Feast"],"freeze":["Fiesta Congelada","Freeze Party"],"fuga":["Fuga en la Oscuridad","Escape in the Dark"],"garra":["La Garra de Peluches","The Plushie Claw"],"ghosts":["Caza Espectral","Ghost Hunt"],"globos":["Guerra de Globos de Agua","Water Balloon War"],"golf":["Minigolf","Mini Golf"],"hielo":["La Pista de Hielo","The Ice Rink"],"hill":["Rey de la colina","King of the Hill"],"hotpotato":["Papa caliente","Hot Potato"],"laberinto":["Laberinto de Espejos","Hall of Mirrors"],"lava":["¡Que sube la lava!","The Lava Is Rising!"],"lluvia":["Lluvia de Inversiones","Investment Rain"],"montana":["La Ruta del Desastre","Disaster Coaster"],"painter":["Pintar con los pies","Foot Painting"],"palo":["El Palo Enjabonado","The Greasy Pole"],"parca":["La Parca","The Reaper"],"pesca":["Pesca en el Lago","Lake Fishing"],"pisoton":["Pisotón Simón","Simon Stomps"],"race":["Carrera de obstáculos","Obstacle Race"],"relevos":["Relevos del Pastel","Cake Relay"],"rhythm":["Ritmo Mortal","Deadly Rhythm"],"robo":["El Robo del Ticket Dorado","The Golden Ticket Heist"],"ruleta":["Ruleta del Detonador","Detonator Roulette"],"soccer":["Fútbol caótico","Chaos Soccer"],"soga":["La Soga","Tug of War"],"sumo":["Sumo","Sumo"],"tag":["La traes","Tag, You're It!"],"tanques":["Tanques de Pintura","Paint Tanks"],"tenis":["Raquetazo","Racket Smash"],"tiles":["¡Fuera el color!","Color Drop!"],"tira":["Tira y Afloja Extremo","Extreme Tug of War"],"tiro":["Tiro al Blanco","Shooting Gallery"],"topo":["El Mazo del Topo","Whack-a-Pal"],"toro":["El Toro Mecánico","The Mechanical Bull"],"torre":["La Torre más Alta","The Tallest Tower"],"voley":["Voleibol de Alcancías","Piggy Bank Volleyball"]};
+// la foto de la web para los que tienen una (../media/j_<foto>.jpg)
+const FOTOS = { parca: "parca", lava: "lava", topo: "topo", hotpotato: "papa", tiles: "piso", garra: "garra", ruleta: "ruleta", carrusel: "carrusel", voley: "voley", soccer: "futbol", ghosts: "fantasmas", festin: "festin", montana: "montana", pesca: "pesca", torre: "torre", desalojo: "desalojo" };
+// los títulos de "la noche en números" del final de la partida (main.gd, _final_stats)
+const TITULOS = {
+  ladron: ["El más ladrón", "The biggest thief"], robado: ["El más robado", "The most robbed"], salado: ["El más salado", "The unluckiest"],
+  dado_oro: ["El dado de oro", "The golden dice"], comprador: ["Comprador compulsivo", "Shopaholic"], perdedor: ["El que más perdió", "The biggest loser"],
+  rey_minijuegos: ["Rey de los minijuegos", "Minigame king"], racha: ["La mejor racha", "Best streak"],
+};
+const COLORES = ["#F2484B", "#3D8BFF", "#2FCB86", "#FFC83D", "#FF4E9A", "#6B4BD8"];
+
+// ================================================================= textos
+const T = {
+  es: {
+    titulo_pag: "Perfil de jugador · Party Showdown",
+    entrar_h: "Tu perfil <em>de jugador</em>",
+    entrar_p: "Tus victorias, tus tickets dorados y a quién le debes una revancha. Se llena solo cada vez que juegas.",
+    entrar_btn: "Entrar con Steam", nada_1: "Sin correo, sin teléfono, sin nada.", nada_2: "Solo tu cuenta de Steam.",
+    pronto: "El perfil de jugador abre muy pronto.", hablando: "Hablando con Steam…", cargando: "Abriendo la feria…",
+    err_steam: "Steam no nos dejó pasar. Prueba otra vez.", err_red: "No pudimos conectar. Revisa tu internet y prueba otra vez.",
+    err_no_existe: "Ese jugador no existe. O Mr. Admin lo vendió.",
+    crear_h: "Arma tu perfil", editar_h: "Tu perfil", crear_sub: "Así te van a ver tus amigos en la feria.",
+    nombre_lbl: "Tu nombre en el juego", nombre_pista: "De 2 a 12 letras o números.", nombre_mal: "Tiene que tener de 2 a 12 letras o números.",
+    personaje_lbl: "Tu personaje", guardar: "Guardar", cancelar: "Cancelar", guardando: "Guardando…",
+    crear_admin: "Elige bien. Te voy a cobrar igual.",
+    partidas: "Partidas", victorias: "Victorias", dorados: "Dorados",
+    tus_mj: "Tus minijuegos", mj: "Minijuegos", fuerte: "Tu fuerte", ruina: "Tu ruina", ganados: (g, j) => `${g} de ${j} ganados`,
+    revanchas: "Revanchas", revanchas_sub: "contra quién juegas más",
+    llevas: (n) => `Le llevas ${n}`, te_lleva: (n) => `Te lleva ${n}. Revancha pendiente`, empate: "Empatados. Que decida el dado",
+    vacio_admin: "Todavía no has perdido nada conmigo. Eso se arregla.", vacio_p: "Juega una partida y tu perfil se llena solo.",
+    quip: (v, o) => o > 0 ? `${v} ${v === 1 ? "victoria" : "victorias"}. Las otras ${o} fueron mías.` : `${v} de ${v}. Algo estás haciendo mal: no me has dejado nada.`,
+    editar: "Editar perfil", compartir: "Compartir", salir: "Salir", copiado: "Enlace copiado",
+    nuevo: "Recién llegado", cliente: "Cliente de la feria",
+    tab_perfil: "Perfil", tab_sentarme: "Sentarme", tab_partidas: "Partidas",
+    sentarme_h: "En la PC de un amigo",
+    paso_1: "Busca tu puesto", paso_1p: "En la boletería del juego, el ticket de tu puesto muestra un código.",
+    paso_2: "Escanéalo", paso_2p: "Con la cámara del teléfono, como cualquier código QR.",
+    paso_3: "Listo", paso_3p: "Esa partida se guarda en tu perfil, aunque la PC no sea tuya.",
+    sentarme_nota: "En tu propia PC o jugando en línea no hace falta: el juego ya sabe que eres tú.",
+    sentarme_sello: "Llega con la próxima versión del juego",
+    partidas_h: "Últimas partidas", sin_partidas: "Todavía no hay partidas. La feria te espera.",
+    tablero: (n) => `Tablero · ${n} turnos`, rapido: (n) => `Rápido · ${n} minijuegos`, en_linea: "En línea", local: "Local",
+    de: (l, n) => `${l}.º de ${n}`, lugar: (l) => `${l}.º`,
+    perfil_de: "Perfil de jugador", saca_tuyo: "Saca tu perfil",
+    demo: "Modo de prueba",
+    tab_amigos: "Amigos",
+    tabla_h: (mes) => `La tabla de ${mes}`, tabla_sub: "entre tus amigos", n_victorias: "victorias", n_dorados: (n) => `${n} dorados`, tu: "tú",
+    solo_admin: "Jugar solo también se puede. Perder solo, más.", solo_p: "Agrega a tus amigos y aquí sale quién va ganando el mes.",
+    recibidas_h: "Te quieren agregar", aceptar: "Aceptar", rechazar: "No",
+    agregar_h: "Agregar amigos", num_lbl: "ID del jugador", agregar: "Agregar", mi_qr: "Mi QR", mi_enlace: "Mi enlace",
+    tu_numero: (n) => `Tu ID es ${n}. Pásaselo a tus amigos.`,
+    steam_h: "Amigos de Steam en la feria",
+    steam_privada: "Tu lista de amigos de Steam es privada, así que no podemos sugerirte a nadie. Agrégalos a mano.",
+    steam_nadie: "Ninguno de tus amigos de Steam tiene perfil todavía. Pásales tu enlace.",
+    enviadas_h: "Esperando respuesta", cancelar_sol: "Cancelar",
+    ok_enviada: (n) => `Solicitud enviada a ${n}`, ok_amigos: (n) => `${n} y tú ya son amigos`, ok_quitado: "Listo",
+    err_num: "No hay ningún jugador con ese ID.", err_tu_mismo: "Ese eres tú. Mr. Admin tampoco tiene amigos.",
+    err_demasiados: "Tienes demasiadas solicitudes esperando respuesta.", err_sin_perfil: "Primero arma tu perfil.",
+    rel_agregar: "Agregar amigo", rel_enviada: "Solicitud enviada", rel_recibida: "Aceptar solicitud", rel_amigos: "Son amigos",
+    quitar_amigo: "Quitar de amigos", entra_agregar: "Entra con Steam para agregarlo", mi_perfil: "Mi perfil",
+    qr_p: "Que tu amigo lo escanee con la cámara del teléfono.", cerrar: "Cerrar",
+  },
+  en: {
+    titulo_pag: "Player profile · Party Showdown",
+    entrar_h: "Your <em>player</em> profile",
+    entrar_p: "Your wins, your Golden Tickets and who owes you a rematch. It fills itself every time you play.",
+    entrar_btn: "Sign in with Steam", nada_1: "No email, no phone, nothing.", nada_2: "Just your Steam account.",
+    pronto: "Player profiles open very soon.", hablando: "Talking to Steam…", cargando: "Opening the fair…",
+    err_steam: "Steam didn't let us in. Try again.", err_red: "We couldn't connect. Check your internet and try again.",
+    err_no_existe: "That player doesn't exist. Or Mr. Admin sold them.",
+    crear_h: "Build your profile", editar_h: "Your profile", crear_sub: "This is how your friends will see you at the fair.",
+    nombre_lbl: "Your in-game name", nombre_pista: "2 to 12 letters or numbers.", nombre_mal: "It needs 2 to 12 letters or numbers.",
+    personaje_lbl: "Your character", guardar: "Save", cancelar: "Cancel", guardando: "Saving…",
+    crear_admin: "Choose wisely. I'll charge you anyway.",
+    partidas: "Games", victorias: "Wins", dorados: "Golden",
+    tus_mj: "Your minigames", mj: "Minigames", fuerte: "Your best", ruina: "Your doom", ganados: (g, j) => `${g} of ${j} won`,
+    revanchas: "Rematches", revanchas_sub: "who you play the most",
+    llevas: (n) => `You're up by ${n}`, te_lleva: (n) => `Down by ${n}. Rematch pending`, empate: "Tied. Let the dice decide",
+    vacio_admin: "You haven't lost anything to me yet. We'll fix that.", vacio_p: "Play a game and your profile fills itself.",
+    quip: (v, o) => o > 0 ? `${v} ${v === 1 ? "win" : "wins"}. The other ${o} were mine.` : `${v} out of ${v}. You're doing it wrong: you left me nothing.`,
+    editar: "Edit profile", compartir: "Share", salir: "Sign out", copiado: "Link copied",
+    nuevo: "Newcomer", cliente: "Fair regular",
+    tab_perfil: "Profile", tab_sentarme: "Take a seat", tab_partidas: "Games",
+    sentarme_h: "On a friend's PC",
+    paso_1: "Find your seat", paso_1p: "At the game's ticket booth, your seat's ticket shows a code.",
+    paso_2: "Scan it", paso_2p: "With your phone's camera, like any QR code.",
+    paso_3: "Done", paso_3p: "That game is saved to your profile, even if it isn't your PC.",
+    sentarme_nota: "On your own PC or playing online you don't need it: the game already knows it's you.",
+    sentarme_sello: "Coming in the next game update",
+    partidas_h: "Latest games", sin_partidas: "No games yet. The fair is waiting.",
+    tablero: (n) => `Board · ${n} turns`, rapido: (n) => `Quick · ${n} minigames`, en_linea: "Online", local: "Local",
+    de: (l, n) => `${ord(l)} of ${n}`, lugar: (l) => ord(l),
+    perfil_de: "Player profile", saca_tuyo: "Get your profile",
+    demo: "Test mode",
+    tab_amigos: "Friends",
+    tabla_h: (mes) => `The ${mes} table`, tabla_sub: "among your friends", n_victorias: "wins", n_dorados: (n) => `${n} golden`, tu: "you",
+    solo_admin: "Playing alone is allowed. Losing alone, even more.", solo_p: "Add your friends and this shows who's winning the month.",
+    recibidas_h: "They want to add you", aceptar: "Accept", rechazar: "No",
+    agregar_h: "Add friends", num_lbl: "Player ID", agregar: "Add", mi_qr: "My QR", mi_enlace: "My link",
+    tu_numero: (n) => `Your ID is ${n}. Give it to your friends.`,
+    steam_h: "Steam friends at the fair",
+    steam_privada: "Your Steam friends list is private, so we can't suggest anyone. Add them by hand.",
+    steam_nadie: "None of your Steam friends has a profile yet. Send them your link.",
+    enviadas_h: "Waiting for an answer", cancelar_sol: "Cancel",
+    ok_enviada: (n) => `Request sent to ${n}`, ok_amigos: (n) => `You and ${n} are now friends`, ok_quitado: "Done",
+    err_num: "There's no player with that ID.", err_tu_mismo: "That's you. Mr. Admin has no friends either.",
+    err_demasiados: "You have too many requests waiting for an answer.", err_sin_perfil: "Build your profile first.",
+    rel_agregar: "Add friend", rel_enviada: "Request sent", rel_recibida: "Accept request", rel_amigos: "Friends",
+    quitar_amigo: "Remove friend", entra_agregar: "Sign in with Steam to add them", mi_perfil: "My profile",
+    qr_p: "Have your friend scan it with their phone camera.", cerrar: "Close",
+  },
+};
+function ord(n) { const s = ["th", "st", "nd", "rd"], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
+
+// ================================================================= estado
+const guardado = {
+  get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch {} },
+};
+const q = new URLSearchParams(location.search);
+const LOCAL = ["localhost", "127.0.0.1", "[::1]"].includes(location.hostname);
+const DEMO = LOCAL && (!API || q.has("demo"));     // (en internet nunca hay modo de prueba)
+let lang = q.get("lang") || guardado.get("ps_lang") || ((navigator.language || "").toLowerCase().startsWith("es") ? "es" : "en");
+if (!T[lang]) lang = "es";
+const t = (k, ...a) => { const v = T[lang][k]; return typeof v === "function" ? v(...a) : v; };
+const S = { token: guardado.get("ps_token"), jugador: null, resumen: null, tab: "perfil", publico: null, error: null };
+const app = document.getElementById("app");
+
+// ================================================================= servidor (o el de prueba)
+async function api(metodo, ruta, cuerpo) {
+  if (DEMO) return demoApi(metodo, ruta, cuerpo);
+  const r = await fetch(API + ruta, {
+    method: metodo,
+    headers: { "Content-Type": "application/json", ...(S.token ? { Authorization: "Bearer " + S.token } : {}) },
+    body: cuerpo ? JSON.stringify(cuerpo) : undefined,
+  });
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) throw Object.assign(new Error(data.error || "error"), { status: r.status });
+  return data;
+}
+
+// En modo de prueba no hay Steam ni base de datos: el perfil se guarda en este navegador y las
+// estadísticas son las inventadas de demo.js (?demo=vacio = un perfil nuevo, sin partidas ni amigos).
+// Los amigos de prueba viven en memoria: al recargar la página vuelven a estar como al principio.
+let DATOS = null, AM = null;
+const OTRO_DEMO = { codigo: "PUP3K9", nombre: "Lupe", personaje: "leon" };     // (el que se puede agregar escribiendo PUP-3K9)
+const MIO_DEMO = "WYZ7Q2";
+const norm = (c) => String(c ?? "").toUpperCase().replace(/[\s-]/g, "");
+async function demoApi(metodo, ruta, cuerpo) {
+  DATOS ??= (await import("./demo.js")).DEMO;
+  await new Promise((r) => setTimeout(r, 300));
+  const vacio = q.get("demo") === "vacio";
+  const res = () => vacio ? DATOS.vacio : DATOS.resumen;
+  const yo = () => { const j = guardado.get("ps_demo_jugador"); return j ? JSON.parse(j) : null; };
+  const falla = (c) => { throw Object.assign(new Error(c), { status: 400 }); };
+  if (!AM) {
+    AM = structuredClone(DATOS.amigos);
+    if (vacio) { AM.tabla = AM.tabla.filter((x) => x.yo); AM.recibidas = []; AM.enviadas = []; AM.tabla[0].partidas = AM.tabla[0].victorias = AM.tabla[0].dorados = 0; }
+  }
+  const mio = AM.tabla.find((x) => x.yo);
+  if (yo()) Object.assign(mio, { nombre: yo().nombre, personaje: yo().personaje });
+  const gente = () => [...AM.tabla.filter((x) => !x.yo), ...AM.recibidas, ...AM.enviadas, ...AM.sugerencias, OTRO_DEMO];
+  const quien = (c) => gente().find((x) => x.codigo === norm(c));
+  const sacar = (lista, c) => { const i = AM[lista].findIndex((x) => x.codigo === norm(c)); return i >= 0 ? AM[lista].splice(i, 1)[0] : null; };
+  const amigo = (p) => ({ codigo: p.codigo, nombre: p.nombre, personaje: p.personaje, yo: false, partidas: 0, victorias: 0, dorados: 0 });
+  const relacion = (c) => AM.tabla.some((x) => !x.yo && x.codigo === c) ? "amigos" : AM.enviadas.some((x) => x.codigo === c) ? "enviada" : AM.recibidas.some((x) => x.codigo === c) ? "recibida" : null;
+  if (ruta === "/entrar") return { token: "demo", jugador: yo(), resumen: yo() ? res() : null };
+  if (ruta === "/yo" && metodo === "GET") return { jugador: yo(), resumen: yo() ? res() : null };
+  if (ruta === "/yo") { const j = { codigo: MIO_DEMO, nombre: cuerpo.nombre.trim(), personaje: cuerpo.personaje }; guardado.set("ps_demo_jugador", JSON.stringify(j)); return { jugador: j, resumen: res() }; }
+  if (ruta === "/salir") return { ok: true };
+  if (ruta.startsWith("/jugador/")) {
+    const n = norm(ruta.split("/")[2]);
+    if (n === MIO_DEMO && yo()) return { jugador: yo(), resumen: res(), relacion: "yo" };
+    const p = quien(n) ?? falla("no_existe");
+    return { jugador: { codigo: p.codigo, nombre: p.nombre, personaje: p.personaje }, resumen: { ...DATOS.resumen, rivales: DATOS.resumen.rivales.filter((r) => r.codigo !== n) }, relacion: S.token ? relacion(n) : null };
+  }
+  if (ruta === "/amigos") return structuredClone(AM);
+  if (ruta === "/amigos/agregar") {
+    const n = norm(cuerpo.codigo);
+    if (n === MIO_DEMO) falla("tu_mismo");
+    const p = quien(n) ?? falla("no_existe");
+    const jugador = { codigo: p.codigo, nombre: p.nombre, personaje: p.personaje };
+    if (relacion(n) === "recibida") { sacar("recibidas", n); AM.tabla.push(amigo(p)); return { relacion: "amigos", jugador }; }
+    if (relacion(n)) return { relacion: relacion(n), jugador };
+    sacar("sugerencias", n); AM.enviadas.push(jugador);
+    return { relacion: "enviada", jugador };
+  }
+  if (ruta === "/amigos/responder") {
+    const p = sacar("recibidas", cuerpo.codigo);
+    if (p && cuerpo.aceptar) AM.tabla.push(amigo(p));
+    return { relacion: p && cuerpo.aceptar ? "amigos" : null };
+  }
+  if (ruta === "/amigos/quitar") {
+    sacar("enviadas", cuerpo.codigo);
+    const i = AM.tabla.findIndex((x) => !x.yo && x.codigo === norm(cuerpo.codigo));
+    if (i >= 0) AM.tabla.splice(i, 1);
+    return { relacion: null };
+  }
+  falla("no_existe");
+}
+
+// ================================================================= arranque
+async function arrancar() {
+  document.documentElement.lang = lang;
+  document.title = t("titulo_pag");
+  if (!API && !DEMO) return pintar(vistaPronto());
+  // ¿viene de vuelta de Steam?
+  if (q.get("openid.mode")) {
+    pintar(vistaCargando(t("hablando")));
+    const openid = {};
+    for (const [k, v] of q) if (k.startsWith("openid.")) openid[k] = v;
+    limpiarUrl();
+    if (openid["openid.mode"] !== "id_res") { S.error = t("err_steam"); return pintar(vistaEntrar()); }
+    try {
+      const r = await api("POST", "/entrar", { openid });
+      S.token = r.token; guardado.set("ps_token", r.token);
+      S.jugador = r.jugador; S.resumen = r.resumen;
+      return S.jugador ? mostrarPerfil() : pintar(vistaCrear());
+    } catch (e) {
+      S.error = e.status ? t("err_steam") : t("err_red");
+      return pintar(vistaEntrar());
+    }
+  }
+  // ¿el perfil de otro? (?j=<ID>)
+  const jq = (q.get("j") || "").toUpperCase().replace(/[\s-]/g, "");
+  if (/^[A-HJKMNP-Z2-9]{6}$/.test(jq)) {
+    pintar(vistaCargando(t("cargando")));
+    try { S.publico = await api("GET", "/jugador/" + jq); return pintar(vistaPublico()); }
+    catch (e) { S.error = e.message === "no_existe" ? t("err_no_existe") : t("err_red"); return pintar(vistaEntrar()); }
+  }
+  if (!S.token) return pintar(vistaEntrar());
+  pintar(vistaCargando(t("cargando")));
+  try {
+    const r = await api("GET", "/yo");
+    S.jugador = r.jugador; S.resumen = r.resumen;
+    S.jugador ? mostrarPerfil() : pintar(vistaCrear());
+  } catch (e) {
+    if (e.status === 401) { salirLocal(); return pintar(vistaEntrar()); }
+    S.error = t("err_red"); pintar(vistaEntrar());
+  }
+}
+
+function irASteam() {
+  if (DEMO) { location.search = "?" + new URLSearchParams({ ...Object.fromEntries(q), "openid.mode": "id_res" }); return; }
+  const vuelta = location.origin + location.pathname;
+  const p = new URLSearchParams({
+    "openid.ns": "http://specs.openid.net/auth/2.0",
+    "openid.mode": "checkid_setup",
+    "openid.return_to": vuelta,
+    "openid.realm": location.origin,
+    "openid.identity": "http://specs.openid.net/auth/2.0/identifier_select",
+    "openid.claimed_id": "http://specs.openid.net/auth/2.0/identifier_select",
+  });
+  location.href = STEAM + "?" + p;
+}
+
+function limpiarUrl() {
+  const p = new URLSearchParams();
+  for (const k of ["lang", "demo"]) if (q.has(k)) p.set(k, q.get(k));
+  for (const k of [...q.keys()]) if (k.startsWith("openid.")) q.delete(k);
+  history.replaceState(null, "", location.pathname + (p.size ? "?" + p : ""));
+}
+
+function salirLocal() { S.token = null; S.jugador = null; S.resumen = null; S.amigos = null; guardado.set("ps_token", null); }
+
+function mostrarPerfil() {
+  pintar(vistaPerfil());
+  cargarAmigos();
+}
+
+// Trae la pestaña Amigos por detrás (para la insignia de solicitudes) y la repinta si está abierta.
+async function cargarAmigos() {
+  try {
+    S.amigos = await api("GET", "/amigos");
+  } catch (e) {
+    if (e.status === 401) { salirLocal(); return pintar(vistaEntrar()); }
+    S.amigos ??= { error: true };
+  }
+  if (!S.jugador || S.publico || document.getElementById("form-perfil")) return;
+  if (S.tab === "amigos") pintar(vistaPerfil(), false);
+  else ponerInsignia();
+}
+
+function ponerInsignia() {
+  const b = app.querySelector('[data-tab="amigos"]');
+  const n = S.amigos?.recibidas?.length ?? 0;
+  b?.querySelector(".insignia")?.remove();
+  if (b && n) b.insertAdjacentHTML("beforeend", `<span class="insignia" aria-label="${n}">${n}</span>`);
+}
+
+// ================================================================= pintar
+function pintar(html, arriba = true) {
+  app.innerHTML = html + (DEMO ? `<div class="demo">${t("demo")}</div>` : "");
+  conectar();
+  ponerInsignia();
+  if (arriba) window.scrollTo(0, 0);
+}
+
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const nombrePj = (id) => (PERSONAJES[id] || [id, id])[lang === "es" ? 0 : 1];
+const nombreMj = (id) => (MINIJUEGOS[id] || [id, id])[lang === "es" ? 0 : 1];
+function avatar(clase, personaje, nombre) {
+  if (PERSONAJES[personaje]) return `<div class="${clase}" style="background-image:url(personajes/${personaje}.webp)" role="img" aria-label="${esc(nombrePj(personaje))}"></div>`;
+  const c = COLORES[[...String(nombre)].reduce((n, ch) => n + ch.charCodeAt(0), 0) % COLORES.length];
+  return `<div class="${clase}" style="background:${c}">${esc([...String(nombre || "?")][0].toUpperCase())}</div>`;
+}
+const idv = (c) => (c ? c.slice(0, 3) + "-" + c.slice(3) : "");
+const ticketIcon = `<svg aria-hidden="true"><use href="#i-tk"/></svg>`;
+
+function barra(conIdioma = true) {
+  return `<header class="top"><a class="marca" href="../" aria-label="Party Showdown"><img src="../media/logo.png" alt="Party Showdown" width="1000" height="631"></a>
+    <div class="top-r">${conIdioma ? `<div class="lang" role="group" aria-label="Idioma / Language"><button data-lang="es" class="${lang === "es" ? "on" : ""}">ES</button><button data-lang="en" class="${lang === "en" ? "on" : ""}">EN</button></div>` : ""}</div></header>`;
+}
+
+function vistaCargando(txt) {
+  return barra(false) + `<div class="cargando"><div><i></i>${esc(txt)}</div></div>`;
+}
+
+function vistaPronto() {
+  return `<section class="entrar"><div class="in">
+    <img class="logo" src="../media/logo.png" alt="Party Showdown">
+    <img class="cerdo" src="../media/admin_burlon.webp" alt="">
+    <h1 class="d">${t("entrar_h")}</h1><p>${t("pronto")}</p>
+  </div></section>`;
+}
+
+function vistaEntrar() {
+  const err = S.error; S.error = null;
+  return `<section class="entrar"><div class="in">
+    <div style="align-self:flex-end">${barraIdioma()}</div>
+    <img class="logo" src="../media/logo.png" alt="Party Showdown" width="1000" height="631">
+    <img class="cerdo" src="../media/admin_burlon.webp" alt="Mr. Admin">
+    <h1 class="d">${t("entrar_h")}</h1>
+    <p>${t("entrar_p")}</p>
+    <button class="btn btn-steam" data-accion="steam"><svg aria-hidden="true"><use href="#i-steam"/></svg>${t("entrar_btn")}</button>
+    ${err ? `<div class="aviso" role="alert">${esc(err)}</div>` : ""}
+    <div class="nada">${t("nada_1")}<br><b>${t("nada_2")}</b></div>
+  </div></section>`;
+}
+function barraIdioma() {
+  return `<div class="lang" role="group" aria-label="Idioma / Language"><button data-lang="es" class="${lang === "es" ? "on" : ""}">ES</button><button data-lang="en" class="${lang === "en" ? "on" : ""}">EN</button></div>`;
+}
+
+let elegido = null;
+function vistaCrear() {
+  const j = S.jugador;
+  elegido = j?.personaje && PERSONAJES[j.personaje] ? j.personaje : elegido || "tiburon";
+  const grilla = Object.keys(PERSONAJES).map((id) =>
+    `<button type="button" class="pj" role="radio" aria-checked="${id === elegido}" aria-label="${esc(nombrePj(id))}" data-pj="${id}" style="background-image:url(personajes/${id}.webp)"></button>`).join("");
+  return barra() + `<main class="main crear">
+    <h2 class="d">${j ? t("editar_h") : t("crear_h")}</h2>
+    <p class="sub">${t("crear_sub")}</p>
+    <form id="form-perfil" novalidate>
+      <label class="lbl" for="nombre">${t("nombre_lbl")}</label>
+      <input class="campo" id="nombre" name="nombre" maxlength="12" autocomplete="off" autocapitalize="words" spellcheck="false" value="${esc(j?.nombre ?? "")}" required>
+      <p class="pista" id="pista">${t("nombre_pista")}</p>
+      <div class="lbl" id="lbl-pj">${t("personaje_lbl")}</div>
+      <div class="grilla" role="radiogroup" aria-labelledby="lbl-pj">${grilla}</div>
+      <p class="pj-nombre" id="pj-nombre">${esc(nombrePj(elegido))}</p>
+      <button class="btn btn-oro" type="submit" id="guardar">${t("guardar")}</button>
+      ${j ? `<button class="btn btn-ghost" type="button" data-accion="cancelar" style="margin-top:12px">${t("cancelar")}</button>` : ""}
+    </form>
+    <div class="admin-say"><img src="../media/admin_risa.webp" alt="Mr. Admin"><div class="bubble">${t("crear_admin")}</div></div>
+  </main>`;
+}
+
+function tarjeta(j, r) {
+  const titulo = r?.titulo && TITULOS[r.titulo] ? TITULOS[r.titulo][lang === "es" ? 0 : 1] : (r?.partidas ? t("cliente") : t("nuevo"));
+  return `<div class="ticket">
+    <div class="head">${avatar("av", j.personaje, j.nombre)}
+      <div class="who"><div class="name d">${esc(j.nombre)}</div><span class="pill">${esc(titulo)}</span></div>
+      <span class="no">ID ${idv(j.codigo)}</span>
+      <i class="muesca i"></i><i class="muesca d"></i>
+    </div>
+    <div class="stats">
+      <div><b>${r?.partidas ?? 0}</b><span>${t("partidas")}</span></div>
+      <div><b>${r?.victorias ?? 0}</b><span>${t("victorias")}</span></div>
+      <div><b class="oro">${ticketIcon}${r?.dorados ?? 0}</b><span>${t("dorados")}</span></div>
+    </div>
+  </div>`;
+}
+
+function bloqueMinijuegos(r, titulo = t("tus_mj")) {
+  const { fuerte, ruina } = r?.minijuegos ?? {};
+  if (!fuerte) return "";
+  const card = (m, tag, color) => `<div class="mg"><div class="img" style="${FOTOS[m.id] ? `background-image:url(../media/j_${FOTOS[m.id]}.jpg)` : ""}"><span class="tag" style="background:${color}">${tag}</span></div>
+    <div class="t"><b>${esc(nombreMj(m.id))}</b><span>${t("ganados", m.ganados, m.jugados)}</span></div></div>`;
+  return `<h3>${titulo}</h3><div class="duo">${card(fuerte, t("fuerte"), "var(--menta)")}${ruina ? card(ruina, t("ruina"), "var(--rojo)") : ""}</div>`;
+}
+
+function bloqueRivales(r) {
+  if (!r?.rivales?.length) return "";
+  const filas = r.rivales.map((x) => {
+    const d = x.ganadas - x.perdidas;
+    const [clase, txt] = d > 0 ? ["win", t("llevas", d)] : d < 0 ? ["lose", t("te_lleva", -d)] : ["tie", t("empate")];
+    const nombre = x.codigo ? `<a href="?j=${x.codigo}" style="color:inherit;text-decoration:none">${esc(x.nombre)}</a>` : esc(x.nombre);
+    return `<div class="r">${avatar("a", x.personaje, x.nombre)}<div class="n">${nombre}<small>${txt}</small></div><span class="score ${clase}">${x.ganadas}–${x.perdidas}</span></div>`;
+  }).join("");
+  return `<h3>${t("revanchas")} <small>${t("revanchas_sub")}</small></h3><div class="caja">${filas}</div>`;
+}
+
+function bloqueVacio() {
+  return `<div class="vacio"><div class="admin-say"><img src="../media/admin_burlon.webp" alt="Mr. Admin"><div class="bubble">${t("vacio_admin")}</div></div><p>${t("vacio_p")}</p></div>`;
+}
+
+function vistaPerfil() {
+  const j = S.jugador, r = S.resumen;
+  let cuerpo = "";
+  if (S.tab === "perfil") {
+    cuerpo = tarjeta(j, r) + (r?.partidas ? bloqueMinijuegos(r) + bloqueRivales(r) +
+      `<div class="admin-say quip"><img src="../media/admin_risa.webp" alt="Mr. Admin"><div class="bubble">${esc(t("quip", r.victorias, r.partidas - r.victorias))}</div></div>` +
+      `<h3>${t("partidas_h")}</h3>` + listaPartidas(r, 5) : bloqueVacio()) +
+      `<div class="acciones"><div class="fila-btn"><button class="btn btn-ghost" data-accion="editar">${t("editar")}</button><button class="btn btn-ghost" data-accion="compartir">${t("compartir")}</button></div>
+       <button class="btn btn-ghost" data-accion="salir">${t("salir")}</button></div>`;
+  } else if (S.tab === "sentarme") {
+    cuerpo = `<h3 style="margin-top:12px">${t("sentarme_h")}</h3>
+      <div class="pasos">
+        <div class="paso"><div><b>${t("paso_1")}</b><p>${t("paso_1p")}</p></div></div>
+        <div class="paso"><div><b>${t("paso_2")}</b><p>${t("paso_2p")}</p></div></div>
+        <div class="paso"><div><b>${t("paso_3")}</b><p>${t("paso_3p")}</p></div></div>
+      </div>
+      <p class="nota">${t("sentarme_nota")}</p>
+      <div style="text-align:center"><span class="sello">${t("sentarme_sello")}</span></div>`;
+  } else {
+    cuerpo = cuerpoAmigos();
+  }
+  const tab = (id, icono, txt, mid = false) => `<button class="${mid ? "mid " : ""}${S.tab === id ? "on" : ""}" data-tab="${id}" aria-current="${S.tab === id ? "page" : "false"}">${mid ? `<i><svg aria-hidden="true"><use href="#${icono}"/></svg></i>` : `<svg aria-hidden="true"><use href="#${icono}"/></svg>`}${txt}</button>`;
+  return barra() + `<main class="main">${cuerpo}</main>
+    <nav class="tabs">${tab("perfil", "i-card", t("tab_perfil"))}${tab("sentarme", "i-qr", t("tab_sentarme"), true)}${tab("amigos", "i-amigos", t("tab_amigos"))}</nav>`;
+}
+
+// ---------------------------------------------------------------- pestaña Amigos
+function cuerpoAmigos() {
+  const A = S.amigos;
+  if (!A) return `<div class="cargando" style="padding:60px 0"><div><i></i></div></div>`;
+  if (A.error) return `<div class="vacio"><p>${t("err_red")}</p></div>`;
+  const fila = (p, derecha) => `<div class="r">${avatar("a", p.personaje, p.nombre)}<div class="n"><a href="?j=${p.codigo}">${esc(p.nombre)}</a><small>ID ${idv(p.codigo)}</small></div>${derecha}</div>`;
+  const mes = new Intl.DateTimeFormat(lang === "es" ? "es" : "en", { month: "long" }).format(new Date());
+  let h = "";
+  // la tabla del mes (o, si todavía no hay amigos, Mr. Admin)
+  if (A.tabla.length > 1) {
+    h += `<h3 style="margin-top:12px">${t("tabla_h", mes)} <small>${t("tabla_sub")}</small></h3><div class="caja tabla">` +
+      A.tabla.map((x, i) => `<div class="r${x.yo ? " yo" : ""}"><span class="pos${i === 0 ? " p1" : ""}">${i + 1}</span>${avatar("a", x.personaje, x.nombre)}
+        <div class="n">${x.yo ? esc(x.nombre) + `<span class="tu">${t("tu")}</span>` : `<a href="?j=${x.codigo}">${esc(x.nombre)}</a>`}<small>${t("n_dorados", x.dorados)}</small></div>
+        <div class="v">${x.victorias}<small>${t("n_victorias")}</small></div></div>`).join("") + `</div>`;
+  } else {
+    h += `<div class="vacio"><div class="admin-say"><img src="../media/admin_burlon.webp" alt="Mr. Admin"><div class="bubble">${t("solo_admin")}</div></div><p>${t("solo_p")}</p></div>`;
+  }
+  if (A.recibidas.length) {
+    h += `<h3>${t("recibidas_h")}</h3><div class="caja">` + A.recibidas.map((p) => fila(p,
+      `<div class="fila-mini"><button class="mini si" data-accion="aceptar" data-c="${p.codigo}">${t("aceptar")}</button><button class="mini gris" data-accion="rechazar" data-c="${p.codigo}">${t("rechazar")}</button></div>`)).join("") + `</div>`;
+  }
+  h += `<h3>${t("agregar_h")}</h3><div class="caja pad">
+    <form class="agregar-num" id="form-agregar" novalidate><input class="campo" id="num-amigo" maxlength="7" autocomplete="off" autocapitalize="characters" spellcheck="false" style="text-transform:uppercase" placeholder="${t("num_lbl")}" aria-label="${t("num_lbl")}"><button class="btn btn-oro" type="submit">${t("agregar")}</button></form>
+    <p class="pista" id="pista-amigo">${t("tu_numero", idv(S.jugador.codigo))}</p>
+    <div class="fila-btn"><button class="btn btn-ghost" data-accion="mi_qr">${t("mi_qr")}</button><button class="btn btn-ghost" data-accion="compartir">${t("mi_enlace")}</button></div></div>`;
+  if (A.steam === "ok" || A.steam === "privada") {
+    h += `<h3>${t("steam_h")}</h3>`;
+    if (A.sugerencias.length) h += `<div class="caja">` + A.sugerencias.map((p) => fila(p, `<button class="mini oro" data-accion="agregar" data-c="${p.codigo}">${t("agregar")}</button>`)).join("") + `</div>`;
+    else h += `<p class="nota" style="margin-top:0">${A.steam === "privada" ? t("steam_privada") : t("steam_nadie")}</p>`;
+  }
+  if (A.enviadas.length) {
+    h += `<h3>${t("enviadas_h")}</h3><div class="caja">` + A.enviadas.map((p) => fila(p, `<button class="mini gris" data-accion="quitar" data-c="${p.codigo}">${t("cancelar_sol")}</button>`)).join("") + `</div>`;
+  }
+  return h;
+}
+
+// Lo que pasa al tocar Agregar, Aceptar, No, Cancelar o Quitar (en la pestaña o en el perfil de otro).
+async function accionAmigo(ruta, cuerpo, boton) {
+  if (boton) boton.disabled = true;
+  try {
+    const r = await api("POST", ruta, cuerpo);
+    if (ruta === "/amigos/agregar") aviso(r.relacion === "amigos" ? t("ok_amigos", r.jugador.nombre) : t("ok_enviada", r.jugador.nombre));
+    else if (ruta === "/amigos/quitar") aviso(t("ok_quitado"));
+    if (S.publico) { S.publico.relacion = r.relacion; S.amigos = null; return pintar(vistaPublico(), false); }
+    await cargarAmigos();
+    return r;
+  } catch (e) {
+    if (boton) boton.disabled = false;
+    if (e.status === 401) { salirLocal(); return pintar(vistaEntrar()); }
+    const msg = { no_existe: t("err_num"), tu_mismo: t("err_tu_mismo"), demasiados: t("err_demasiados"), sin_perfil: t("err_sin_perfil") }[e.message] ?? t("err_red");
+    const pista = document.getElementById("pista-amigo");
+    if (pista) { pista.className = "pista mal"; pista.textContent = msg; } else aviso(msg);
+  }
+}
+
+async function mostrarQr() {
+  if (!window.qrcode) await new Promise((ok, mal) => { const s = document.createElement("script"); s.src = "qrcode.js"; s.onload = ok; s.onerror = mal; document.head.appendChild(s); }).catch(() => {});
+  if (!window.qrcode) return aviso(t("err_red"));
+  const url = location.origin + location.pathname + "?j=" + S.jugador.codigo + "&agregar=1";
+  const qr = window.qrcode(0, "M");
+  qr.addData(url);
+  qr.make();
+  const j = S.jugador;
+  const m = document.createElement("div");
+  m.className = "modal";
+  m.setAttribute("role", "dialog");
+  m.setAttribute("aria-modal", "true");
+  m.innerHTML = `<div class="ticket"><div class="head">${avatar("av", j.personaje, j.nombre)}<div class="name d" style="font-size:30px;color:#fff;text-shadow:0 3px 0 #000">${esc(j.nombre)}</div>
+    <span class="no">ID ${idv(j.codigo)}</span><i class="muesca i"></i><i class="muesca d"></i></div>
+    <div class="qr">${qr.createSvgTag({ cellSize: 6, margin: 0, scalable: true })}</div><p>${t("qr_p")}</p>
+    <button class="btn btn-oro" type="button">${t("cerrar")}</button></div>`;
+  const cerrar = () => { m.remove(); document.removeEventListener("keydown", esc_); };
+  const esc_ = (e) => { if (e.key === "Escape") cerrar(); };
+  m.addEventListener("click", (e) => { if (e.target === m || e.target.closest(".btn")) cerrar(); });
+  document.addEventListener("keydown", esc_);
+  document.body.appendChild(m);
+  m.querySelector(".btn").focus();
+}
+
+function listaPartidas(r, max = 10) {
+  if (!r?.ultimas?.length) return `<div class="vacio"><p>${t("sin_partidas")}</p></div>`;
+  const fmt = new Intl.DateTimeFormat(lang === "es" ? "es" : "en", { weekday: "short", day: "numeric", month: "short" });
+  return `<div class="caja">` + r.ultimas.slice(0, max).map((p) => `<div class="partida">
+    <div class="lugar${p.lugar === 1 ? " l1" : ""}">${esc(t("lugar", p.lugar))}</div>
+    <div class="n">${esc(p.modo === "rapido" ? t("rapido", p.turnos) : t("tablero", p.turnos))}<small>${p.fecha ? esc(fmt.format(new Date(p.fecha))) : ""} · ${p.en_linea ? t("en_linea") : t("local")}${p.jugadores ? " · " + esc(t("de", p.lugar, p.jugadores)) : ""}</small></div>
+    <div class="mini-oro">${ticketIcon}${p.dorados}</div>
+  </div>`).join("") + `</div>`;
+}
+
+function vistaPublico() {
+  const { jugador: j, resumen: r, relacion } = S.publico;
+  const casa = "./" + (q.has("lang") ? "?lang=" + lang : "") ;
+  let botones;
+  if (!S.token) {
+    botones = `<a class="btn btn-oro" href="${casa}">${t("saca_tuyo")}</a><p class="nota" style="text-align:center;margin-top:4px">${t("entra_agregar")}</p>`;
+  } else if (relacion === "yo") {
+    botones = `<a class="btn btn-oro" href="${casa}">${t("mi_perfil")}</a>`;
+  } else {
+    const n = j.codigo;
+    botones = {
+      amigos: `<div class="estado-amigo">${t("rel_amigos")}</div><button class="btn btn-ghost" data-accion="quitar" data-c="${n}">${t("quitar_amigo")}</button>`,
+      enviada: `<div class="estado-amigo">${t("rel_enviada")}</div><button class="btn btn-ghost" data-accion="quitar" data-c="${n}">${t("cancelar_sol")}</button>`,
+      recibida: `<button class="btn btn-menta" data-accion="aceptar" data-c="${n}">${t("rel_recibida")}</button><button class="btn btn-ghost" data-accion="rechazar" data-c="${n}">${t("rechazar")}</button>`,
+    }[relacion] ?? `<button class="btn btn-oro" data-accion="agregar" data-c="${n}">${t("rel_agregar")}</button>`;
+    botones += `<a class="btn btn-ghost" href="${casa}">${t("mi_perfil")}</a>`;
+  }
+  return barra() + `<main class="main">
+    <h3 style="margin-top:8px">${t("perfil_de")}</h3>
+    ${tarjeta(j, r)}
+    <div class="relacion">${botones}</div>
+    ${r?.partidas ? bloqueMinijuegos(r, t("mj")) : bloqueVacio()}
+  </main>`;
+}
+
+// ================================================================= botones
+function conectar() {
+  app.querySelectorAll("[data-lang]").forEach((b) => b.addEventListener("click", () => {
+    lang = b.dataset.lang; guardado.set("ps_lang", lang);
+    document.documentElement.lang = lang; document.title = t("titulo_pag");
+    repintar();
+  }));
+  app.querySelectorAll("[data-tab]").forEach((b) => b.addEventListener("click", () => {
+    S.tab = b.dataset.tab;
+    pintar(vistaPerfil());
+    if (S.tab === "amigos") cargarAmigos();     // (siempre al día: alguien pudo aceptar mientras tanto)
+  }));
+  app.querySelectorAll("[data-accion]").forEach((b) => b.addEventListener("click", () => acciones[b.dataset.accion]?.(b)));
+  const fa = document.getElementById("form-agregar");
+  fa?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const c = fa.querySelector("#num-amigo").value.toUpperCase().replace(/[^A-Z0-9]/g, "");
+    if (!c) return fa.querySelector("#num-amigo").focus();
+    accionAmigo("/amigos/agregar", { codigo: c }, fa.querySelector("button"));
+  });
+  const form = document.getElementById("form-perfil");
+  if (form) {
+    const nombre = form.querySelector("#nombre"), pista = form.querySelector("#pista");
+    form.querySelectorAll("[data-pj]").forEach((b) => b.addEventListener("click", () => {
+      elegido = b.dataset.pj;
+      form.querySelectorAll("[data-pj]").forEach((x) => x.setAttribute("aria-checked", x === b));
+      form.querySelector("#pj-nombre").textContent = nombrePj(elegido);
+    }));
+    nombre.addEventListener("input", () => { pista.className = "pista"; pista.textContent = t("nombre_pista"); });
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const n = nombre.value.replace(/\s+/g, " ").trim();
+      if (!/^[\p{L}\p{N} ._-]{2,12}$/u.test(n)) { pista.className = "pista mal"; pista.textContent = t("nombre_mal"); nombre.focus(); return; }
+      const btn = form.querySelector("#guardar");
+      btn.disabled = true; btn.textContent = t("guardando");
+      try {
+        const r = await api("POST", "/yo", { nombre: n, personaje: elegido });
+        S.jugador = r.jugador; S.resumen = r.resumen; S.tab = "perfil";
+        mostrarPerfil();
+      } catch (err) {
+        btn.disabled = false; btn.textContent = t("guardar");
+        if (err.status === 401) { salirLocal(); return pintar(vistaEntrar()); }
+        pista.className = "pista mal"; pista.textContent = err.message === "nombre" ? t("nombre_mal") : t("err_red");
+      }
+    });
+  }
+}
+
+function repintar() {
+  if (!API && !DEMO) return pintar(vistaPronto());
+  if (S.publico) return pintar(vistaPublico());
+  if (document.getElementById("form-perfil")) return pintar(vistaCrear());
+  if (S.jugador) return pintar(vistaPerfil());
+  pintar(vistaEntrar());
+}
+
+const acciones = {
+  steam: () => irASteam(),
+  editar: () => pintar(vistaCrear()),
+  cancelar: () => pintar(vistaPerfil()),
+  async salir() {
+    try { await api("POST", "/salir"); } catch {}
+    salirLocal(); pintar(vistaEntrar());
+  },
+  agregar: (b) => accionAmigo("/amigos/agregar", { codigo: b.dataset.c }, b),
+  aceptar: (b) => accionAmigo("/amigos/responder", { codigo: b.dataset.c, aceptar: true }, b),
+  rechazar: (b) => accionAmigo("/amigos/responder", { codigo: b.dataset.c, aceptar: false }, b),
+  quitar: (b) => accionAmigo("/amigos/quitar", { codigo: b.dataset.c }, b),
+  mi_qr: () => mostrarQr(),
+  async compartir() {
+    const url = location.origin + location.pathname + "?j=" + S.jugador.codigo;
+    try {
+      if (navigator.share) await navigator.share({ title: "Party Showdown", text: S.jugador.nombre, url });
+      else { await navigator.clipboard.writeText(url); aviso(t("copiado")); }
+    } catch {}
+  },
+};
+
+function aviso(txt) {
+  const d = document.createElement("div");
+  d.className = "toast"; d.setAttribute("role", "status"); d.textContent = txt;
+  document.body.appendChild(d);
+  setTimeout(() => d.remove(), 1800);
+}
+
+arrancar();
+</script>
+</body>
+</html>
