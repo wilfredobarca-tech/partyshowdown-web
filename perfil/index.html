@@ -611,6 +611,60 @@ button.pt:active { transform: translateY(2px); }
 .niv b { font: normal 14px "Luckiest"; color: #fff; } .niv small { color: #b9a9c9; font-weight: 700; }
 .ficha .admin-say { justify-content: center; text-align: left; margin: 0 0 14px; }
 @media (prefers-reduced-motion: reduce) { .med.n3 .aro::after, .med.nuevo .aro, [data-tema="espacial"] .med .aro::before { animation: none; } }
+/* ---------------------------------------------------------------- los retos de Mr. Admin: el tablón de la semana */
+.tablon { position: relative; padding: 14px 12px 16px; }
+.rt-top { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+.rt-top .admin-say .cerdo { width: 64px; }
+.rt-cuentas { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+.rt-cuentas span { display: inline-flex; align-items: center; gap: 4px; padding: 5px 11px 3px; border-radius: 999px; font: normal 13px/1 "Luckiest"; letter-spacing: .5px; background: #000; color: #ffc83d; }
+.rt-cuentas svg { width: 15px; height: 18px; margin-top: -3px; }
+.retos { display: grid; gap: 14px; }
+.reto { position: relative; display: flex; align-items: center; gap: 12px; padding: 14px 12px 12px; }
+.reto .rimg { width: 58px; height: 58px; flex: none; border-radius: 12px; display: grid; place-items: center; overflow: hidden; }
+.reto .rimg img { width: 88%; height: 88%; object-fit: contain; filter: drop-shadow(0 3px 2px rgba(0,0,0,.35)); }
+.reto .rimg img[src*="/j_"] { width: 100%; height: 100%; object-fit: cover; filter: none; }
+.reto .rtx { flex: 1; min-width: 0; }
+.reto .rtx b { display: block; font-weight: 700; font-size: 15px; line-height: 1.2; margin: 4px 0 8px; }
+.reto .dif { display: inline-block; font: normal 11px/1 "Luckiest"; letter-spacing: 1px; padding: 4px 8px 2px; border-radius: 6px; border: 2px solid #000; color: #fff; text-transform: uppercase; }
+.reto.facil .dif { background: #2fcb86; } .reto.medio .dif { background: #3d8bff; } .reto.dificil .dif { background: #e0162e; }
+.reto .rbar { height: 10px; border-radius: 5px; overflow: hidden; border: 2px solid #000; background: rgba(0,0,0,.18); }
+.reto .rbar i { display: block; height: 100%; background: repeating-linear-gradient(90deg, #ffc83d 0 10px, #ff9f1a 10px 20px); }
+.reto.hecho .rbar i { background: #2fcb86; }
+.reto small { display: block; margin-top: 4px; font-weight: 700; font-size: 12px; opacity: .75; }
+.reto .clavo { position: absolute; top: -7px; left: 50%; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; border: 2px solid #000; background: radial-gradient(circle at 35% 30%, #ff8a8a, #b00d1e); z-index: 2; }
+.sello-ok { position: absolute; right: 10px; top: 9px; transform: rotate(-8deg); font: normal 14px/1 "Luckiest"; letter-spacing: 1px; padding: 5px 8px 2px; border: 3px solid currentColor; border-radius: 8px; color: #138a4a; background: rgba(255,255,255,.75); mix-blend-mode: multiply; animation: selloCae .5s cubic-bezier(.2,1.6,.4,1) both; }
+@keyframes selloCae { 0% { transform: rotate(-8deg) scale(2.4); opacity: 0; } 100% { transform: rotate(-8deg) scale(1); opacity: 1; } }
+.reto.hecho .rtx b { text-decoration: line-through 2px; text-decoration-color: rgba(19,138,74,.7); }
+.semana-sellada { margin: 14px auto 0; width: fit-content; font: normal 18px/1 "Luckiest"; letter-spacing: 1px; padding: 9px 16px 6px; border-radius: 10px; border: 3px solid #000; background: #ffc83d; color: #2b1a3e; box-shadow: 0 4px 0 #000; transform: rotate(-2deg); }
+/* feria: cartel de madera con tickets clavados */
+[data-tema="feria"] .tablon { border: 3px solid #000; border-radius: 10px; box-shadow: 0 6px 0 #000; margin-top: 4px;
+  background: repeating-linear-gradient(180deg, #b0703a 0 34px, #9c5f2e 34px 36px), #a8673a; }
+[data-tema="feria"] .reto { background: #fff6e5; color: #2b1a3e; border: 3px solid #000; border-radius: 6px; box-shadow: 0 4px 0 rgba(0,0,0,.6);
+  -webkit-mask: radial-gradient(circle 8px at 0 50%, transparent 8px, #000 8.5px) left/51% 100% no-repeat, radial-gradient(circle 8px at 100% 50%, transparent 8px, #000 8.5px) right/51% 100% no-repeat;
+  mask: radial-gradient(circle 8px at 0 50%, transparent 8px, #000 8.5px) left/51% 100% no-repeat, radial-gradient(circle 8px at 100% 50%, transparent 8px, #000 8.5px) right/51% 100% no-repeat; }
+[data-tema="feria"] .reto:nth-child(2) { transform: rotate(1deg); } [data-tema="feria"] .reto:nth-child(3) { transform: rotate(-1deg); }
+[data-tema="feria"] .reto .rimg { background: #cfeaff; border: 2px solid #000; }
+[data-tema="feria"] .reto .clavo { display: none; }
+[data-tema="feria"] .rt-top .bubble { background: #fff6e5; }
+/* embrujada: pergaminos clavados en la piedra */
+[data-tema="embrujada"] .tablon { border: 3px solid #000; border-radius: 50px 50px 12px 12px; padding-top: 24px; box-shadow: 0 6px 0 #000, 0 0 24px rgba(92,255,157,.15);
+  background: radial-gradient(ellipse at 30% 10%, rgba(255,255,255,.1), transparent 60%), linear-gradient(180deg, #6d6186, #3e3456); }
+[data-tema="embrujada"] .reto { background: linear-gradient(100deg, #efe3c6, #dccaa1 70%, #cdb98d); color: #2a1d17; border-radius: 3px 12px 4px 10px; box-shadow: 0 4px 0 rgba(0,0,0,.55); }
+[data-tema="embrujada"] .reto:nth-child(odd) { transform: rotate(-.8deg); } [data-tema="embrujada"] .reto:nth-child(even) { transform: rotate(.8deg); }
+[data-tema="embrujada"] .reto .rimg { background: #2a1640; box-shadow: 0 0 0 2px #000, 0 0 12px rgba(92,255,157,.4); }
+[data-tema="embrujada"] .reto .clavo { background: radial-gradient(circle at 35% 30%, #cfcfcf, #4a4a4a); }
+[data-tema="embrujada"] .rt-cuentas span { color: #8dffb9; box-shadow: 0 0 10px rgba(92,255,157,.4); }
+/* espacial: misiones en holograma */
+[data-tema="espacial"] .tablon { border: 1.5px solid rgba(63,224,255,.6); border-radius: 16px; background: rgba(8,18,48,.72); box-shadow: 0 0 22px rgba(63,224,255,.2), inset 0 0 30px rgba(63,224,255,.08); backdrop-filter: blur(5px); }
+[data-tema="espacial"] .reto { background: linear-gradient(90deg, rgba(63,224,255,.12), rgba(10,22,58,.6)); color: #dff9ff; border: 1px solid rgba(63,224,255,.45); border-left: 4px solid #3fe0ff; border-radius: 8px; }
+[data-tema="espacial"] .reto.medio { border-left-color: #ff4fd8; } [data-tema="espacial"] .reto.dificil { border-left-color: #ffd76a; }
+[data-tema="espacial"] .reto .rimg { background: radial-gradient(circle at 40% 30%, #1d2f7a, #070d2a); box-shadow: 0 0 0 1.5px #3fe0ff, 0 0 14px rgba(63,224,255,.5); border-radius: 50%; }
+[data-tema="espacial"] .reto .clavo { display: none; }
+[data-tema="espacial"] .reto .rbar { border: 1px solid rgba(63,224,255,.5); background: rgba(63,224,255,.08); height: 6px; }
+[data-tema="espacial"] .reto .rbar i { background: #3fe0ff; box-shadow: 0 0 8px #3fe0ff; }
+[data-tema="espacial"] .sello-ok { color: #3fe0ff; background: rgba(5,10,30,.85); mix-blend-mode: normal; text-shadow: 0 0 8px #3fe0ff; }
+[data-tema="espacial"] .rt-cuentas span { background: rgba(5,10,30,.9); color: #9ff0ff; border: 1px solid #3fe0ff; }
+@media (prefers-reduced-motion: reduce) { .sello-ok { animation: none; } }
 .admin-say .cerdo img.casco { width: 96px; }
 [data-tema] .entrar { color: #fff; }
 [data-tema="feria"] .pj { background-color: #cfeaff; } [data-tema="embrujada"] .pj { background-color: #2a1640; } [data-tema="espacial"] .pj { background-color: #0b1640; border-color: #3fe0ff; }
@@ -723,6 +777,10 @@ const T = {
     d_perdio: (n) => `Perdió ${n} tickets`, d_dado: (x) => `${x} por tirada`,
     lg_cuenta: (g, n, v, m) => `${g} de ${n} logros · ${v} de ${m} niveles`, lg_cuenta_corta: (g, n) => `${g} de ${n} logros`, lg_ver: (n) => `Ver los ${n} logros`,
     lg_secreto: "Es un secreto. Sigue jugando y a lo mejor lo descubres.", lg_llevas: (v, m) => `Llevas ${v} de ${m}`, lg_completo: "¡Completo! Ya tienes el oro.",
+    rt_titulo: "Los retos de Mr. Admin", rt_quedan: (d) => `quedan ${d} días`, rt_ultimo: "último día", rt_facil: "Fácil", rt_medio: "Medio", rt_dificil: "Difícil",
+    rt_cumplido: "¡CUMPLIDO!", rt_racha: (n) => `Racha: ${n} ${n === 1 ? "semana" : "semanas"}`, rt_selladas: (n) => `${n} ${n === 1 ? "semana sellada" : "semanas selladas"}`,
+    rt_sellada: "¡SEMANA SELLADA!", rt_frase0: "Tres retos, una semana. A ver si esta vez no me decepcionas.", rt_frase1: "Vas bien. Sospechosamente bien.",
+    rt_frase3: "Semana sellada. Ni modo, te lo ganaste. El lunes te pongo otros peores.",
     lg_bronce: "Bronce", lg_plata: "Plata", lg_oro: "Oro", lg_nuevo: (n) => `¡Logro nuevo: ${n}!`, lg_nuevos: (n) => `¡${n} logros nuevos!`,
   },
   en: {
@@ -794,6 +852,10 @@ const T = {
     d_perdio: (n) => `Lost ${n} tickets`, d_dado: (x) => `${x} per roll`,
     lg_cuenta: (g, n, v, m) => `${g} of ${n} achievements · ${v} of ${m} levels`, lg_cuenta_corta: (g, n) => `${g} of ${n} achievements`, lg_ver: (n) => `See all ${n} achievements`,
     lg_secreto: "It's a secret. Keep playing and maybe you'll find it.", lg_llevas: (v, m) => `${v} of ${m} so far`, lg_completo: "Complete! You've got the gold.",
+    rt_titulo: "Mr. Admin's challenges", rt_quedan: (d) => `${d} days left`, rt_ultimo: "last day", rt_facil: "Easy", rt_medio: "Medium", rt_dificil: "Hard",
+    rt_cumplido: "DONE!", rt_racha: (n) => `Streak: ${n} ${n === 1 ? "week" : "weeks"}`, rt_selladas: (n) => `${n} ${n === 1 ? "week sealed" : "weeks sealed"}`,
+    rt_sellada: "WEEK SEALED!", rt_frase0: "Three challenges, one week. Let's see if you disappoint me again.", rt_frase1: "Going well. Suspiciously well.",
+    rt_frase3: "Week sealed. Fine, you earned it. On Monday I'll give you worse ones.",
     lg_bronce: "Bronze", lg_plata: "Silver", lg_oro: "Gold", lg_nuevo: (n) => `New achievement: ${n}!`, lg_nuevos: (n) => `${n} new achievements!`,
   },
 };
@@ -881,7 +943,12 @@ async function demoApi(metodo, ruta, cuerpo) {
   DATOS ??= (await import("./demo.js")).DEMO;
   await new Promise((r) => setTimeout(r, 300));
   const vacio = q.get("demo") === "vacio";
-  const res = () => vacio ? DATOS.vacio : conHistorial(DATOS.resumen);
+  const aHoy = (R) => {
+    if (!R?.retos?.semana) return R;
+    const fin = Date.now() + 3.3 * 864e5;
+    return { ...R, retos: { ...R.retos, semana: { ...R.retos.semana, fin: new Date(fin).toISOString(), inicio: new Date(fin - 7 * 864e5).toISOString() } } };
+  };
+  const res = () => aHoy(vacio ? DATOS.vacio : conHistorial(DATOS.resumen));
   const yo = () => { const j = guardado.get("ps_demo_jugador"); return j ? JSON.parse(j) : null; };
   const falla = (c) => { throw Object.assign(new Error(c), { status: 400 }); };
   if (!AM) {
@@ -1622,7 +1689,7 @@ function vistaPerfil() {
     const frase = r?.partidas ? ti("frase")(j.nombre, r.partidas, r.victorias) ?? t("quip", r.victorias, r.partidas - r.victorias) : "";
     cuerpo = `<div class="fila-tema"><button class="btn-tema" data-accion="tema"><i style="background-image:url(${retrato(PERSONAJES[j.personaje] ? j.personaje : "base")})"></i>${t("tema_btn")}: ${esc(ti("nombre"))}</button></div>` +
       letrero() + tarjeta(j, r, true) + (r?.partidas ? `<div class="admin-say quip">${cerdo()}<div class="bubble" data-escribe="${esc(frase)}">${esc(frase)}</div></div>` +
-      bloqueLogros(r, true) + bloqueMinijuegos(r) + bloqueRivales(r) +
+      bloqueRetos(r) + bloqueLogros(r, true) + bloqueMinijuegos(r) + bloqueRivales(r) +
       `<h3>${esc(ti("partidas"))}</h3>` + listaPartidas(r, 5) + (r.ultimas.length > 5 ? `<button class="btn btn-ghost mas-partidas" data-tab="partidas">${t("ver_historial", r.ultimas.length)}</button>` : "") : bloqueVacio() + bloqueMinijuegos(r)) +
       `<div class="acciones"><div class="fila-btn"><button class="btn btn-ghost" data-accion="editar">${t("editar")}</button><button class="btn btn-ghost" data-accion="compartir">${t("compartir")}</button></div>
        <button class="btn btn-ghost" data-accion="salir">${t("salir")}</button></div>`;
@@ -1761,6 +1828,73 @@ function vistaPublico() {
     <div class="relacion">${botones}</div>
     ${r?.partidas ? bloqueLogros(r) + bloqueMinijuegos(r, t("mj")) + `<h3>${esc(ti("partidas"))} <small>${t("hist_sub")}</small></h3>` + listaPartidas(r, 10) : bloqueVacio()}
   </main>`;
+}
+
+// ================================================================= los retos de Mr. Admin (21/10)
+// Tres por semana (fácil, medio, difícil), los elige el servidor (retos.js). Aquí: los textos, los dibujos y el
+// tablón de cada tema (cartel de madera con tickets clavados, pergaminos en la cripta, misiones en holograma).
+// id: [dibujo, es (meta, semana), en (meta, semana)] — semana trae el tablero y el minijuego de la semana
+const RETOS_TXT = {
+  jugar3: ["f:boleteria", (n) => `Juega ${n} partidas`, (n) => `Play ${n} games`],
+  mj3: ["r:forzudo", (n) => `Gana ${n} minijuegos`, (n) => `Win ${n} minigames`],
+  dorados5: ["f:ticket_dorado", (n) => `Junta ${n} tickets dorados`, (n) => `Collect ${n} golden tickets`],
+  podio2: ["f:carpa", (n) => `Termina ${n} veces en el podio`, (n) => `Finish on the podium ${n} times`],
+  linea1: ["s:asteroide_3", () => "Juega una partida en línea", () => "Play an online game"],
+  amigo1: ["r:oso", () => "Juega una partida con un amigo", () => "Play a game with a friend"],
+  compra2: ["f:globo", (n) => `Compra ${n} objetos en el tablero`, (n) => `Buy ${n} items on the board`],
+  tablero_semana: ["f:globo_aerostatico", (n, s) => `Juega en ${ti("nombre", s.mapa)}`, (n, s) => `Play on ${ti("nombre", s.mapa)}`],
+  mjdist4: ["s:capsula", (n) => `Juega ${n} minijuegos distintos`, (n) => `Play ${n} different minigames`],
+  robo10: ["r:pirata", (n) => `Roba ${n} tickets`, (n) => `Steal ${n} tickets`],
+  gana1: ["f:estrella", () => "Gana una partida", () => "Win a game"],
+  mj8: ["r:domador", (n) => `Gana ${n} minijuegos`, (n) => `Win ${n} minigames`],
+  dorados12: ["s:ticket_dorado", (n) => `Junta ${n} tickets dorados`, (n) => `Collect ${n} golden tickets`],
+  robo30: ["r:ninja", (n) => `Roba ${n} tickets`, (n) => `Steal ${n} tickets`],
+  duelos2: ["r:vaquero", (n) => `Gana ${n} duelos`, (n) => `Win ${n} duels`],
+  mjgan4: ["s:platillo", (n) => `Gana ${n} minijuegos distintos`, (n) => `Win ${n} different minigames`],
+  tickets100: ["f:bolsa_monedas", (n) => `Termina una partida con ${n} tickets`, (n) => `Finish a game with ${n} tickets`],
+  titulo1: ["f:farol", () => "Gánate un título de la noche", () => "Earn a title of the night"],
+  jugar5: ["f:arbol", (n) => `Juega ${n} partidas`, (n) => `Play ${n} games`],
+  mjsemana1: ["j:", (n, s) => `Gana ${nombreMj(s.minijuego)}`, (n, s) => `Win ${nombreMj(s.minijuego)}`],
+  gana3: ["r:leon", (n) => `Gana ${n} partidas`, (n) => `Win ${n} games`],
+  seguidas2: ["r:hombrebala", (n) => `Gana ${n} partidas seguidas`, (n) => `Win ${n} games in a row`],
+  mjseguidos3: ["s:meteorito", (n) => `Gana ${n} minijuegos seguidos en una partida`, (n) => `Win ${n} minigames in a row in one game`],
+  dorados8una: ["f:fajo", (n) => `Junta ${n} dorados en una sola partida`, (n) => `Get ${n} golden tickets in one game`],
+  ganalinea: ["s:cohete", () => "Gana una partida en línea", () => "Win an online game"],
+  dostableros: ["f:nube", (n) => `Gana en ${n} tableros distintos`, (n) => `Win on ${n} different boards`],
+  ganaamigo: ["e:mano_zombi", () => "Gánale a un amigo", () => "Beat a friend"],
+  sinbots: ["r:pulpo", () => "Gana una partida de 4 o más sin bots", () => "Win a game of 4+ with no bots"],
+  mjsemana3: ["j:", (n, s) => `Gana ${nombreMj(s.minijuego)} ${n} veces`, (n, s) => `Win ${nombreMj(s.minijuego)} ${n} times`],
+  sinrobo: ["e:fantasma", () => "Termina una partida del tablero sin que te roben nada", () => "Finish a board game without getting robbed"],
+};
+function dibujoReto(id, s) {
+  const [d] = RETOS_TXT[id] ?? ["f:estrella"];
+  const [k, n] = d.split(":");
+  if (k === "j") return FOTOS[s.minijuego] ? `../media/j_${FOTOS[s.minijuego]}.jpg` : "tema/feria/dado.webp";
+  return { f: `tema/feria/${n}.webp`, e: `tema/embrujada/${n}.webp`, s: `tema/espacial/${n}.webp`, r: retrato(n) }[k];
+}
+
+function bloqueRetos(r) {
+  const R = r?.retos;
+  if (!R?.semana?.retos?.length) return "";
+  const s = R.semana;
+  const hechos = s.retos.filter((x) => x.hecho).length;
+  const dias = Math.max(0, Math.ceil((Date.parse(s.fin) - Date.now()) / 864e5));
+  const frase = t(hechos === 3 ? "rt_frase3" : hechos ? "rt_frase1" : "rt_frase0");
+  const reto = (x) => {
+    const txt = RETOS_TXT[x.id];
+    return `<div class="reto ${x.dificultad}${x.hecho ? " hecho" : ""}"><i class="clavo"></i>
+      <div class="rimg"><img src="${dibujoReto(x.id, s)}" alt="" loading="lazy"></div>
+      <div class="rtx"><span class="dif">${t("rt_" + x.dificultad)}</span><b>${esc(txt ? txt[es_() ? 1 : 2](x.meta, s) : x.id)}</b>
+        <div class="rbar"><i style="width:${(100 * x.valor) / x.meta}%"></i></div><small>${x.valor} / ${x.meta}</small></div>
+      ${x.hecho ? `<span class="sello-ok">${t("rt_cumplido")}</span>` : ""}</div>`;
+  };
+  return `<h3>${t("rt_titulo")} <small>${esc(dias <= 1 ? t("rt_ultimo") : t("rt_quedan", dias))}</small></h3>
+    <div class="tablon${s.sellada ? " sellada" : ""}">
+      <div class="rt-top"><div class="admin-say">${cerdo(hechos === 3 ? "admin_enojado" : "admin_presenta")}<div class="bubble">${esc(frase)}</div></div>
+        <div class="rt-cuentas"><span class="rt-racha"><svg aria-hidden="true"><use href="#i-fuego"/></svg>${esc(t("rt_racha", R.racha))}</span><span>${esc(t("rt_selladas", R.selladas))}</span></div></div>
+      <div class="retos">${s.retos.map(reto).join("")}</div>
+      ${s.sellada ? `<div class="semana-sellada">${t("rt_sellada")}</div>` : ""}
+    </div>`;
 }
 
 // ================================================================= los logros (21/10, DISEÑO_LOGROS.md)

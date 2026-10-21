@@ -1042,7 +1042,41 @@ export const DEMO = {
     "metas": null,
     "secreto": true
    }
-  ]
+  ],
+  "retos": {
+   "semana": {
+    "inicio": "2026-10-05T05:00:00.000Z",
+    "fin": "2026-10-12T05:00:00.000Z",
+    "mapa": "embrujada",
+    "minijuego": "escondidas",
+    "retos": [
+     {
+      "id": "tablero_semana",
+      "dificultad": "facil",
+      "meta": 1,
+      "valor": 1,
+      "hecho": true
+     },
+     {
+      "id": "dorados12",
+      "dificultad": "medio",
+      "meta": 12,
+      "valor": 12,
+      "hecho": true
+     },
+     {
+      "id": "sinrobo",
+      "dificultad": "dificil",
+      "meta": 1,
+      "valor": 0,
+      "hecho": false
+     }
+    ],
+    "sellada": false
+   },
+   "racha": 1,
+   "selladas": 3
+  }
  },
  "vacio": {
   "partidas": 0,
@@ -1605,7 +1639,41 @@ export const DEMO = {
     "metas": null,
     "secreto": true
    }
-  ]
+  ],
+  "retos": {
+   "semana": {
+    "inicio": "2026-10-19T05:00:00.000Z",
+    "fin": "2026-10-26T05:00:00.000Z",
+    "mapa": "feria",
+    "minijuego": "freeze",
+    "retos": [
+     {
+      "id": "jugar3",
+      "dificultad": "facil",
+      "meta": 3,
+      "valor": 0,
+      "hecho": false
+     },
+     {
+      "id": "mjsemana1",
+      "dificultad": "medio",
+      "meta": 1,
+      "valor": 0,
+      "hecho": false
+     },
+     {
+      "id": "mjseguidos3",
+      "dificultad": "dificil",
+      "meta": 3,
+      "valor": 0,
+      "hecho": false
+     }
+    ],
+    "sellada": false
+   },
+   "racha": 0,
+   "selladas": 0
+  }
  },
  "amigos": {
   "tabla": [
