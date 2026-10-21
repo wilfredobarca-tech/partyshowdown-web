@@ -208,6 +208,22 @@ h3 small { font-family: "Fredoka"; font-size: 13px; font-weight: 600; color: var
 .qr svg { display: block; width: 100%; height: 100%; }
 .modal .btn { width: calc(100% - 36px); margin: 16px auto 0; }
 
+/* pantallas del QR del juego */
+.pend { text-align: center; padding-top: 20px; }
+.pend h2 { font-size: clamp(34px, 10vw, 46px); color: var(--gold); text-shadow: 0 5px 0 #000, 0 0 40px rgba(255,200,61,.35); margin: 8px 0 22px; }
+.pend .ticket { text-align: left; }
+.pend .pend-head { flex-direction: column; justify-content: center; background: var(--menta); padding: 20px 16px; gap: 10px; }
+.pend .pend-head .av { width: 108px; height: 108px; }
+.pend .pend-head .name { font-size: 34px; color: #fff; text-shadow: 0 3px 0 #000; }
+.pend .rows { padding: 12px 18px 14px; }
+.pend .rows div { display: flex; justify-content: space-between; padding: 7px 0; font-size: 15px; color: var(--muted-2); font-weight: 600; }
+.pend .rows div + div { border-top: 2px dashed rgba(26,15,31,.14); }
+.pend .rows b { color: var(--ink); }
+.pend .admin-say { margin-top: 20px; text-align: left; }
+.pend .aviso { margin-top: 18px; }
+.check { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; letter-spacing: 3px; color: var(--menta); text-transform: uppercase; }
+.check i { width: 10px; height: 10px; border-radius: 50%; background: var(--menta); box-shadow: 0 0 12px var(--menta); }
+
 .toast { position: fixed; left: 50%; bottom: calc(96px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 30; background: var(--cream); color: var(--ink); font-weight: 700; padding: 10px 16px; border-radius: 12px; border: 3px solid #000; box-shadow: 0 4px 0 #000; }
 .demo { position: fixed; left: 50%; transform: translateX(-50%); top: calc(4px + env(safe-area-inset-top)); z-index: 40; pointer-events: none; background: var(--uva); color: #fff; font-weight: 700; font-size: 11px; letter-spacing: 1.5px; padding: 4px 9px; border-radius: 6px; border: 2px solid #000; text-transform: uppercase; }
 </style>
@@ -246,7 +262,7 @@ const FOTOS = { parca: "parca", lava: "lava", topo: "topo", hotpotato: "papa", t
 const TITULOS = {
   ladron: ["El más ladrón", "The biggest thief"], robado: ["El más robado", "The most robbed"], salado: ["El más salado", "The unluckiest"],
   dado_oro: ["El dado de oro", "The golden dice"], comprador: ["Comprador compulsivo", "Shopaholic"], perdedor: ["El que más perdió", "The biggest loser"],
-  rey_minijuegos: ["Rey de los minijuegos", "Minigame king"], racha: ["La mejor racha", "Best streak"],
+  rey_minijuegos: ["Rey de los minijuegos", "Minigame king"], racha: ["La mejor racha", "Best streak"], unicas: ["Victorias únicas", "Unique wins"],
 };
 const COLORES = ["#F2484B", "#3D8BFF", "#2FCB86", "#FFC83D", "#FF4E9A", "#6B4BD8"];
 
@@ -303,6 +319,14 @@ const T = {
     rel_agregar: "Agregar amigo", rel_enviada: "Solicitud enviada", rel_recibida: "Aceptar solicitud", rel_amigos: "Son amigos",
     quitar_amigo: "Quitar de amigos", entra_agregar: "Entra con Steam para agregarlo", mi_perfil: "Mi perfil",
     qr_p: "Que tu amigo lo escanee con la cámara del teléfono.", cerrar: "Cerrar",
+    vin_h: "¿Conectar esta PC?", vin_p: "Desde ahora, tus partidas en esa PC se guardan solas en tu perfil.", vin_btn: "Conectar",
+    vin_ok_h: "¡PC conectada!", vin_ok_p: "Ya puedes volver al juego.", vin_entra: "Entra con Steam para conectar tu PC.",
+    vin_otra: "En esa PC está abierta otra cuenta de Steam. Conéctala entrando con esa cuenta.",
+    vencido: "Este código ya venció. Pide uno nuevo en el juego.", usado: "Este código ya se usó. Pide uno nuevo en el juego.",
+    asi_h: (n) => `¿Te sientas en el puesto ${n}?`, asi_p: (n) => `En la PC de ${n}. Esa partida se guarda en tu perfil.`, asi_btn: "Sentarme",
+    asi_ok_h: "¡Te sentaste!", asi_ok_admin: "Todo lo que pierdas esta noche queda en tu perfil. Para siempre.",
+    asi_entra: "Entra con Steam para sentarte.", asi_ocupado: "Ese puesto ya lo tomó otra persona.", asi_tu_pc: "Es tu propia PC: ahí ya cuentas solo.",
+    listo: "Listo", puesto: "Puesto", en_pc: "En la PC de", a_jugar: "¡A jugar!", ver_perfil: "Ver mi perfil",
   },
   en: {
     titulo_pag: "Player profile · Party Showdown",
@@ -355,6 +379,14 @@ const T = {
     rel_agregar: "Add friend", rel_enviada: "Request sent", rel_recibida: "Accept request", rel_amigos: "Friends",
     quitar_amigo: "Remove friend", entra_agregar: "Sign in with Steam to add them", mi_perfil: "My profile",
     qr_p: "Have your friend scan it with their phone camera.", cerrar: "Close",
+    vin_h: "Connect this PC?", vin_p: "From now on, your games on that PC are saved to your profile automatically.", vin_btn: "Connect",
+    vin_ok_h: "PC connected!", vin_ok_p: "You can go back to the game.", vin_entra: "Sign in with Steam to connect your PC.",
+    vin_otra: "That PC is signed in to a different Steam account. Connect it by signing in with that account.",
+    vencido: "This code expired. Get a new one in the game.", usado: "This code was already used. Get a new one in the game.",
+    asi_h: (n) => `Take seat ${n}?`, asi_p: (n) => `On ${n}'s PC. That game is saved to your profile.`, asi_btn: "Take the seat",
+    asi_ok_h: "You're in!", asi_ok_admin: "Everything you lose tonight stays on your profile. Forever.",
+    asi_entra: "Sign in with Steam to take the seat.", asi_ocupado: "Someone else already took that seat.", asi_tu_pc: "It's your own PC: you already count there.",
+    listo: "Done", puesto: "Seat", en_pc: "On the PC of", a_jugar: "Let's play!", ver_perfil: "See my profile",
   },
 };
 function ord(n) { const s = ["th", "st", "nd", "rd"], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
@@ -370,6 +402,22 @@ const DEMO = LOCAL && (!API || q.has("demo"));     // (en internet nunca hay mod
 let lang = q.get("lang") || guardado.get("ps_lang") || ((navigator.language || "").toLowerCase().startsWith("es") ? "es" : "en");
 if (!T[lang]) lang = "es";
 const t = (k, ...a) => { const v = T[lang][k]; return typeof v === "function" ? v(...a) : v; };
+// Lo que pidió el QR del juego (?vincular=<código> o ?asiento=<código>). Se guarda en la pestaña mientras se va a
+// Steam y vuelve, y se borra al terminar o cancelar.
+const sesionPest = {
+  get(k) { try { return sessionStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { v == null ? sessionStorage.removeItem(k) : sessionStorage.setItem(k, v); } catch {} },
+};
+let PEND = null;
+for (const k of ["vincular", "asiento"]) {
+  const c = (q.get(k) || "").toUpperCase().replace(/[\s-]/g, "");
+  if (/^[A-HJKMNP-Z2-9]{6}$/.test(c)) { PEND = { k, c }; sesionPest.set("ps_pend", JSON.stringify(PEND)); }
+}
+if (q.has("vincular") || q.has("asiento")) {     // (así recargar la página no lo vuelve a pedir)
+  const limpia = new URLSearchParams(q); limpia.delete("vincular"); limpia.delete("asiento");
+  history.replaceState(null, "", location.pathname + (limpia.size ? "?" + limpia : ""));
+}
+if (!PEND) { try { PEND = JSON.parse(sesionPest.get("ps_pend")); } catch {} }
 const S = { token: guardado.get("ps_token"), jugador: null, resumen: null, tab: "perfil", publico: null, error: null };
 const app = document.getElementById("app");
 
@@ -422,6 +470,8 @@ async function demoApi(metodo, ruta, cuerpo) {
     return { jugador: { codigo: p.codigo, nombre: p.nombre, personaje: p.personaje }, resumen: { ...DATOS.resumen, rivales: DATOS.resumen.rivales.filter((r) => r.codigo !== n) }, relacion: S.token ? relacion(n) : null };
   }
   if (ruta === "/amigos") return structuredClone(AM);
+  if (ruta.startsWith("/vincular/")) return metodo === "GET" ? { estado: q.get("demo") === "otra" ? "esperando" : "esperando", otra_cuenta: q.get("demo") === "otra" } : { ok: true };
+  if (ruta.startsWith("/asiento/")) return metodo === "GET" ? { puesto: 3, de: { codigo: "RKU2Q7", nombre: "Razziel", personaje: "dragon" }, estado: "libre", es_tu_pc: false } : { ok: true, puesto: 3 };
   if (ruta === "/amigos/agregar") {
     const n = norm(cuerpo.codigo);
     if (n === MIO_DEMO) falla("tu_mismo");
@@ -504,6 +554,7 @@ function irASteam() {
 function limpiarUrl() {
   const p = new URLSearchParams();
   for (const k of ["lang", "demo"]) if (q.has(k)) p.set(k, q.get(k));
+  for (const k of ["vincular", "asiento"]) q.delete(k);
   for (const k of [...q.keys()]) if (k.startsWith("openid.")) q.delete(k);
   history.replaceState(null, "", location.pathname + (p.size ? "?" + p : ""));
 }
@@ -511,8 +562,58 @@ function limpiarUrl() {
 function salirLocal() { S.token = null; S.jugador = null; S.resumen = null; S.amigos = null; guardado.set("ps_token", null); }
 
 function mostrarPerfil() {
+  if (PEND) return mostrarPendiente();
   pintar(vistaPerfil());
   cargarAmigos();
+}
+
+function terminarPendiente() { PEND = null; sesionPest.set("ps_pend", null); }
+
+// La pantalla del QR del juego, con la sesión abierta y el perfil hecho.
+async function mostrarPendiente() {
+  pintar(vistaCargando(t("cargando")));
+  try {
+    S.pend = { ...PEND, info: await api("GET", "/" + PEND.k + "/" + PEND.c), hecho: false, error: null };
+  } catch (e) {
+    S.pend = { ...PEND, info: null, hecho: false, error: e.message === "no_existe" ? t("usado") : t("err_red") };
+  }
+  pintar(vistaPendiente());
+}
+
+function vistaPendiente() {
+  const P = S.pend, j = S.jugador, I = P.info;
+  const vincular = P.k === "vincular";
+  let error = P.error;
+  if (!error && I) {
+    if (I.estado === "vencido") error = t("vencido");
+    else if (vincular && I.estado === "ocupado") error = t("usado");
+    else if (vincular && I.otra_cuenta) error = t("vin_otra");
+    else if (!vincular && I.estado === "ocupado") error = t("asi_ocupado");
+    else if (!vincular && I.es_tu_pc) error = t("asi_tu_pc");
+  }
+  const hecho = P.hecho || (I && (I.estado === "listo" || I.estado === "tuyo"));
+  const titulo = hecho ? (vincular ? t("vin_ok_h") : t("asi_ok_h")) : vincular ? t("vin_h") : t("asi_h", I?.puesto ?? "?");
+  const filas = vincular ? "" : `<div class="rows">
+      <div>${t("puesto")}<b>${esc(I?.puesto ?? "?")}</b></div>
+      ${I?.de ? `<div>${t("en_pc")}<b>${esc(I.de.nombre)}</b></div>` : ""}</div>`;
+  const texto = hecho ? (vincular ? t("vin_ok_p") : t("asi_ok_admin")) : vincular ? t("vin_p") : t("asi_p", I?.de?.nombre ?? "?");
+  const botones = hecho
+    ? `<button class="btn btn-oro" data-accion="fin_pend">${vincular ? t("ver_perfil") : t("a_jugar")}</button>`
+    : error
+      ? `<button class="btn btn-ghost" data-accion="fin_pend">${t("ver_perfil")}</button>`
+      : `<button class="btn btn-oro" data-accion="confirmar_pend">${vincular ? t("vin_btn") : t("asi_btn")}</button>
+         <button class="btn btn-ghost" data-accion="fin_pend">${t("cancelar")}</button>`;
+  return barra() + `<main class="main pend">
+    ${hecho ? `<div class="check"><i></i>${t("listo")}</div>` : ""}
+    <h2 class="d">${esc(titulo)}</h2>
+    <div class="ticket">
+      <div class="head pend-head">${avatar("av", j.personaje, j.nombre)}<div class="name d">${esc(j.nombre)}</div>
+        <span class="no">ID ${idv(j.codigo)}</span><i class="muesca i"></i><i class="muesca d"></i></div>
+      ${filas}
+    </div>
+    ${error ? `<div class="aviso" role="alert">${esc(error)}</div>` : `<div class="admin-say"><img src="../media/${hecho ? "admin_risa" : "admin_burlon"}.webp" alt="Mr. Admin"><div class="bubble">${esc(texto)}</div></div>`}
+    <div class="acciones">${botones}</div>
+  </main>`;
 }
 
 // Trae la pestaña Amigos por detrás (para la insignia de solicitudes) y la repinta si está abierta.
@@ -578,7 +679,7 @@ function vistaEntrar() {
     <img class="logo" src="../media/logo.png" alt="Party Showdown" width="1000" height="631">
     <img class="cerdo" src="../media/admin_burlon.webp" alt="Mr. Admin">
     <h1 class="d">${t("entrar_h")}</h1>
-    <p>${t("entrar_p")}</p>
+    <p>${PEND ? (PEND.k === "vincular" ? t("vin_entra") : t("asi_entra")) : t("entrar_p")}</p>
     <button class="btn btn-steam" data-accion="steam"><svg aria-hidden="true"><use href="#i-steam"/></svg>${t("entrar_btn")}</button>
     ${err ? `<div class="aviso" role="alert">${esc(err)}</div>` : ""}
     <div class="nada">${t("nada_1")}<br><b>${t("nada_2")}</b></div>
@@ -879,6 +980,19 @@ const acciones = {
   rechazar: (b) => accionAmigo("/amigos/responder", { codigo: b.dataset.c, aceptar: false }, b),
   quitar: (b) => accionAmigo("/amigos/quitar", { codigo: b.dataset.c }, b),
   mi_qr: () => mostrarQr(),
+  async confirmar_pend(b) {
+    b.disabled = true;
+    try {
+      await api("POST", "/" + S.pend.k + "/" + S.pend.c);
+      S.pend.hecho = true;
+    } catch (e) {
+      if (e.status === 401) { salirLocal(); return pintar(vistaEntrar()); }
+      S.pend.error = { vencido: t("vencido"), ocupado: S.pend.k === "vincular" ? t("usado") : t("asi_ocupado"), otra_cuenta: t("vin_otra"),
+        es_tu_pc: t("asi_tu_pc"), no_existe: t("usado") }[e.message] ?? t("err_red");
+    }
+    pintar(vistaPendiente());
+  },
+  fin_pend() { terminarPendiente(); S.pend = null; S.tab = "perfil"; mostrarPerfil(); },
   ver_todos: () => { S.verTodos = !S.verTodos; pintar(S.publico ? vistaPublico() : vistaPerfil(), false); },
   async compartir() {
     const url = location.origin + location.pathname + "?j=" + S.jugador.codigo;
