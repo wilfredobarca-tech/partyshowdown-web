@@ -161,6 +161,41 @@ h3 small { font-family: "Fredoka"; font-size: 13px; font-weight: 600; color: var
 .tabs .mid.on i { box-shadow: 0 4px 0 #000, 0 0 0 4px rgba(255,200,61,.35); }
 .tabs .mid i svg { width: 28px; height: 28px; }
 
+/* la tarjeta viva (21/10): sale de la boletería, bombillas, holograma, racha, borde dorado */
+.boleteria { position: relative; padding-top: 48px; margin-top: 2px; }
+.cartel { position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 4; background: var(--blood); color: #fff; font: normal 15px/1 "Luckiest";
+  letter-spacing: 1.5px; padding: 8px 14px 5px; border: 3px solid #000; border-radius: 8px; box-shadow: 0 4px 0 #000; white-space: nowrap; }
+.cartel i { display: inline-block; width: 7px; height: 7px; margin: 0 6px 2px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 8px var(--gold); }
+.ranura { position: absolute; top: 38px; left: -6px; right: -6px; height: 18px; z-index: 4; border-radius: 9px; background: #05030a;
+  border: 3px solid #000; box-shadow: 0 0 0 3px var(--gold), 0 6px 0 #000, inset 0 4px 8px rgba(0,0,0,.9); }
+.salida { position: relative; margin-top: -1px; padding-top: 18px; }
+.salida.imprimiendo { clip-path: inset(0 -60px -90px -60px); }     /* (solo mientras sale de la ranura) */
+.escena { perspective: 900px; }
+.ticket.viva { transform-style: preserve-3d; will-change: transform; }
+.ticket .holo { position: absolute; inset: 0; border-radius: 18px; pointer-events: none; z-index: 5; mix-blend-mode: color-dodge; opacity: 0; }
+.ticket .brillo { position: absolute; inset: -8px; border-radius: 28px; pointer-events: none; z-index: -1; }
+.ticket.gano .brillo { box-shadow: 0 0 18px 4px rgba(255,200,61,.6); animation: gano 2.2s ease-in-out infinite; }
+@keyframes gano { 50% { box-shadow: 0 0 32px 8px rgba(255,200,61,.95); } }
+.bombilla { position: absolute; width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid #000; z-index: 7; transform: translate(-50%, -50%); background: #C08A1A; pointer-events: none; }
+.bombilla.on { background: #FFF3B0; box-shadow: 0 0 8px 3px rgba(255,220,90,.95); }
+.racha { position: absolute; right: 12px; bottom: 12px; display: flex; align-items: center; gap: 4px; background: #000; color: var(--gold); font: normal 15px/1 "Luckiest";
+  padding: 6px 9px 4px 6px; border-radius: 999px; transform-origin: 50% 100%; }
+.racha svg { width: 18px; height: 22px; }
+.stats em { font-style: normal; display: inline-block; }
+.cae { position: fixed; left: 0; top: 0; width: 26px; height: 26px; z-index: 60; pointer-events: none; }
+.telon { position: fixed; inset: 0; z-index: 80; display: flex; pointer-events: none; }
+.telon i { flex: 1; height: 100%; background: repeating-linear-gradient(90deg, #5c0712 0 22px, #a30f22 34px, #c8182c 44px, #a30f22 54px, #5c0712 76px);
+  box-shadow: inset 0 -26px 0 -6px var(--gold), inset 0 -36px 26px rgba(0,0,0,.4); }
+.telon b { position: absolute; left: 50%; top: 46%; transform: translate(-50%, -50%); font: normal clamp(30px, 9vw, 46px)/1 "Luckiest"; color: var(--gold); text-shadow: 0 5px 0 #000; white-space: nowrap; text-align: center; }
+.telon b small { display: block; font-size: .45em; color: #fff; margin-top: 8px; letter-spacing: 1px; }
+.cursor { display: inline-block; width: 2px; height: 1em; background: var(--ink); vertical-align: -2px; margin-left: 1px; }
+.barra { height: 6px; margin-top: 6px; border-radius: 3px; background: rgba(255,255,255,.1); overflow: hidden; }
+.barra i { display: block; height: 100%; width: 0; border-radius: 3px; background: currentColor; box-shadow: 0 0 8px currentColor; transition: width 1.1s cubic-bezier(.2,.8,.2,1); }
+.mjl.visto .barra i { width: var(--p); }
+.mjl .r:nth-child(2) .barra i { transition-delay: .15s; } .mjl .r:nth-child(3) .barra i { transition-delay: .3s; }
+.barra.alto { color: #2FCB86; } .barra.medio { color: #FFC83D; } .barra.bajo { color: #F2484B; }
+@media (prefers-reduced-motion: reduce) { .ticket.gano .brillo { animation: none; } .barra i { transition: none; } }
+
 /* minijuegos */
 .sub-h { margin: 6px 2px 8px; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
 .sub-h.verde { color: var(--menta); } .sub-h.rojo { color: #ff7b7e; }
@@ -234,6 +269,7 @@ h3 small { font-family: "Fredoka"; font-size: 13px; font-weight: 600; color: var
   <symbol id="i-qr" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 14h3v3M21 14v.01M14 21h7v-4M17.5 17.5h.01"/></g></symbol>
   <symbol id="i-card" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="11" r="2.2"/><path d="M5.8 16.5c.7-1.6 1.9-2.4 3.2-2.4s2.5.8 3.2 2.4M15 10h3M15 13.5h3"/></g></symbol>
   <symbol id="i-list" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></g></symbol>
+  <symbol id="i-fuego" viewBox="0 0 20 24"><path d="M10 1c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 3-6 0 2 1 3 2 3 0-3-1-6 1-9z" fill="#FF6A1A" stroke="#000" stroke-width="1.5"/><path d="M10 12c1 2 3 3 3 6a3 3 0 0 1-6 0c0-2 2-3 3-6z" fill="#FFC83D"/></symbol>
   <symbol id="i-amigos" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.2 19c.8-3.2 3-5 5.8-5s5 1.8 5.8 5"/><circle cx="17" cy="9" r="2.5"/><path d="M16.2 14.2c2.4-.3 4.1 1.2 4.7 3.8"/></g></symbol>
   <symbol id="i-steam" viewBox="0 0 24 24"><path fill="#fff" d="M12 2a10 10 0 0 0-9.96 9.2l5.36 2.2a2.8 2.8 0 0 1 1.6-.5h.15l2.38-3.46v-.05a3.77 3.77 0 1 1 3.77 3.77h-.09l-3.4 2.42v.13a2.83 2.83 0 0 1-5.6.6L2.4 14.8A10 10 0 1 0 12 2Zm-4.7 15.2-1.23-.5a2.12 2.12 0 1 0 1.16-2.9l1.27.52a1.56 1.56 0 1 1-1.2 2.88Zm9.53-7.8a2.51 2.51 0 1 0-2.51 2.51 2.51 2.51 0 0 0 2.51-2.51Zm-4.4 0a1.89 1.89 0 1 1 1.89 1.89 1.89 1.89 0 0 1-1.89-1.89Z"/></symbol>
 </svg>
@@ -326,7 +362,8 @@ const T = {
     asi_h: (n) => `¿Te sientas en el puesto ${n}?`, asi_p: (n) => `En la PC de ${n}. Esa partida se guarda en tu perfil.`, asi_btn: "Sentarme",
     asi_ok_h: "¡Te sentaste!", asi_ok_admin: "Todo lo que pierdas esta noche queda en tu perfil. Para siempre.",
     asi_entra: "Entra con Steam para sentarte.", asi_ocupado: "Ese puesto ya lo tomó otra persona.", asi_tu_pc: "Es tu propia PC: ahí ya cuentas solo.",
-    listo: "Listo", puesto: "Puesto", en_pc: "En la PC de", a_jugar: "¡A jugar!", ver_perfil: "Ver mi perfil",
+    listo: "Listo", puesto: "Puesto", en_pc: "En la PC de",
+    tu_ticket: "TU TICKET DE LA FERIA", racha: (n) => `RACHA ×${n}`, abre: "¡ABRE LA FERIA!", abre_sub: "TU PERFIL DE JUGADOR", a_jugar: "¡A jugar!", ver_perfil: "Ver mi perfil",
   },
   en: {
     titulo_pag: "Player profile · Party Showdown",
@@ -386,7 +423,8 @@ const T = {
     asi_h: (n) => `Take seat ${n}?`, asi_p: (n) => `On ${n}'s PC. That game is saved to your profile.`, asi_btn: "Take the seat",
     asi_ok_h: "You're in!", asi_ok_admin: "Everything you lose tonight stays on your profile. Forever.",
     asi_entra: "Sign in with Steam to take the seat.", asi_ocupado: "Someone else already took that seat.", asi_tu_pc: "It's your own PC: you already count there.",
-    listo: "Done", puesto: "Seat", en_pc: "On the PC of", a_jugar: "Let's play!", ver_perfil: "See my profile",
+    listo: "Done", puesto: "Seat", en_pc: "On the PC of",
+    tu_ticket: "YOUR FAIR TICKET", racha: (n) => `STREAK ×${n}`, abre: "THE FAIR IS OPEN!", abre_sub: "YOUR PLAYER PROFILE", a_jugar: "Let's play!", ver_perfil: "See my profile",
   },
 };
 function ord(n) { const s = ["th", "st", "nd", "rd"], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
@@ -642,6 +680,186 @@ function pintar(html, arriba = true) {
   conectar();
   ponerInsignia();
   if (arriba) window.scrollTo(0, 0);
+  vida();
+}
+
+// ================================================================= la tarjeta viva (21/10)
+// La primera vez del día en el perfil propio: se abre el telón y la boletería imprime la tarjeta. Siempre: los
+// números cuentan, caen los dorados (solo con la entrada), el título cae como un sello, las bombillas se prenden en
+// cadena y la tarjeta se inclina con el mouse o el teléfono, con un brillo holográfico. Mr. Admin escribe su frase
+// y las barras de los minijuegos se llenan al verse. Con "reducir movimiento", nada de eso.
+const MOV = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+const _ease = (x) => 1 - Math.pow(1 - Math.min(1, Math.max(0, x)), 3);
+const _back = (x) => { x = Math.min(1, Math.max(0, x)); return 1 + 2.7 * Math.pow(x - 1, 3) + 1.7 * Math.pow(x - 1, 2); };
+const _tramo = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+let _vida = { raf: 0, limpiar: () => {} };
+const _incl = { x: 0, y: 0, ox: 0, oy: 0, mano: false };     // (lo que pide el mouse o el teléfono, y lo que se ve)
+
+addEventListener("pointermove", (e) => {
+  if (e.pointerType !== "mouse") return;
+  const c = app.querySelector("[data-viva]");
+  if (!c) return;
+  const b = c.getBoundingClientRect();
+  const dx = (e.clientX - (b.left + b.width / 2)) / b.width, dy = (e.clientY - (b.top + b.height / 2)) / b.height;
+  const cerca = Math.abs(dx) < 1 && Math.abs(dy) < 1.4;
+  _incl.mano = cerca;
+  _incl.y = cerca ? dx * 18 : 0;
+  _incl.x = cerca ? -dy * 12 : 0;
+});
+addEventListener("deviceorientation", (e) => {
+  if (e.gamma == null || e.beta == null) return;
+  _incl.mano = true;
+  _incl.y = Math.max(-14, Math.min(14, e.gamma / 2.5));
+  _incl.x = Math.max(-10, Math.min(10, (e.beta - 40) / 3.5));
+});
+
+function _hoy() { return new Date().toISOString().slice(0, 10); }
+
+function vida() {
+  cancelAnimationFrame(_vida.raf);
+  _vida.limpiar();
+  _vida = { raf: 0, limpiar: () => {} };
+  // las barras de los minijuegos se llenan al aparecer en pantalla
+  const cajas = app.querySelectorAll(".mjl");
+  if (!MOV || !("IntersectionObserver" in window)) cajas.forEach((c) => c.classList.add("visto"));
+  else {
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("visto"); io.unobserve(e.target); } }), { threshold: 0.3 });
+    cajas.forEach((c) => io.observe(c));
+  }
+  const card = app.querySelector("[data-viva]");
+  if (!card || !MOV) return;
+
+  // iOS pide permiso para usar el movimiento del teléfono: se pide al tocar la tarjeta
+  card.addEventListener("click", () => { try { DeviceOrientationEvent?.requestPermission?.(); } catch {} }, { once: true });
+
+  // bombillas alrededor de la tarjeta (se rearman si cambia el tamaño)
+  let focos = [];
+  const armar = () => {
+    focos.forEach((b) => b.remove());
+    focos = [];
+    const w = card.offsetWidth, h = card.offsetHeight, paso = 21, m = 16;
+    const pts = [];
+    for (let x = m; x <= w - m; x += paso) pts.push([x, 2]);
+    for (let y = m; y <= h - m; y += paso) pts.push([w - 2, y]);
+    for (let x = w - m; x >= m; x -= paso) pts.push([x, h - 2]);
+    for (let y = h - m; y >= m; y -= paso) pts.push([2, y]);
+    for (const [x, y] of pts) {
+      const b = document.createElement("i");
+      b.className = "bombilla";
+      b.style.left = x + "px"; b.style.top = y + "px";
+      card.appendChild(b);
+      focos.push(b);
+    }
+  };
+  armar();
+  const ro = "ResizeObserver" in window ? new ResizeObserver(armar) : null;
+  ro?.observe(card);
+
+  // ¿la entrada completa? (perfil propio, la primera vez del día)
+  const salida = card.closest(".salida");
+  let entrada = false;
+  if (salida && guardado.get("ps_entrada") !== _hoy()) { entrada = true; guardado.set("ps_entrada", _hoy()); }
+  const T_SALE = entrada ? 1.2 : -10, T_TARJETA = entrada ? 2.3 : 0;     // (cuándo sale de la ranura; cuándo ya está afuera)
+  let telon = null;
+  if (entrada) {
+    telon = document.createElement("div");
+    telon.className = "telon";
+    telon.innerHTML = `<i></i><i></i><b>${esc(t("abre"))}<small>${esc(t("abre_sub"))}</small></b>`;
+    document.body.appendChild(telon);
+    salida.classList.add("imprimiendo");
+  }
+  // los dorados que caen al número (solo con la entrada)
+  const caen = [];
+  const dorados = Number(card.querySelector("[data-dorados] em")?.dataset.n || 0);
+  if (entrada && dorados > 0) {
+    for (let i = 0; i < Math.min(14, 4 + Math.round(dorados / 10)); i++) {
+      const e = document.createElement("div");
+      e.className = "cae";
+      e.innerHTML = '<svg width="26" height="26" aria-hidden="true"><use href="#i-tk"/></svg>';
+      e.style.opacity = 0;
+      document.body.appendChild(e);
+      caen.push({ e, x0: innerWidth * (0.1 + Math.random() * 0.8), t0: T_TARJETA + 0.2 + i * 0.07 + Math.random() * 0.1, giro: (Math.random() - 0.5) * 720 });
+    }
+  }
+  const nums = [...card.querySelectorAll("em[data-n]")];
+  nums.forEach((n) => (n.textContent = "0"));
+  const pill = card.querySelector(".pill"), racha = card.querySelector(".racha"), holo = card.querySelector(".holo");
+  const burbuja = app.querySelector(".bubble[data-escribe]");
+  const frase = burbuja?.dataset.escribe ?? "";
+  const mover = card.parentElement;     // (la .escena: se mueve al salir de la ranura)
+
+  _vida.limpiar = () => { ro?.disconnect(); telon?.remove(); caen.forEach((c) => c.e.remove()); };
+  const t0 = performance.now();
+  const cuadro = (ahora) => {
+    if (!document.contains(card)) return _vida.limpiar();
+    const tt = (ahora - t0) / 1000;
+    // el telón
+    if (telon) {
+      const a = _ease(_tramo(tt, 0.35, 1.45));
+      telon.children[0].style.transform = `translateX(${-a * 102}%)`;
+      telon.children[1].style.transform = `translateX(${a * 102}%)`;
+      telon.children[2].style.opacity = 1 - _tramo(tt, 0.2, 0.6);
+      if (tt > 1.6) { telon.remove(); telon = null; }
+    }
+    // sale de la ranura, con el traqueteo de la impresora y un rebote
+    const s = _tramo(tt, T_SALE, T_SALE + 1.2);
+    if (entrada) {
+      const y = s < 1 ? -105 + 105 * _back(s) : 0;
+      const tiembla = s > 0 && s < 1 ? Math.sin(tt * 90) * 1.2 * (1 - s) : 0;
+      mover.style.transform = s >= 1 ? "" : `translateY(${y}%) translateX(${tiembla}px)`;
+      if (s >= 1) salida.classList.remove("imprimiendo");
+    }
+    // los números
+    nums.forEach((n, i) => {
+      const k = _tramo(tt, T_TARJETA + i * 0.12, T_TARJETA + 1.1 + i * 0.12);
+      n.textContent = Math.round(Number(n.dataset.n) * _ease(k));
+      const pop = _tramo(tt, T_TARJETA + 1.1 + i * 0.12, T_TARJETA + 1.45 + i * 0.12);
+      n.style.transform = pop > 0 && pop < 1 ? `scale(${1 + 0.35 * Math.sin(pop * Math.PI)})` : "";
+    });
+    // los dorados que caen
+    if (caen.length) {
+      const d = card.querySelector("[data-dorados]").getBoundingClientRect();
+      for (const c of caen) {
+        const k = _tramo(tt, c.t0, c.t0 + 0.9);
+        if (k <= 0 || k >= 1) { c.e.style.opacity = 0; continue; }
+        const x = c.x0 + (d.left + d.width / 2 - 13 - c.x0) * _ease(k);
+        c.e.style.opacity = k < 0.85 ? 1 : (1 - k) / 0.15;
+        c.e.style.transform = `translate(${x}px, ${-30 + (d.top + 34) * k * k}px) rotate(${c.giro * k}deg) scale(${1 - 0.4 * k})`;
+      }
+    }
+    // el título como un sello y la racha
+    const p = _tramo(tt, T_TARJETA + 1.2, T_TARJETA + 1.55);
+    pill.style.opacity = p > 0 ? 1 : 0;
+    pill.style.transform = p >= 1 ? "" : `scale(${2.4 - 1.4 * _ease(p)}) rotate(${-12 * (1 - _ease(p))}deg)`;
+    if (racha) {
+      const q = _tramo(tt, T_TARJETA + 1.5, T_TARJETA + 1.9);
+      racha.style.opacity = q > 0 ? 1 : 0;
+      racha.style.transform = `scale(${_back(q)}) rotate(${Math.sin(tt * 7) * 4 * q}deg)`;
+    }
+    // la inclinación: lo que pide el mouse o el teléfono, más un vaivén suave para que nunca esté quieta
+    const h = _ease(_tramo(tt, T_TARJETA + 0.8, T_TARJETA + 1.6));
+    const vaiven = _incl.mano ? 0.35 : 1;
+    const ax = _incl.x + vaiven * (Math.sin(tt * 1.3) * 3 + Math.sin(tt * 2.9) * 1);
+    const ay = _incl.y + vaiven * (Math.cos(tt * 1.1) * 4.5 + Math.sin(tt * 2.3) * 1.5);
+    _incl.ox += (ax - _incl.ox) * 0.12;
+    _incl.oy += (ay - _incl.oy) * 0.12;
+    const rx = _incl.ox * h, ry = _incl.oy * h;
+    card.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+    const pos = 50 + ry * 5;
+    holo.style.opacity = 0.5 * h;
+    holo.style.background = `linear-gradient(${115 + rx * 3}deg, transparent ${pos - 38}%, rgba(255,120,210,.5) ${pos - 18}%, rgba(255,255,255,.85) ${pos}%, rgba(90,220,255,.5) ${pos + 18}%, transparent ${pos + 38}%)`;
+    // bombillas en cadena
+    const paso = Math.floor(tt * 8);
+    focos.forEach((b, i) => b.classList.toggle("on", tt > T_TARJETA - 0.1 && ((paso - i) % 4 + 4) % 4 === 0));
+    // Mr. Admin escribe
+    if (burbuja && frase) {
+      const letras = Math.floor(Math.max(0, tt - T_TARJETA - 1.4) * 32);
+      if (letras < frase.length) burbuja.innerHTML = esc(frase.slice(0, letras)) + '<span class="cursor"></span>';
+      else if (burbuja.dataset.escrita !== "1") { burbuja.textContent = frase; burbuja.dataset.escrita = "1"; }
+    }
+    _vida.raf = requestAnimationFrame(cuadro);
+  };
+  _vida.raf = requestAnimationFrame(cuadro);
 }
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
@@ -712,20 +930,31 @@ function vistaCrear() {
   </main>`;
 }
 
-function tarjeta(j, r) {
+// La tarjeta-ticket. `boleteria` = la del perfil propio: va con el cartel y la ranura de donde sale impresa.
+// La anima vida() (bombillas, holograma, números que cuentan); con "reducir movimiento" queda quieta.
+function tarjeta(j, r, boleteria = false) {
   const titulo = r?.titulo && TITULOS[r.titulo] ? TITULOS[r.titulo][lang === "es" ? 0 : 1] : (r?.partidas ? t("cliente") : t("nuevo"));
-  return `<div class="ticket">
+  let racha = 0;     // (las últimas partidas ganadas seguidas)
+  for (const p of r?.ultimas ?? []) { if (p.lugar !== 1) break; racha++; }
+  const gano = r?.ultimas?.[0]?.lugar === 1;
+  const num = (n) => `<em data-n="${n ?? 0}">${n ?? 0}</em>`;
+  const card = `<div class="escena"><div class="ticket viva${gano ? " gano" : ""}" data-viva>
+    <div class="brillo"></div>
     <div class="head">${avatar("av", j.personaje, j.nombre)}
       <div class="who"><div class="name d">${esc(j.nombre)}</div><span class="pill">${esc(titulo)}</span></div>
       <span class="no">ID ${idv(j.codigo)}</span>
+      ${racha >= 2 ? `<span class="racha"><svg aria-hidden="true"><use href="#i-fuego"/></svg>${esc(t("racha", racha))}</span>` : ""}
       <i class="muesca i"></i><i class="muesca d"></i>
     </div>
     <div class="stats">
-      <div><b>${r?.partidas ?? 0}</b><span>${t("partidas")}</span></div>
-      <div><b>${r?.victorias ?? 0}</b><span>${t("victorias")}</span></div>
-      <div><b class="oro">${ticketIcon}${r?.dorados ?? 0}</b><span>${t("dorados")}</span></div>
+      <div><b>${num(r?.partidas)}</b><span>${t("partidas")}</span></div>
+      <div><b>${num(r?.victorias)}</b><span>${t("victorias")}</span></div>
+      <div><b class="oro" data-dorados>${ticketIcon}${num(r?.dorados)}</b><span>${t("dorados")}</span></div>
     </div>
-  </div>`;
+    <div class="holo"></div>
+  </div></div>`;
+  if (!boleteria) return card;
+  return `<div class="boleteria"><div class="cartel" aria-hidden="true"><i></i>${t("tu_ticket")}<i></i></div><div class="ranura" aria-hidden="true"></div><div class="salida">${card}</div></div>`;
 }
 
 // Los minijuegos: los 3 donde más ganas, los 3 donde más pierdes y (al tocar el botón) todos los que jugaste.
@@ -740,7 +969,7 @@ function bloqueMinijuegos(r, titulo = t("tus_mj")) {
     const clase = pct >= 50 ? "alto" : pct >= 25 ? "medio" : "bajo";
     const foto = FOTOS[m.id] ? ` style="background-image:url(../media/j_${FOTOS[m.id]}.jpg)"` : "";
     return `<div class="r"><div class="th"${foto}>${foto ? "" : esc([...nombreMj(m.id).replace(/^[¡¿]/, "")][0])}</div>
-      <div class="n">${esc(nombreMj(m.id))}<small>${t("ganados", m.ganados, m.jugados)}</small></div><span class="pct ${clase}">${pct}%</span></div>`;
+      <div class="n">${esc(nombreMj(m.id))}<small>${t("ganados", m.ganados, m.jugados)}</small><div class="barra ${clase}"><i style="--p:${pct}%"></i></div></div><span class="pct ${clase}">${pct}%</span></div>`;
   };
   let h = `<h3>${titulo}</h3>`;
   if (!mejores.length) {
@@ -775,8 +1004,8 @@ function vistaPerfil() {
   const j = S.jugador, r = S.resumen;
   let cuerpo = "";
   if (S.tab === "perfil") {
-    cuerpo = tarjeta(j, r) + (r?.partidas ? bloqueMinijuegos(r) + bloqueRivales(r) +
-      `<div class="admin-say quip"><img src="../media/admin_risa.webp" alt="Mr. Admin"><div class="bubble">${esc(t("quip", r.victorias, r.partidas - r.victorias))}</div></div>` +
+    cuerpo = tarjeta(j, r, true) + (r?.partidas ? bloqueMinijuegos(r) + bloqueRivales(r) +
+      `<div class="admin-say quip"><img src="../media/admin_risa.webp" alt="Mr. Admin"><div class="bubble" data-escribe="${esc(t("quip", r.victorias, r.partidas - r.victorias))}">${esc(t("quip", r.victorias, r.partidas - r.victorias))}</div></div>` +
       `<h3>${t("partidas_h")}</h3>` + listaPartidas(r, 5) : bloqueVacio() + bloqueMinijuegos(r)) +
       `<div class="acciones"><div class="fila-btn"><button class="btn btn-ghost" data-accion="editar">${t("editar")}</button><button class="btn btn-ghost" data-accion="compartir">${t("compartir")}</button></div>
        <button class="btn btn-ghost" data-accion="salir">${t("salir")}</button></div>`;
