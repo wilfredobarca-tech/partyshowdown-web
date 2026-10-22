@@ -757,6 +757,8 @@ const T = {
     err_num: "No hay ningún jugador con ese ID.", err_tu_mismo: "Ese eres tú. Mr. Admin tampoco tiene amigos.",
     err_demasiados: "Tienes demasiadas solicitudes esperando respuesta.", err_sin_perfil: "Primero arma tu perfil.",
     rel_agregar: "Agregar amigo", rel_enviada: "Solicitud enviada", rel_recibida: "Aceptar solicitud", rel_amigos: "Son amigos",
+    bloquear: "Bloquear", desbloquear: "Desbloquear", rel_bloqueado: "Lo bloqueaste: no ve tu perfil ni te puede agregar",
+    seguro_bloquear: (n) => `¿Bloquear a ${n}? Deja de ser tu amigo, no ve tu perfil y no te puede mandar solicitudes.`, ok_bloqueado: (n) => `Bloqueaste a ${n}`,
     quitar_amigo: "Quitar de amigos", entra_agregar: "Entra con Steam para agregarlo", mi_perfil: "Mi perfil",
     qr_p: "Que tu amigo lo escanee con la cámara del teléfono.", cerrar: "Cerrar",
     vin_h: "¿Conectar esta PC?", vin_p: "Desde ahora, tus partidas en esa PC se guardan solas en tu perfil.", vin_btn: "Conectar",
@@ -832,6 +834,8 @@ const T = {
     err_num: "There's no player with that ID.", err_tu_mismo: "That's you. Mr. Admin has no friends either.",
     err_demasiados: "You have too many requests waiting for an answer.", err_sin_perfil: "Build your profile first.",
     rel_agregar: "Add friend", rel_enviada: "Request sent", rel_recibida: "Accept request", rel_amigos: "Friends",
+    bloquear: "Block", desbloquear: "Unblock", rel_bloqueado: "You blocked them: they can't see your profile or add you",
+    seguro_bloquear: (n) => `Block ${n}? They stop being your friend, can't see your profile and can't send you requests.`, ok_bloqueado: (n) => `You blocked ${n}`,
     quitar_amigo: "Remove friend", entra_agregar: "Sign in with Steam to add them", mi_perfil: "My profile",
     qr_p: "Have your friend scan it with their phone camera.", cerrar: "Close",
     vin_h: "Connect this PC?", vin_p: "From now on, your games on that PC are saved to your profile automatically.", vin_btn: "Connect",
@@ -997,6 +1001,13 @@ async function demoApi(metodo, ruta, cuerpo) {
     if (i >= 0) AM.tabla.splice(i, 1);
     return { relacion: null };
   }
+  if (ruta === "/amigos/bloquear") {     // (modo de prueba)
+    for (const k of ["enviadas", "recibidas", "sugerencias"]) sacar(k, cuerpo.codigo);
+    const i = AM.tabla.findIndex((x) => !x.yo && x.codigo === norm(cuerpo.codigo));
+    if (i >= 0) AM.tabla.splice(i, 1);
+    return { relacion: "bloqueado" };
+  }
+  if (ruta === "/amigos/desbloquear") return { relacion: null };
   falla("no_existe");
 }
 
@@ -1757,6 +1768,8 @@ async function accionAmigo(ruta, cuerpo, boton) {
     const r = await api("POST", ruta, cuerpo);
     if (ruta === "/amigos/agregar") aviso(r.relacion === "amigos" ? t("ok_amigos", r.jugador.nombre) : t("ok_enviada", r.jugador.nombre));
     else if (ruta === "/amigos/quitar") aviso(t("ok_quitado"));
+    else if (ruta === "/amigos/bloquear") aviso(t("ok_bloqueado", S.publico?.jugador?.nombre ?? ""));
+    else if (ruta === "/amigos/desbloquear") aviso(t("ok_quitado"));
     if (S.publico) { S.publico.relacion = r.relacion; S.amigos = null; return pintar(vistaPublico(), false); }
     await cargarAmigos();
     return r;
@@ -1820,6 +1833,9 @@ function vistaPublico() {
       enviada: `<div class="estado-amigo">${t("rel_enviada")}</div><button class="btn btn-ghost" data-accion="quitar" data-c="${n}">${t("cancelar_sol")}</button>`,
       recibida: `<button class="btn btn-menta" data-accion="aceptar" data-c="${n}">${t("rel_recibida")}</button><button class="btn btn-ghost" data-accion="rechazar" data-c="${n}">${t("rechazar")}</button>`,
     }[relacion] ?? `<button class="btn btn-oro" data-accion="agregar" data-c="${n}">${t("rel_agregar")}</button>`;
+    // (21/10) bloquear: el bloqueado no ve tu perfil ni te manda solicitudes (008_bloqueos.sql)
+    if (relacion === "bloqueado") botones = `<div class="estado-amigo">${t("rel_bloqueado")}</div><button class="btn btn-ghost" data-accion="desbloquear" data-c="${n}" data-nombre="${esc(j.nombre)}">${t("desbloquear")}</button>`;
+    else botones += `<button class="btn btn-ghost" data-accion="bloquear" data-c="${n}" data-nombre="${esc(j.nombre)}">${t("bloquear")}</button>`;
     botones += `<a class="btn btn-ghost" href="${casa}">${t("mi_perfil")}</a>`;
   }
   return barra() + `<main class="main">
@@ -2204,6 +2220,8 @@ const acciones = {
   aceptar: (b) => accionAmigo("/amigos/responder", { codigo: b.dataset.c, aceptar: true }, b),
   rechazar: (b) => accionAmigo("/amigos/responder", { codigo: b.dataset.c, aceptar: false }, b),
   quitar: (b) => accionAmigo("/amigos/quitar", { codigo: b.dataset.c }, b),
+  bloquear: (b) => { if (confirm(t("seguro_bloquear", b.dataset.nombre))) accionAmigo("/amigos/bloquear", { codigo: b.dataset.c }, b); },
+  desbloquear: (b) => accionAmigo("/amigos/desbloquear", { codigo: b.dataset.c }, b),
   mi_qr: () => mostrarQr(),
   async confirmar_pend(b) {
     b.disabled = true;
