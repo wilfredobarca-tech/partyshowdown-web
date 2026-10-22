@@ -320,8 +320,12 @@ body.con-frente #frente { display: block; }
 /* ---------------------------------------------------------------- Mr. Admin */
 .admin-say .cerdo { position: relative; width: 74px; flex: none; transform-origin: 50% 100%; }
 .admin-say .cerdo img { width: 100%; }
-.admin-say .casco { position: absolute; left: -11px; top: -14px; width: 96px; display: none; filter: none; }
-[data-tema="espacial"] .admin-say .casco { display: block; }
+.admin-say .cerdo img.cara { position: relative; z-index: 1; }
+/* el casco (espacial): más grande que la cabeza para que entren la cara y el sombrero; la capa de atrás va entera y la de
+   adelante es solo lo que queda por debajo del aro (el frente del aro, sobre el cuello) */
+.admin-say .cerdo img.casco { position: absolute; left: -30%; top: -47%; width: 160%; max-width: none; display: none; filter: none; z-index: 0; }
+.admin-say .cerdo img.casco.frente { z-index: 2; clip-path: polygon(0 82%, 100% 69%, 100% 100%, 0 100%); }
+[data-tema="espacial"] .admin-say .cerdo img.casco { display: block; }
 [data-tema="embrujada"] .bubble { background: linear-gradient(180deg, #efe6d6, #ddd0b4); color: #1a0f1f; border-radius: 6px 18px 6px 18px; box-shadow: 0 4px 0 #000, 0 0 18px rgba(92,255,157,.25); }
 [data-tema="espacial"] .bubble { background: rgba(10,30,70,.72); color: #dff9ff; border: 1.5px solid #3fe0ff; box-shadow: 0 0 18px rgba(63,224,255,.4); border-radius: 4px 16px 16px 16px; }
 [data-tema="espacial"] .cursor { background: #dff9ff; }
@@ -726,7 +730,6 @@ button.pt:active { transform: translateY(2px); }
 [data-tema="espacial"] .mj, [data-tema="espacial"] .duelo, [data-tema="espacial"] .vitrina, [data-tema="espacial"] .caja { background-color: rgba(10,22,58,.84); }
 [data-tema="espacial"] .tablon, [data-tema="espacial"] .billetera { background: rgba(8,18,48,.86); }
 [data-tema="espacial"] .tabs { background: rgba(5,10,30,.95); }
-.admin-say .cerdo img.casco { width: 96px; }
 [data-tema] .entrar { color: #fff; }
 [data-tema="feria"] .pj { background-color: #cfeaff; } [data-tema="embrujada"] .pj { background-color: #2a1640; } [data-tema="espacial"] .pj { background-color: #0b1640; border-color: #3fe0ff; }
 [data-tema="feria"] .pj-nombre { color: #e0162e; } [data-tema="embrujada"] .pj-nombre { color: #5cff9d; } [data-tema="espacial"] .pj-nombre { color: #9ff0ff; }
@@ -1620,7 +1623,8 @@ function vestir() {
 const letrero = (sub = ti("sub")) => `<div class="letrero"><b>${esc(ti("letrero"))}</b><span>${esc(sub)}</span></div>`;
 
 // Mr. Admin con la cara del tema (y casco en el espacio)
-const cerdo = (cara = TEMA_INFO[TEMA].admin) => `<div class="cerdo"><img src="../media/${cara}.webp" alt="Mr. Admin"><img class="casco" src="tema/espacial/casco_admin.webp" alt=""></div>`;
+// (el casco va en dos capas: entero detrás de Mr. Admin y solo el frente del aro delante, sobre el cuello)
+const cerdo = (cara = TEMA_INFO[TEMA].admin) => `<div class="cerdo"><img class="casco atras" src="tema/espacial/casco_admin.webp" alt=""><img class="cara" src="../media/${cara}.webp" alt="Mr. Admin"><img class="casco frente" src="tema/espacial/casco_admin.webp" alt=""></div>`;
 
 // Las tres tarjetas del tema (y "Automático"), con su escena en miniatura y el retrato del jugador.
 function opcionesTema(sel, pj) {
