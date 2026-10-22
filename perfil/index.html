@@ -270,7 +270,7 @@ body.con-frente #frente { display: block; }
 [data-tema="feria"] .ranura { display: block; }
 .salida { position: relative; padding-top: 16px; }
 .escena3d { perspective: 900px; }
-.ticket.viva { transform-style: preserve-3d; will-change: transform; }
+.ticket.viva { will-change: transform; }     /* (22/10: sin preserve-3d: con él, en el teléfono parpadeaba el tema espacial) */
 .ticket.viva .holo { position: absolute; inset: 0; border-radius: 18px; pointer-events: none; z-index: 5; opacity: 0; mix-blend-mode: screen; }
 .ticket.viva .brillo { position: absolute; inset: -8px; border-radius: 28px; pointer-events: none; z-index: -1; }
 .ticket.viva.gano .brillo { animation: gano 2.2s ease-in-out infinite; }
@@ -283,6 +283,7 @@ body.con-frente #frente { display: block; }
 [data-tema="feria"] .ticket.viva.gano .brillo { box-shadow: 0 0 18px 4px rgba(255,200,61,.6); }
 [data-tema="feria"] .ticket.viva .racha { color: #ffc83d; }
 [data-tema="feria"] .ticket.viva .holo { mix-blend-mode: color-dodge; }
+[data-tema="espacial"] .ticket.viva .holo { mix-blend-mode: normal; }
 [data-tema="feria"] .ticket.viva .av { background-color: #cfeaff; }
 [data-tema="feria"] .luz { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid #000; background: #c08a1a; }
 [data-tema="feria"] .luz.on { background: #fff3b0; box-shadow: 0 0 8px 3px rgba(255,220,90,.95); }
@@ -1395,9 +1396,9 @@ function escena(tema) {
 
   if (tema === "espacial") {
     capa(1, "background: radial-gradient(ellipse 90% 60% at 20% 20%, #2a1060 0, transparent 60%), radial-gradient(ellipse 80% 60% at 90% 70%, #08306a 0, transparent 60%), #050818;");
-    for (const [k, n, tam] of [[2, 70, 1.5], [5, 40, 2.2], [9, 22, 3]]) { const c = capa(k); for (let i = 0; i < n; i++) { const e = _div(`position:absolute;left:${azar() * (W + 120)}px;top:${azar() * (H + 120)}px;width:${tam}px;height:${tam}px;border-radius:50%;background:${azar() < 0.2 ? "#9ff0ff" : "#fff"}`); c.appendChild(e); const f = azar() * 6; tick((t) => (e.style.opacity = 0.4 + 0.6 * Math.abs(Math.sin(t * 1.5 + f)))); } }
+    for (const [k, n, tam] of [[2, 70, 1.5], [5, 40, 2.2], [9, 22, 3]]) { const c = capa(k); for (let i = 0; i < n; i++) c.appendChild(_div(`position:absolute;left:${azar() * (W + 120)}px;top:${azar() * (H + 120)}px;width:${tam}px;height:${tam}px;border-radius:50%;background:${azar() < 0.2 ? "#9ff0ff" : "#fff"};opacity:${0.45 + azar() * 0.55}`)); const f = k; tick((t) => (c.style.opacity = 0.7 + 0.3 * Math.sin(t * 1.3 + f))); }     // (22/10: titilan por capa, no estrella por estrella: en el teléfono parpadeaba)
     const neb = capa(4);
-    for (const [x, y, w, c] of [[-60, 0.1, 340, "rgba(255,79,216,.22)"], [W - 200, 0.45, 360, "rgba(63,224,255,.18)"]]) { const b = _div(`position:absolute;left:${x}px;top:${H * y}px;width:${w}px;height:${w * 0.7}px;border-radius:50%;filter:blur(40px);background:${c}`); neb.appendChild(b); tick((t) => (b.style.transform = `scale(${1 + Math.sin(t * 0.4 + x) * 0.08})`)); }
+    for (const [x, y, w, c] of [[-60, 0.1, 340, "rgba(255,79,216,.22)"], [W - 200, 0.45, 360, "rgba(63,224,255,.18)"]]) { const b = _div(`position:absolute;left:${x}px;top:${H * y}px;width:${w}px;height:${w * 0.7}px;border-radius:50%;background:radial-gradient(closest-side, ${c}, transparent)`); neb.appendChild(b); tick((t) => (b.style.transform = `scale(${1 + Math.sin(t * 0.4 + x) * 0.08})`)); }     // (nebulosas sin blur animado)
     const plan = capa(7);
     const planeta = (x, y, r, c1, c2, anillo, giro) => {
       const g = _div(`position:absolute;left:${x}px;top:${y}px;width:${r * 2}px;height:${r * 2}px;`);
