@@ -363,7 +363,7 @@ body.con-frente #frente { display: block; }
 /* ---------------------------------------------------------------- minijuegos: puestos, lápidas o planetas */
 .mjs { display: grid; gap: 12px; }
 .mj { position: relative; display: flex; align-items: center; gap: 12px; padding: 12px; }
-.mj .th { width: 58px; height: 58px; flex: none; background: #1f1030 center/cover; position: relative; display: grid; place-items: center; font: normal 22px/1 "Luckiest"; color: #fff; }
+.mj .th { width: 92px; height: 58px; flex: none; background: #1f1030 center/cover; position: relative; display: grid; place-items: center; font: normal 22px/1 "Luckiest"; color: #fff; }
 .mj .n { flex: 1; min-width: 0; font-weight: 700; font-size: 16px; line-height: 1.15; }
 .mj .n small { display: block; font-weight: 600; font-size: 12.5px; margin-top: 3px; }
 .mj .barra { height: 8px; margin-top: 8px; border-radius: 4px; overflow: hidden; position: relative; background: rgba(0,0,0,.2); }
@@ -665,6 +665,61 @@ button.pt:active { transform: translateY(2px); }
 [data-tema="espacial"] .sello-ok { color: #3fe0ff; background: rgba(5,10,30,.85); mix-blend-mode: normal; text-shadow: 0 0 8px #3fe0ff; }
 [data-tema="espacial"] .rt-cuentas span { background: rgba(5,10,30,.9); color: #9ff0ff; border: 1px solid #3fe0ff; }
 @media (prefers-reduced-motion: reduce) { .sello-ok { animation: none; } }
+/* ---------------------------------------------------------------- la billetera */
+.billetera { position: relative; padding: 16px 14px 14px; }
+.bl-total { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.bl-total .bl-ico svg { width: 44px; height: 44px; color: #ffc83d; filter: drop-shadow(0 3px 0 #000); }
+.bl-total b { font: normal clamp(40px, 12vw, 54px)/1 "Luckiest"; }
+.bl-total > span:last-child { font: normal 16px/1 "Luckiest"; letter-spacing: 1px; text-transform: uppercase; opacity: .8; margin-top: 10px; }
+.bl-cuenta { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 12px 0 4px; }
+.chip-b { display: inline-flex; gap: 4px; align-items: baseline; padding: 4px 9px 3px; border-radius: 999px; font-weight: 700; font-size: 12px; border: 2px solid #000; background: rgba(0,0,0,.08); }
+.chip-b b { font: normal 13px "Luckiest"; color: #138a4a; } .chip-b.base b { color: inherit; } .chip-b.menos b { color: #c0102a; }
+.bl-trajes .sub-mj { margin-top: 14px; }
+.bl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px 6px; }
+.bl-traje { position: relative; display: flex; flex-direction: column; align-items: center; gap: 5px; font-weight: 700; font-size: 11.5px; text-align: center; }
+.bl-traje .aro { width: 62px; height: 62px; border-radius: 50%; border: 3px solid #000; background: #cfeaff center/cover; box-shadow: 0 4px 0 #000; }
+.bl-traje.puesto .aro { box-shadow: 0 0 0 3px #ffc83d, 0 4px 0 3px #000; }
+.bl-traje em { position: absolute; top: -6px; right: 0; font: normal 10px/1 "Luckiest"; font-style: normal; letter-spacing: .5px; padding: 3px 6px 1px; border-radius: 6px; background: #ffc83d; color: #2b1a3e; border: 2px solid #000; transform: rotate(8deg); }
+[data-tema="feria"] .billetera { background: #fff6e5; color: #2b1a3e; border: 3px solid #000; border-radius: 16px; box-shadow: 0 6px 0 #000;
+  background-image: radial-gradient(circle at 0 50%, transparent 12px, transparent 12.5px), repeating-linear-gradient(135deg, rgba(255,200,61,.18) 0 14px, transparent 14px 28px); }
+[data-tema="feria"] .bl-total b { color: #e0162e; text-shadow: 0 3px 0 #000; -webkit-text-stroke: 1px #000; }
+[data-tema="embrujada"] .billetera { border: 3px solid #000; border-radius: 18px; box-shadow: 0 6px 0 #000, 0 0 22px rgba(92,255,157,.15);
+  background: radial-gradient(ellipse at 50% 0, rgba(92,255,157,.18), transparent 60%), linear-gradient(180deg, #3a1d5a, #1c0f30); color: #efe6ff; }
+[data-tema="embrujada"] .bl-total b { color: #b8ffd6; text-shadow: 0 0 12px #5cff9d, 0 3px 0 #000; }
+[data-tema="embrujada"] .chip-b { border-color: rgba(92,255,157,.35); background: rgba(0,0,0,.25); } [data-tema="embrujada"] .chip-b b { color: #8dffb9; } [data-tema="embrujada"] .chip-b.base b { color: #efe6ff; } [data-tema="embrujada"] .chip-b.menos b { color: #ff8fa0; }
+[data-tema="embrujada"] .bl-traje .aro { background-color: #2a1640; }
+[data-tema="espacial"] .billetera { border: 1.5px solid rgba(63,224,255,.6); border-radius: 16px; background: rgba(8,18,48,.72); box-shadow: 0 0 22px rgba(63,224,255,.2); backdrop-filter: blur(5px); color: #dff9ff; }
+[data-tema="espacial"] .bl-total b { color: #ffd76a; text-shadow: 0 0 14px rgba(255,200,61,.8); }
+[data-tema="espacial"] .chip-b { border: 1px solid rgba(63,224,255,.5); background: rgba(63,224,255,.08); } [data-tema="espacial"] .chip-b b { color: #9ff0ff; } [data-tema="espacial"] .chip-b.base b { color: #dff9ff; } [data-tema="espacial"] .chip-b.menos b { color: #ff9be9; }
+[data-tema="espacial"] .bl-traje .aro { background-color: #0b1640; border: 2px solid #3fe0ff; box-shadow: 0 0 14px rgba(63,224,255,.6); }
+.pago-lg { display: block; margin-top: 3px; font: normal 12px "Luckiest"; color: #ffc83d; letter-spacing: .5px; }
+.ficha .paga { color: #ffc83d; font-weight: 700; margin: -4px 0 12px; }
+/* ---------------------------------------------------------------- las apuestas */
+.duelo.apuesta { grid-template-rows: auto auto; }
+.duelo.apuesta .ap-nota { grid-column: 1 / -1; margin: 8px 0 0; text-align: center; font-weight: 700; font-size: 12px; letter-spacing: .3px; opacity: .85; }
+.duelo.apuesta .ap-botones { grid-column: 1 / -1; display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
+.ap-monto { display: inline-flex !important; align-items: center; gap: 4px; }
+.ap-monto svg { width: 20px; height: 20px; }
+.ap-mjs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-height: 236px; overflow-y: auto; padding: 4px 2px 6px; margin: 4px 0 10px; }
+.ap-mj { position: relative; aspect-ratio: 16 / 10; border-radius: 10px; border: 2.5px solid #000; background: #1f1030 center/cover; padding: 0; cursor: pointer; overflow: hidden; }
+.ap-mj span { position: absolute; left: 0; right: 0; bottom: 0; padding: 12px 4px 3px; font: 700 10.5px/1.1 "Fredoka"; color: #fff; text-align: center; background: linear-gradient(transparent, rgba(0,0,0,.85)); }
+.ap-mj[aria-checked="true"] { outline: 3px solid #ffc83d; outline-offset: 1px; }
+.ap-lbl { text-align: left; font: normal 14px "Luckiest"; letter-spacing: .8px; color: #ffc83d; margin: 10px 2px 2px; }
+.ap-modo { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 4px 0 6px; }
+.ap-modo button { padding: 9px 4px 7px; border-radius: 10px; border: 2.5px solid #000; background: #2a1d3a; color: #f2ecff; font: normal 15px "Luckiest"; cursor: pointer; }
+.ap-modo button[aria-checked="true"] { background: #ffc83d; color: #2b1a3e; }
+.ap-que { display: block; margin-top: 4px; font-weight: 700; font-size: 12.5px; letter-spacing: .2px; }
+.ap-montos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 6px 0 4px; }
+.ap-m { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 0 8px; border-radius: 14px; border: 3px solid #000; background: #ffc83d; color: #2b1a3e; box-shadow: 0 4px 0 #000; font: inherit; cursor: pointer; }
+.ap-m svg { width: 26px; height: 26px; } .ap-m b { font: normal 22px/1 "Luckiest"; }
+.ap-m:disabled { opacity: .35; cursor: default; }
+.ap-cerdo { width: 92px; display: block; margin: -4px auto 0; }
+.ap-tengo { text-align: center; margin: 8px 0 12px; }
+.pt .a.lug { width: 44px; height: 44px; border-radius: 50%; border: 2px solid #000; background: #cfeaff center/cover; padding: 0; }
+.pt .dor.gana { color: #138a4a; } .pt .dor.pierde { color: #c0102a; }
+[data-tema="embrujada"] .pt .dor.gana, [data-tema="espacial"] .pt .dor.gana { color: #2bd46f; } [data-tema="embrujada"] .pt .dor.pierde, [data-tema="espacial"] .pt .dor.pierde { color: #ff6b8a; }
+.btn-apostar { display: flex; align-items: center; justify-content: center; gap: 8px; }
+.btn-apostar svg { width: 22px; height: 22px; }
 .admin-say .cerdo img.casco { width: 96px; }
 [data-tema] .entrar { color: #fff; }
 [data-tema="feria"] .pj { background-color: #cfeaff; } [data-tema="embrujada"] .pj { background-color: #2a1640; } [data-tema="espacial"] .pj { background-color: #0b1640; border-color: #3fe0ff; }
@@ -696,8 +751,6 @@ const STEAM = "https://steamcommunity.com/openid/login";
 const PERSONAJES = {"base": ["Clásico","Classic"], "payaso": ["Payaso","Clown"], "domador": ["Domador","Lion tamer"], "mago": ["Mago","Magician"], "forzudo": ["Forzudo","Strongman"], "trapecista": ["Trapecista","Trapeze artist"], "vaquero": ["Vaquero","Cowboy"], "heladero": ["Heladero","Ice cream vendor"], "algodon": ["Algodón de azúcar","Cotton candy"], "perro": ["Perro caliente","Hot dog"], "oso": ["Oso de peluche","Teddy bear"], "fantasma": ["Fantasma","Ghost"], "pirata": ["Pirata","Pirate"], "hombrebala": ["Hombre bala","Human cannonball"], "leon": ["León","Lion"], "malabarista": ["Malabarista","Juggler"], "mimo": ["Mimo","Mime"], "palomitas": ["Palomitas","Popcorn"], "pollo": ["Pollo","Chicken"], "salchicha": ["Perro salchicha","Wiener dog"], "dinosaurio": ["Dinosaurio","Dinosaur"], "astronauta": ["Astronauta","Astronaut"], "ninja": ["Ninja","Ninja"], "robot": ["Robot de cartón","Cardboard robot"], "banana": ["Banana","Banana"], "tiburon": ["Tiburón","Shark"], "momia": ["Momia","Mummy"], "samurai": ["Samurái","Samurai"], "emo": ["Emo","Emo"], "punk": ["Punk","Punk"], "reguetonero": ["Reguetonero","Reggaeton star"], "dragon": ["Dragón","Dragon"], "hamburguesa": ["Hamburguesa","Burger"], "ovni": ["Ovni","UFO"], "vikingo": ["Vikingo","Viking"], "pulpo": ["Pulpo","Octopus"], "disco": ["Disco","Disco"]};
 // los minijuegos del juego (id = nombre del .gd), con su nombre en el juego
 const MINIJUEGOS = {"alcancias":["Guerra de Alcancías","Piggy Bank Wars"],"arcos":["Los Cuatro Arcos","The Four Goals"],"basquet":["Clavada de Mr. Admin","Mr. Admin's Slam Dunk"],"boveda":["La Bóveda de Mr. Admin","Mr. Admin's Vault"],"carrusel":["El Baile del Carrusel","Carousel Chaos"],"chocones":["Carritos Disparejos","Bumper Bully"],"circuito":["Vueltas al Circuito","Circuit Laps"],"coins":["Monedas","Coin Grab"],"colorfloor":["Color al piso","Color Dash"],"copa":["La Copa de Mr. Admin","Mr. Admin's Cup"],"cruce":["Cruza la Feria","Cross the Fair"],"desalojo":["¡Desalojo!","Eviction!"],"duelo":["Duelo del Oeste","Wild West Duel"],"duelo_esgrima":["Esgrima de Espuma","Foam Fencing"],"duelo_globo":["¡No lo revientes!","Don't Pop It!"],"duelo_pingpong":["Ping-Pong de Feria","Fair Ping-Pong"],"duelo_pulseada":["La Pulseada","Arm Wrestling"],"duelo_subibaja":["El Subibaja","The Seesaw"],"duelo_tejo":["El Tejo de Tickets","Ticket Shuffleboard"],"escondidas":["Escondidos a la Vista","Hidden in Plain Sight"],"festin":["El Festín Explosivo","The Explosive Feast"],"freeze":["Fiesta Congelada","Freeze Party"],"fuga":["Fuga en la Oscuridad","Escape in the Dark"],"garra":["La Garra de Peluches","The Plushie Claw"],"ghosts":["Caza Espectral","Ghost Hunt"],"globos":["Guerra de Globos de Agua","Water Balloon War"],"golf":["Minigolf","Mini Golf"],"hielo":["La Pista de Hielo","The Ice Rink"],"hill":["Rey de la colina","King of the Hill"],"hotpotato":["Papa caliente","Hot Potato"],"laberinto":["Laberinto de Espejos","Hall of Mirrors"],"lava":["¡Que sube la lava!","The Lava Is Rising!"],"lluvia":["Lluvia de Inversiones","Investment Rain"],"montana":["La Ruta del Desastre","Disaster Coaster"],"painter":["Pintar con los pies","Foot Painting"],"palo":["El Palo Enjabonado","The Greasy Pole"],"parca":["La Parca","The Reaper"],"pesca":["Pesca en el Lago","Lake Fishing"],"pisoton":["Pisotón Simón","Simon Stomps"],"race":["Carrera de obstáculos","Obstacle Race"],"relevos":["Relevos del Pastel","Cake Relay"],"rhythm":["Ritmo Mortal","Deadly Rhythm"],"robo":["El Robo del Ticket Dorado","The Golden Ticket Heist"],"ruleta":["Ruleta del Detonador","Detonator Roulette"],"soccer":["Fútbol caótico","Chaos Soccer"],"soga":["La Soga","Tug of War"],"sumo":["Sumo","Sumo"],"tag":["La traes","Tag, You're It!"],"tanques":["Tanques de Pintura","Paint Tanks"],"tenis":["Raquetazo","Racket Smash"],"tiles":["¡Fuera el color!","Color Drop!"],"tira":["Tira y Afloja Extremo","Extreme Tug of War"],"tiro":["Tiro al Blanco","Shooting Gallery"],"topo":["El Mazo del Topo","Whack-a-Pal"],"toro":["El Toro Mecánico","The Mechanical Bull"],"torre":["La Torre más Alta","The Tallest Tower"],"voley":["Voleibol de Alcancías","Piggy Bank Volleyball"]};
-// la foto de la web para los que tienen una (../media/j_<foto>.jpg)
-const FOTOS = { parca: "parca", lava: "lava", topo: "topo", hotpotato: "papa", tiles: "piso", garra: "garra", ruleta: "ruleta", carrusel: "carrusel", voley: "voley", soccer: "futbol", ghosts: "fantasmas", festin: "festin", montana: "montana", pesca: "pesca", torre: "torre", desalojo: "desalojo" };
 // los títulos de "la noche en números" del final de la partida (main.gd, _final_stats)
 const TITULOS = {
   ladron: ["El más ladrón", "The biggest thief"], robado: ["El más robado", "The most robbed"], salado: ["El más salado", "The unluckiest"],
@@ -737,7 +790,7 @@ const T = {
     paso_2: "Escanéalo", paso_2p: "Con la cámara del teléfono, como cualquier código QR.",
     paso_3: "Listo", paso_3p: "Esa partida se guarda en tu perfil, aunque la PC no sea tuya.",
     sentarme_nota: "En tu propia PC o jugando en línea no hace falta: el juego ya sabe que eres tú.",
-    sentarme_sello: "Llega con la próxima versión del juego",
+    sentarme_sello: "Ya funciona en el juego",
     partidas_h: "Últimas partidas", sin_partidas: "Todavía no hay partidas. La feria te espera.",
     tablero: (n) => `Tablero · ${n} turnos`, rapido: (n) => `Rápido · ${n} minijuegos`, en_linea: "En línea", local: "Local",
     de: (l, n) => `${l}.º de ${n}`, lugar: (l) => `${l}.º`,
@@ -779,6 +832,22 @@ const T = {
     d_perdio: (n) => `Perdió ${n} tickets`, d_dado: (x) => `${x} por tirada`,
     lg_cuenta: (g, n, v, m) => `${g} de ${n} logros · ${v} de ${m} niveles`, lg_cuenta_corta: (g, n) => `${g} de ${n} logros`, lg_ver: (n) => `Ver los ${n} logros`,
     lg_secreto: "Es un secreto. Sigue jugando y a lo mejor lo descubres.", lg_llevas: (v, m) => `Llevas ${v} de ${m}`, lg_completo: "¡Completo! Ya tienes el oro.",
+    ap_titulo: "Apuestas", ap_sub: "solo tickets: el que quede mejor en la próxima partida juntos se los lleva",
+    ap_recibidas: "Te retaron", ap_abiertas: "En juego", ap_enviadas: "Esperando respuesta", ap_historial: "Las de antes",
+    ap_te_reta: "te reta", ap_proxima: (d) => `la próxima partida juntos decide · vence en ${d} ${d === 1 ? "día" : "días"}`, ap_esperando: "esperando",
+    ap_aceptar: "Aceptar", ap_vence: (d) => `vence en ${d} ${d === 1 ? "día" : "días"}`, ap_ganaste: (n) => `+${n}`, ap_perdiste: (n) => `−${n}`, ap_rechazada: "rechazada", ap_cancelada: "retirada", ap_vencida: "vencida",
+    ap_vacio: "Todavía no has apostado con nadie. Entra al perfil de un amigo y rétalo.",
+    ap_boton: "Apostar tickets", ap_retar_h: (n) => `¿Retas a ${n}?`,
+    ap_regla: "Se juega en el juego, 1 contra 1: en la oficina, el cartel APUESTAS. El que gane se lleva los tickets del otro; el que se salga a mitad pierde. Si no la juegan en 7 días, no pasa nada.",
+    ap_lbl_mj: "1. El minijuego", ap_lbl_modo: "2. A cuántas", ap_lbl_monto: "3. Cuántos tickets", ap_una: "A 1 partida", ap_tres: "Al mejor de 3",
+    ap_que: (mj, n) => `${mj} · ${n === 3 ? "al mejor de 3" : "a 1 partida"}`, ap_en_juego: "Entren al juego: oficina, cartel APUESTAS",
+    ap_tengo: (n) => `Tienes ${n} tickets. Quedan apartados hasta que se decida.`, ap_retado: (n) => `Le mandaste el reto a ${n}`, ap_aceptada: "¡Apuesta aceptada! Ahora a jugar.",
+    ap_no_alcanza: "No te alcanzan los tickets.", ap_ya: "Ya tienen una apuesta abierta.", ap_no_amigos: "Solo se puede apostar con amigos.",
+    bl_apuestas: "Apuestas", bl_apartado: "Apartado",
+    bl_titulo: "Tu billetera", bl_sub: "la misma del juego: gástala en trajes", bl_tickets: "tickets", bl_bienvenida: "Bienvenida", bl_partidas: "Partidas",
+    bl_logros: "Logros", bl_retos: "Retos", bl_gastado: "Trajes", bl_tus_trajes: "Tus trajes", bl_puesto: "PUESTO",
+    bl_sin_trajes: "Todavía no tienes trajes. Cómpralos en la tienda del juego con estos tickets.",
+    lg_paga: (n) => `+${n} tickets`, rt_paga: (n) => `+${n} tickets al sellarla`,
     rt_titulo: "Los retos de Mr. Admin", rt_quedan: (d) => `quedan ${d} días`, rt_ultimo: "último día", rt_facil: "Fácil", rt_medio: "Medio", rt_dificil: "Difícil",
     rt_cumplido: "¡CUMPLIDO!", rt_racha: (n) => `Racha: ${n} ${n === 1 ? "semana" : "semanas"}`, rt_selladas: (n) => `${n} ${n === 1 ? "semana sellada" : "semanas selladas"}`,
     rt_sellada: "¡SEMANA SELLADA!", rt_frase0: "Tres retos, una semana. A ver si esta vez no me decepcionas.", rt_frase1: "Vas bien. Sospechosamente bien.",
@@ -814,7 +883,7 @@ const T = {
     paso_2: "Scan it", paso_2p: "With your phone's camera, like any QR code.",
     paso_3: "Done", paso_3p: "That game is saved to your profile, even if it isn't your PC.",
     sentarme_nota: "On your own PC or playing online you don't need it: the game already knows it's you.",
-    sentarme_sello: "Coming in the next game update",
+    sentarme_sello: "Works in the game now",
     partidas_h: "Latest games", sin_partidas: "No games yet. The fair is waiting.",
     tablero: (n) => `Board · ${n} turns`, rapido: (n) => `Quick · ${n} minigames`, en_linea: "Online", local: "Local",
     de: (l, n) => `${ord(l)} of ${n}`, lugar: (l) => ord(l),
@@ -856,6 +925,22 @@ const T = {
     d_perdio: (n) => `Lost ${n} tickets`, d_dado: (x) => `${x} per roll`,
     lg_cuenta: (g, n, v, m) => `${g} of ${n} achievements · ${v} of ${m} levels`, lg_cuenta_corta: (g, n) => `${g} of ${n} achievements`, lg_ver: (n) => `See all ${n} achievements`,
     lg_secreto: "It's a secret. Keep playing and maybe you'll find it.", lg_llevas: (v, m) => `${v} of ${m} so far`, lg_completo: "Complete! You've got the gold.",
+    ap_titulo: "Bets", ap_sub: "tickets only: whoever finishes higher in your next game together takes them",
+    ap_recibidas: "You've been challenged", ap_abiertas: "In play", ap_enviadas: "Waiting for an answer", ap_historial: "Earlier bets",
+    ap_te_reta: "challenges you", ap_proxima: (d) => `your next game together decides · expires in ${d} ${d === 1 ? "day" : "days"}`, ap_esperando: "waiting",
+    ap_aceptar: "Accept", ap_vence: (d) => `expires in ${d} ${d === 1 ? "day" : "days"}`, ap_ganaste: (n) => `+${n}`, ap_perdiste: (n) => `−${n}`, ap_rechazada: "declined", ap_cancelada: "withdrawn", ap_vencida: "expired",
+    ap_vacio: "You haven't bet with anyone yet. Open a friend's profile and challenge them.",
+    ap_boton: "Bet tickets", ap_retar_h: (n) => `Challenge ${n}?`,
+    ap_regla: "It's played in the game, 1 vs 1: in the office, the BETS sign. The winner takes the other's tickets; whoever quits halfway loses. If you don't play it within 7 days, nothing happens.",
+    ap_lbl_mj: "1. The minigame", ap_lbl_modo: "2. How many", ap_lbl_monto: "3. How many tickets", ap_una: "Single game", ap_tres: "Best of 3",
+    ap_que: (mj, n) => `${mj} · ${n === 3 ? "best of 3" : "single game"}`, ap_en_juego: "Go to the game: office, BETS sign",
+    ap_tengo: (n) => `You have ${n} tickets. They're set aside until it's decided.`, ap_retado: (n) => `Challenge sent to ${n}`, ap_aceptada: "Bet accepted! Now go play.",
+    ap_no_alcanza: "You don't have enough tickets.", ap_ya: "You already have an open bet.", ap_no_amigos: "You can only bet with friends.",
+    bl_apuestas: "Bets", bl_apartado: "Set aside",
+    bl_titulo: "Your wallet", bl_sub: "the same one as in the game: spend it on outfits", bl_tickets: "tickets", bl_bienvenida: "Welcome", bl_partidas: "Games",
+    bl_logros: "Achievements", bl_retos: "Challenges", bl_gastado: "Outfits", bl_tus_trajes: "Your outfits", bl_puesto: "WEARING",
+    bl_sin_trajes: "No outfits yet. Buy them in the game's shop with these tickets.",
+    lg_paga: (n) => `+${n} tickets`, rt_paga: (n) => `+${n} tickets when sealed`,
     rt_titulo: "Mr. Admin's challenges", rt_quedan: (d) => `${d} days left`, rt_ultimo: "last day", rt_facil: "Easy", rt_medio: "Medium", rt_dificil: "Hard",
     rt_cumplido: "DONE!", rt_racha: (n) => `Streak: ${n} ${n === 1 ? "week" : "weeks"}`, rt_selladas: (n) => `${n} ${n === 1 ? "week sealed" : "weeks sealed"}`,
     rt_sellada: "WEEK SEALED!", rt_frase0: "Three challenges, one week. Let's see if you disappoint me again.", rt_frase1: "Going well. Suspiciously well.",
@@ -912,7 +997,7 @@ async function api(metodo, ruta, cuerpo) {
 // estadísticas son las inventadas de demo.js (?demo=vacio = un perfil nuevo, sin partidas ni amigos).
 // Los amigos de prueba viven en memoria: al recargar la página vuelven a estar como al principio.
 let DATOS = null, AM = null;
-const OTRO_DEMO = { codigo: "PUP3K9", nombre: "Lupe", personaje: "leon", tema: "embrujada" };     // (el que se puede agregar escribiendo PUP-3K9)
+const OTRO_DEMO = { codigo: "PUP3K9", nombre: "Lupe", personaje: "leon", tema: "embrujada" };     // (y en ?j= de un amigo de la tabla sale "Apostar")     // (el que se puede agregar escribiendo PUP-3K9)
 const MIO_DEMO = "WYZ7Q2";
 const norm = (c) => String(c ?? "").toUpperCase().replace(/[\s-]/g, "");
 // (modo de prueba) 30 partidas con id, y el resumen inventado de cada una (siempre el mismo para el mismo id)
@@ -936,12 +1021,37 @@ function demoPartida(id, yo) {
     .sort((a, b) => a.lugar - b.lugar);
   jugadores[0].titulo = "rey_minijuegos";
   if (jugadores[1]) jugadores[1].titulo = u.titulo === "ladron" ? "ladron" : "salado";
-  const ids = Object.keys(FOTOS);
+  const ids = Object.keys(MINIJUEGOS);
   const rondas = Array.from({ length: Math.min(8, u.turnos || 6) }, (_, k) => {
     const orden = jugadores.map((j) => j.puesto).sort(() => rnd() - 0.5);
     return { ronda: k + 1, minijuego: ids[(i * 3 + k * 5) % ids.length], lugares: orden.map((p, n) => [p, n + 1]) };
   });
   return { partida: { id, fecha: u.fecha, modo: u.modo, turnos: u.turnos, en_linea: u.en_linea, jugadores: jugadores.length, mapa: u.mapa, completa: true }, jugadores, rondas };
+}
+// (modo de prueba) unas apuestas con los amigos de prueba, en memoria
+let AP = null;
+function demoApuestas(ruta, cuerpo) {
+  const amigo = (c) => DATOS.amigos.tabla.find((x) => x.codigo === c) ?? DATOS.resumen.rivales.find((x) => x.codigo === c);
+  const p = (c) => { const x = amigo(c); return x ? { codigo: x.codigo, nombre: x.nombre, personaje: x.personaje } : { codigo: c, nombre: c, personaje: "base" }; };
+  const dia = (n) => new Date(Date.now() + n * 864e5).toISOString();
+  AP ??= q.get("demo") === "vacio" ? [] : [
+    { id: 1, monto: 50, minijuego: "basquet", al_mejor_de: 3, estado: "pendiente", reto_yo: false, rival: p("DAN9H3"), creada: dia(-0.2), expira: dia(6.8) },
+    { id: 2, monto: 100, minijuego: "soccer", al_mejor_de: 1, estado: "aceptada", reto_yo: true, rival: p("PAU4M7"), creada: dia(-1), expira: dia(5.5) },
+    { id: 3, monto: 25, minijuego: "duelo_esgrima", al_mejor_de: 1, estado: "resuelta", reto_yo: true, rival: p("CRZ2X8"), creada: dia(-3), expira: dia(4), partida: demoId(2), gane: true },
+    { id: 4, monto: 50, minijuego: "tenis", al_mejor_de: 3, estado: "resuelta", reto_yo: false, rival: p("PAU4M7"), creada: dia(-5), expira: dia(2), partida: demoId(4), gane: false },
+    { id: 5, monto: 200, minijuego: "sumo", al_mejor_de: 1, estado: "vencida", reto_yo: true, rival: p("DAN9H3"), creada: dia(-12), expira: dia(-5) },
+  ];
+  const id = Number(cuerpo?.id), a = AP.find((x) => x.id === id);
+  if (ruta === "/apuestas/retar") {
+    if (AP.some((x) => ["pendiente", "aceptada"].includes(x.estado) && x.rival.codigo === cuerpo.codigo)) throw Object.assign(new Error("ya_apostando"), { status: 400 });
+    AP.unshift({ id: AP.length + 10, monto: cuerpo.monto, minijuego: cuerpo.minijuego, al_mejor_de: cuerpo.al_mejor_de, estado: "pendiente", reto_yo: true, rival: p(cuerpo.codigo), creada: dia(0), expira: dia(7) });
+  }
+  if (ruta === "/apuestas/responder" && a) Object.assign(a, cuerpo.aceptar ? { estado: "aceptada", expira: dia(7) } : { estado: "rechazada" });
+  if (ruta === "/apuestas/cancelar" && a) a.estado = "cancelada";
+  return {
+    recibidas: AP.filter((x) => x.estado === "pendiente" && !x.reto_yo), enviadas: AP.filter((x) => x.estado === "pendiente" && x.reto_yo),
+    abiertas: AP.filter((x) => x.estado === "aceptada"), historial: AP.filter((x) => !["pendiente", "aceptada"].includes(x.estado)), montos: [25, 50, 100, 200],
+  };
 }
 async function demoApi(metodo, ruta, cuerpo) {
   DATOS ??= (await import("./demo.js")).DEMO;
@@ -966,9 +1076,15 @@ async function demoApi(metodo, ruta, cuerpo) {
   const sacar = (lista, c) => { const i = AM[lista].findIndex((x) => x.codigo === norm(c)); return i >= 0 ? AM[lista].splice(i, 1)[0] : null; };
   const amigo = (p) => ({ codigo: p.codigo, nombre: p.nombre, personaje: p.personaje, yo: false, partidas: 0, victorias: 0, dorados: 0 });
   const relacion = (c) => AM.tabla.some((x) => !x.yo && x.codigo === c) ? "amigos" : AM.enviadas.some((x) => x.codigo === c) ? "enviada" : AM.recibidas.some((x) => x.codigo === c) ? "recibida" : null;
-  if (ruta === "/entrar") return { token: "demo", jugador: yo(), resumen: yo() ? res() : null };
-  if (ruta === "/yo" && metodo === "GET") return { jugador: yo(), resumen: yo() ? res() : null };
-  if (ruta === "/yo") { const j = { codigo: MIO_DEMO, nombre: cuerpo.nombre.trim(), personaje: cuerpo.personaje, tema: cuerpo.tema ?? yo()?.tema ?? "auto" }; guardado.set("ps_demo_jugador", JSON.stringify(j)); return { jugador: j, resumen: res() }; }
+  const bil = () => {
+    const R = res(), cuenta = { bienvenida: 400, partidas: vacio ? 0 : 320, logros: 0, retos: (R.retos?.selladas ?? 0) * PAGO_SEMANA, gastado: vacio ? 0 : 2300 };
+    for (const l of R.logros ?? []) for (let n = 1; n <= l.nivel; n++) cuenta.logros += pagoLogro(l, n);
+    const tickets = cuenta.bienvenida + cuenta.partidas + cuenta.logros + cuenta.retos - cuenta.gastado;
+    return { tickets, dorados: 0, trajes: vacio ? [] : ["payaso", "pirata", "dragon"], traje: vacio ? "" : "dragon", cuenta };
+  };
+  if (ruta === "/entrar") return { token: "demo", jugador: yo(), resumen: yo() ? res() : null, billetera: yo() ? bil() : null };
+  if (ruta === "/yo" && metodo === "GET") return { jugador: yo(), resumen: yo() ? res() : null, billetera: yo() ? bil() : null };
+  if (ruta === "/yo") { const j = { codigo: MIO_DEMO, nombre: cuerpo.nombre.trim(), personaje: cuerpo.personaje, tema: cuerpo.tema ?? yo()?.tema ?? "auto" }; guardado.set("ps_demo_jugador", JSON.stringify(j)); return { jugador: j, resumen: res(), billetera: bil() }; }
   if (ruta === "/salir") return { ok: true };
   if (ruta.startsWith("/jugador/")) {
     const n = norm(ruta.split("/")[2]);
@@ -977,6 +1093,7 @@ async function demoApi(metodo, ruta, cuerpo) {
     return { jugador: { codigo: p.codigo, nombre: p.nombre, personaje: p.personaje, tema: p.tema ?? "auto" }, resumen: { ...conHistorial(DATOS.resumen), rivales: DATOS.resumen.rivales.filter((r) => r.codigo !== n) }, relacion: S.token ? relacion(n) : null };
   }
   if (ruta.startsWith("/partida/")) return demoPartida(ruta.split("/")[2], yo());
+  if (ruta.startsWith("/apuestas")) return demoApuestas(ruta, cuerpo);
   if (ruta === "/amigos") return structuredClone(AM);
   if (ruta.startsWith("/vincular/")) return metodo === "GET" ? { estado: q.get("demo") === "otra" ? "esperando" : "esperando", otra_cuenta: q.get("demo") === "otra" } : { ok: true };
   if (ruta.startsWith("/asiento/")) return metodo === "GET" ? { puesto: 3, de: { codigo: "RKU2Q7", nombre: "Razziel", personaje: "dragon" }, estado: "libre", es_tu_pc: false } : { ok: true, puesto: 3 };
@@ -1026,7 +1143,7 @@ async function arrancar() {
     try {
       const r = await api("POST", "/entrar", { openid });
       S.token = r.token; guardado.set("ps_token", r.token);
-      S.jugador = r.jugador; S.resumen = r.resumen;
+      S.jugador = r.jugador; S.resumen = r.resumen; S.billetera = r.billetera ?? null;
       return S.jugador ? mostrarPerfil() : pintar(vistaCrear());
     } catch (e) {
       S.error = e.status ? t("err_steam") : t("err_red");
@@ -1044,7 +1161,7 @@ async function arrancar() {
   pintar(vistaCargando(t("cargando")));
   try {
     const r = await api("GET", "/yo");
-    S.jugador = r.jugador; S.resumen = r.resumen;
+    S.jugador = r.jugador; S.resumen = r.resumen; S.billetera = r.billetera ?? null;
     S.jugador ? mostrarPerfil() : pintar(vistaCrear());
   } catch (e) {
     if (e.status === 401) { salirLocal(); return pintar(vistaEntrar()); }
@@ -1135,7 +1252,7 @@ function vistaPendiente() {
 // Trae la pestaña Amigos por detrás (para la insignia de solicitudes) y la repinta si está abierta.
 async function cargarAmigos() {
   try {
-    S.amigos = await api("GET", "/amigos");
+    [S.amigos] = await Promise.all([api("GET", "/amigos"), cargarApuestas()]);
   } catch (e) {
     if (e.status === 401) { salirLocal(); return pintar(vistaEntrar()); }
     S.amigos ??= { error: true };
@@ -1147,7 +1264,7 @@ async function cargarAmigos() {
 
 function ponerInsignia() {
   const b = app.querySelector('[data-tab="amigos"]');
-  const n = S.amigos?.recibidas?.length ?? 0;
+  const n = (S.amigos?.recibidas?.length ?? 0) + (S.apuestas?.recibidas?.length ?? 0);
   b?.querySelector(".insignia")?.remove();
   if (b && n) b.insertAdjacentHTML("beforeend", `<span class="insignia" aria-label="${n}">${n}</span>`);
 }
@@ -1524,7 +1641,7 @@ function abrirHoja() {
     H.querySelectorAll("[data-tema-opt]").forEach((x) => (x.disabled = true));
     try {
       const r = await api("POST", "/yo", { nombre: j.nombre, personaje: j.personaje, tema: b.dataset.temaOpt });
-      S.jugador = r.jugador; S.resumen = r.resumen ?? S.resumen;
+      S.jugador = r.jugador; S.resumen = r.resumen ?? S.resumen; S.billetera = r.billetera ?? S.billetera;
       cerrar(); pintar(vistaPerfil());
     } catch (err) {
       cerrar();
@@ -1539,6 +1656,8 @@ function abrirHoja() {
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 const nombrePj = (id) => (PERSONAJES[id] || [id, id])[lang === "es" ? 0 : 1];
+// (22/10) la foto de cada minijuego, sacada del juego: mj/<id>.jpg (960 × 540) y mj/p/<id>.jpg (320 × 180, la que se usa en las listas)
+const fotoMj = (id) => (MINIJUEGOS[id] ? `mj/p/${id}.jpg` : "");
 const nombreMj = (id) => (MINIJUEGOS[id] || [id, id])[lang === "es" ? 0 : 1];
 function avatar(clase, personaje, nombre) {
   if (PERSONAJES[personaje]) return `<div class="${clase}" style="background-image:url(${retrato(personaje)})" role="img" aria-label="${esc(nombrePj(personaje))}"></div>`;
@@ -1652,7 +1771,7 @@ function bloqueMinijuegos(r, titulo = t("tus_mj")) {
   const fila = (m, i, malo) => {
     const pct = Math.round((100 * m.ganados) / m.jugados);
     malo ??= pct < 34;
-    const foto = FOTOS[m.id] ? ` style="background-image:url(../media/j_${FOTOS[m.id]}.jpg)"` : "";
+    const foto = fotoMj(m.id) ? ` style="background-image:url(${fotoMj(m.id)})"` : "";
     const orbita = TEMA === "espacial" ? `<svg class="orbita" viewBox="0 0 76 76" aria-hidden="true"><circle cx="38" cy="38" r="34" fill="none" stroke="rgba(63,224,255,.18)" stroke-width="2"/><circle class="arco" cx="38" cy="38" r="34" fill="none" stroke="${malo ? "#ff4fd8" : "#3fe0ff"}" stroke-width="3" stroke-linecap="round" stroke-dasharray="${MOV ? 0 : (pct / 100) * 214} 214" transform="rotate(-90 38 38)" data-p="${pct}"/><circle class="sat" r="4" fill="#fff" cx="38" cy="4"/></svg>` : "";
     const vela = TEMA === "embrujada" ? `<span class="luz on" aria-hidden="true"><i></i></span>` : "";
     return `<div class="mj${malo ? " malo" : ""}" style="--p:${pct}%;--c1:${["#e0162e", "#3d8bff", "#2fcb86"][i % 3]}">${orbita}${vela}
@@ -1700,8 +1819,8 @@ function vistaPerfil() {
     const frase = r?.partidas ? ti("frase")(j.nombre, r.partidas, r.victorias) ?? t("quip", r.victorias, r.partidas - r.victorias) : "";
     cuerpo = `<div class="fila-tema"><button class="btn-tema" data-accion="tema"><i style="background-image:url(${retrato(PERSONAJES[j.personaje] ? j.personaje : "base")})"></i>${t("tema_btn")}: ${esc(ti("nombre"))}</button></div>` +
       letrero() + tarjeta(j, r, true) + (r?.partidas ? `<div class="admin-say quip">${cerdo()}<div class="bubble" data-escribe="${esc(frase)}">${esc(frase)}</div></div>` +
-      bloqueRetos(r) + bloqueLogros(r, true) + bloqueMinijuegos(r) + bloqueRivales(r) +
-      `<h3>${esc(ti("partidas"))}</h3>` + listaPartidas(r, 5) + (r.ultimas.length > 5 ? `<button class="btn btn-ghost mas-partidas" data-tab="partidas">${t("ver_historial", r.ultimas.length)}</button>` : "") : bloqueVacio() + bloqueMinijuegos(r)) +
+      bloqueBilletera() + bloqueRetos(r) + bloqueLogros(r, true) + bloqueMinijuegos(r) + bloqueRivales(r) +
+      `<h3>${esc(ti("partidas"))}</h3>` + listaPartidas(r, 5) + (r.ultimas.length > 5 ? `<button class="btn btn-ghost mas-partidas" data-tab="partidas">${t("ver_historial", r.ultimas.length)}</button>` : "") : bloqueBilletera() + bloqueVacio() + bloqueMinijuegos(r)) +
       `<div class="acciones"><div class="fila-btn"><button class="btn btn-ghost" data-accion="editar">${t("editar")}</button><button class="btn btn-ghost" data-accion="compartir">${t("compartir")}</button></div>
        <button class="btn btn-ghost" data-accion="salir">${t("salir")}</button></div>`;
   } else if (S.tab === "logros") {
@@ -1742,6 +1861,7 @@ function cuerpoAmigos() {
   } else {
     h += `<div class="vacio"><div class="admin-say"><img src="../media/admin_burlon.webp" alt="Mr. Admin"><div class="bubble">${t("solo_admin")}</div></div><p>${t("solo_p")}</p></div>`;
   }
+  h += bloqueApuestas();
   if (A.recibidas.length) {
     h += `<h3>${t("recibidas_h")}</h3><div class="caja">` + A.recibidas.map((p) => fila(p,
       `<div class="fila-mini"><button class="mini si" data-accion="aceptar" data-c="${p.codigo}">${t("aceptar")}</button><button class="mini gris" data-accion="rechazar" data-c="${p.codigo}">${t("rechazar")}</button></div>`)).join("") + `</div>`;
@@ -1829,7 +1949,7 @@ function vistaPublico() {
   } else {
     const n = j.codigo;
     botones = {
-      amigos: `<div class="estado-amigo">${t("rel_amigos")}</div><button class="btn btn-ghost" data-accion="quitar" data-c="${n}">${t("quitar_amigo")}</button>`,
+      amigos: `<div class="estado-amigo">${t("rel_amigos")}</div><button class="btn btn-oro btn-apostar" data-accion="apostar" data-c="${n}" data-nombre="${esc(j.nombre)}">${ticketIcon}${t("ap_boton")}</button><button class="btn btn-ghost" data-accion="quitar" data-c="${n}">${t("quitar_amigo")}</button>`,
       enviada: `<div class="estado-amigo">${t("rel_enviada")}</div><button class="btn btn-ghost" data-accion="quitar" data-c="${n}">${t("cancelar_sol")}</button>`,
       recibida: `<button class="btn btn-menta" data-accion="aceptar" data-c="${n}">${t("rel_recibida")}</button><button class="btn btn-ghost" data-accion="rechazar" data-c="${n}">${t("rechazar")}</button>`,
     }[relacion] ?? `<button class="btn btn-oro" data-accion="agregar" data-c="${n}">${t("rel_agregar")}</button>`;
@@ -1844,6 +1964,125 @@ function vistaPublico() {
     <div class="relacion">${botones}</div>
     ${r?.partidas ? bloqueLogros(r) + bloqueMinijuegos(r, t("mj")) + `<h3>${esc(ti("partidas"))} <small>${t("hist_sub")}</small></h3>` + listaPartidas(r, 10) : bloqueVacio()}
   </main>`;
+}
+
+// ================================================================= las apuestas entre amigos (22/10)
+// Solo tickets. Se reta desde el perfil de un amigo; se aceptan en la pestaña Amigos; las resuelve el servidor con
+// la próxima partida que jueguen juntos. Las tarjetas son los mismos duelos de las revanchas (con el tema).
+// los minijuegos que se pueden apostar 1 vs 1 (los mismos que apuestas.js MJ_APUESTA)
+const MJ_APUESTA = ["sumo", "tiles", "duelo", "lava", "race", "pisoton", "painter", "hotpotato", "coins", "tag", "soccer", "colorfloor",
+  "hill", "soga", "ghosts", "golf", "rhythm", "freeze", "ruleta", "parca", "laberinto", "tira", "boveda", "lluvia", "desalojo", "voley", "pesca",
+  "torre", "relevos", "globos", "robo", "copa", "basquet", "tenis", "arcos", "alcancias", "tanques", "circuito", "toro", "palo", "hielo", "cruce",
+  "duelo_globo", "duelo_pulseada", "duelo_esgrima", "duelo_subibaja", "duelo_tejo", "duelo_pingpong"];
+async function cargarApuestas() {
+  try { S.apuestas = await api("GET", "/apuestas"); } catch { S.apuestas ??= null; }
+}
+
+function bloqueApuestas() {
+  const A = S.apuestas;
+  if (!A) return "";
+  const yo = S.jugador;
+  const dias = (f) => Math.max(1, Math.ceil((Date.parse(f) - Date.now()) / 864e5));
+  const que = (x) => x.minijuego ? `<p class="ap-nota ap-que">${esc(t("ap_que", nombreMj(x.minijuego), x.al_mejor_de))}</p>` : "";
+  const duelo = (x, centro, abajo = "") => `<div class="duelo apuesta"><div class="lado">${avatar("av2", yo.personaje, yo.nombre)}${t("yo_lado")}</div>
+      <div class="vs"><b>VS</b><span class="ap-monto">${ticketIcon}${x.monto}</span>${centro}</div>
+      <div class="lado rival">${avatar("av2", x.rival.personaje, x.rival.nombre)}<a href="?j=${x.rival.codigo}">${esc(x.rival.nombre)}</a></div>${que(x)}${abajo}</div>`;
+  let h = "";
+  if (A.recibidas.length) h += `<div class="sub-mj">${t("ap_recibidas")}</div><div class="duelos">` + A.recibidas.map((x) => duelo(x, `<small>${t("ap_te_reta")}</small>`,
+    `<div class="ap-botones"><button class="mini si" data-accion="ap_aceptar" data-id="${x.id}">${t("ap_aceptar")}</button><button class="mini gris" data-accion="ap_rechazar" data-id="${x.id}">${t("rechazar")}</button></div>`)).join("") + `</div>`;
+  if (A.abiertas.length) h += `<div class="sub-mj">${t("ap_abiertas")}</div><div class="duelos">` + A.abiertas.map((x) => duelo(x, "", `<p class="ap-nota">${x.minijuego ? t("ap_en_juego") + " · " + t("ap_vence", dias(x.expira)) : t("ap_proxima", dias(x.expira))}</p>`)).join("") + `</div>`;
+  if (A.enviadas.length) h += `<div class="sub-mj">${t("ap_enviadas")}</div><div class="duelos">` + A.enviadas.map((x) => duelo(x, `<small>${t("ap_esperando")}</small>`,
+    `<div class="ap-botones"><button class="mini gris" data-accion="ap_cancelar" data-id="${x.id}">${t("cancelar_sol")}</button></div>`)).join("") + `</div>`;
+  if (A.historial.length) h += `<div class="sub-mj">${t("ap_historial")}</div><div class="partidas">` + A.historial.map((x) => {
+    const [txt, clase] = x.estado === "resuelta" ? (x.gane ? [t("ap_ganaste", x.monto), "gana"] : [t("ap_perdiste", x.monto), "pierde"]) : [t("ap_" + x.estado), ""];
+    return `<${x.partida ? `button type="button" data-partida="${x.partida}"` : "div"} class="pt">${avatar("a lug", x.rival.personaje, x.rival.nombre)}<div class="n">${esc(x.rival.nombre)}<small>${x.minijuego ? esc(nombreMj(x.minijuego)) + " · " : ""}${ticketIcon.replace("<svg", '<svg style="width:14px;height:14px;vertical-align:-2px"')} ${x.monto}</small></div><div class="dor ${clase}">${esc(txt)}</div></${x.partida ? "button" : "div"}>`;
+  }).join("") + `</div>`;
+  if (!h) h = `<p class="nota">${t("ap_vacio")}</p>`;
+  return `<h3>${t("ap_titulo")} <small>${t("ap_sub")}</small></h3>` + h;
+}
+
+// La hoja para retar a un amigo (desde su perfil): el monto y la regla.
+function abrirApuesta(codigo, nombre) {
+  const montos = S.apuestas?.montos ?? [25, 50, 100, 200];
+  const tengo = S.billetera?.tickets ?? 0;
+  const H = document.createElement("div");
+  H.className = "hoja"; H.setAttribute("role", "dialog"); H.setAttribute("aria-modal", "true");
+  let mj = null, alMejorDe = 1;
+  H.innerHTML = `<div class="caja2 ficha"><img class="ap-cerdo" src="../media/admin_presenta.webp" alt="Mr. Admin">
+    <h2>${t("ap_retar_h", nombre)}</h2><p>${t("ap_regla")}</p>
+    <div class="ap-lbl">${t("ap_lbl_mj")}</div>
+    <div class="ap-mjs" role="radiogroup">${MJ_APUESTA.map((id) => `<button type="button" class="ap-mj" role="radio" aria-checked="false" data-mj="${id}" style="background-image:url(${fotoMj(id)})"><span>${esc(nombreMj(id))}</span></button>`).join("")}</div>
+    <div class="ap-lbl">${t("ap_lbl_modo")}</div>
+    <div class="ap-modo" role="radiogroup"><button type="button" role="radio" aria-checked="true" data-modo="1">${t("ap_una")}</button><button type="button" role="radio" aria-checked="false" data-modo="3">${t("ap_tres")}</button></div>
+    <div class="ap-lbl">${t("ap_lbl_monto")}</div>
+    <div class="ap-montos">${montos.map((m) => `<button type="button" class="ap-m" data-m="${m}" disabled data-alcanza="${m <= tengo}">${ticketIcon}<b>${m}</b></button>`).join("")}</div>
+    <p class="nota ap-tengo">${t("ap_tengo", tengo)}</p>
+    <button class="btn btn-ghost" type="button" data-cerrar>${t("cancelar")}</button></div>`;
+  const cerrar = () => { H.remove(); document.removeEventListener("keydown", tecla); };
+  const tecla = (e) => { if (e.key === "Escape") cerrar(); };
+  H.addEventListener("click", async (e) => {
+    if (e.target === H || e.target.closest("[data-cerrar]")) return cerrar();
+    const op = e.target.closest("[data-mj]");
+    if (op) {
+      mj = op.dataset.mj;
+      H.querySelectorAll("[data-mj]").forEach((x) => x.setAttribute("aria-checked", x === op));
+      H.querySelectorAll("[data-m]").forEach((x) => (x.disabled = x.dataset.alcanza !== "true"));
+      return;
+    }
+    const md = e.target.closest("[data-modo]");
+    if (md) { alMejorDe = Number(md.dataset.modo); H.querySelectorAll("[data-modo]").forEach((x) => x.setAttribute("aria-checked", x === md)); return; }
+    const b = e.target.closest("[data-m]");
+    if (!b || !mj) return;
+    H.querySelectorAll("[data-m]").forEach((x) => (x.disabled = true));
+    try {
+      S.apuestas = await api("POST", "/apuestas/retar", { codigo, monto: Number(b.dataset.m), minijuego: mj, al_mejor_de: alMejorDe });
+      cerrar(); aviso(t("ap_retado", nombre));
+      try { S.billetera = (await api("GET", "/yo")).billetera ?? S.billetera; } catch {}
+    } catch (err) {
+      cerrar();
+      if (err.status === 401) { salirLocal(); return pintar(vistaEntrar()); }
+      aviso({ no_alcanza: t("ap_no_alcanza"), ya_apostando: t("ap_ya"), no_amigos: t("ap_no_amigos") }[err.message] ?? t("err_red"));
+    }
+  });
+  document.addEventListener("keydown", tecla);
+  document.body.appendChild(H);
+}
+
+async function responderApuesta(b, aceptar) {
+  b.disabled = true;
+  try {
+    S.apuestas = await api("POST", "/apuestas/" + (aceptar === null ? "cancelar" : "responder"), { id: Number(b.dataset.id), aceptar });
+    if (aceptar) aviso(t("ap_aceptada"));
+    try { S.billetera = (await api("GET", "/yo")).billetera ?? S.billetera; } catch {}
+  } catch (err) {
+    if (err.status === 401) { salirLocal(); return pintar(vistaEntrar()); }
+    aviso(err.message === "no_alcanza" ? t("ap_no_alcanza") : t("err_red"));
+  }
+  pintar(vistaPerfil(), false);
+}
+
+// ================================================================= la billetera (22/10)
+// La misma cuenta que ve el juego (/juego/billetera): bienvenida + premios de las partidas + lo que pagan los logros
+// y los retos - lo gastado en trajes. Aquí se ve con su desglose y los trajes comprados (el puesto, marcado).
+const PAGO_NIVEL = [25, 50, 100];
+const pagoLogro = (l, nivel) => (l.id === "primer_amigo" ? 0 : l.secreto ? 100 : (l.metas?.length ?? 1) > 1 ? PAGO_NIVEL[nivel - 1] : 50);     // (primer_amigo no paga: puede bajar)
+const PAGO_SEMANA = 100;
+const fmtN = (n) => new Intl.NumberFormat(lang === "es" ? "es" : "en").format(n);
+
+function bloqueBilletera() {
+  const B = S.billetera;
+  if (!B) return "";
+  const c = B.cuenta ?? { bienvenida: B.bienvenida ?? 0, partidas: 0, logros: 0, retos: 0, gastado: 0 };
+  const chip = (txt, n, clase = "") => `<span class="chip-b ${clase}">${esc(txt)} <b>${n < 0 ? "−" : clase === "base" ? "" : "+"}${fmtN(Math.abs(n))}</b></span>`;
+  const trajes = (B.trajes ?? []).filter((id) => PERSONAJES[id]);
+  return `<h3>${t("bl_titulo")} <small>${t("bl_sub")}</small></h3>
+    <div class="billetera">
+      <div class="bl-total"><span class="bl-ico">${ticketIcon}</span><b data-n="${B.tickets}">${fmtN(B.tickets)}</b><span>${t("bl_tickets")}</span></div>
+      <div class="bl-cuenta">${chip(t("bl_bienvenida"), c.bienvenida, "base")}${chip(t("bl_partidas"), c.partidas)}${chip(t("bl_logros"), c.logros)}${chip(t("bl_retos"), c.retos)}${c.apuestas ? chip(t("bl_apuestas"), c.apuestas, c.apuestas < 0 ? "menos" : "") : ""}${c.apartado ? chip(t("bl_apartado"), -c.apartado, "menos") : ""}${c.gastado ? chip(t("bl_gastado"), -c.gastado, "menos") : ""}</div>
+      <div class="bl-trajes"><div class="sub-mj">${t("bl_tus_trajes")} <small>${trajes.length}</small></div>
+        ${trajes.length ? `<div class="bl-grid">${trajes.map((id) => `<div class="bl-traje${id === B.traje ? " puesto" : ""}"><div class="aro" style="background-image:url(${retrato(id)})"></div><span>${esc(nombrePj(id))}</span>${id === B.traje ? `<em>${t("bl_puesto")}</em>` : ""}</div>`).join("")}</div>`
+          : `<p class="nota">${t("bl_sin_trajes")}</p>`}</div>
+    </div>`;
 }
 
 // ================================================================= los retos de Mr. Admin (21/10)
@@ -1885,7 +2124,7 @@ const RETOS_TXT = {
 function dibujoReto(id, s) {
   const [d] = RETOS_TXT[id] ?? ["f:estrella"];
   const [k, n] = d.split(":");
-  if (k === "j") return FOTOS[s.minijuego] ? `../media/j_${FOTOS[s.minijuego]}.jpg` : "tema/feria/dado.webp";
+  if (k === "j") return fotoMj(s.minijuego) || "tema/feria/dado.webp";
   return { f: `tema/feria/${n}.webp`, e: `tema/embrujada/${n}.webp`, s: `tema/espacial/${n}.webp`, r: retrato(n) }[k];
 }
 
@@ -1904,7 +2143,7 @@ function bloqueRetos(r) {
         <div class="rbar"><i style="width:${(100 * x.valor) / x.meta}%"></i></div><small>${x.valor} / ${x.meta}</small></div>
       ${x.hecho ? `<span class="sello-ok">${t("rt_cumplido")}</span>` : ""}</div>`;
   };
-  return `<h3>${t("rt_titulo")} <small>${esc(dias <= 1 ? t("rt_ultimo") : t("rt_quedan", dias))}</small></h3>
+  return `<h3>${t("rt_titulo")} <small>${esc(dias <= 1 ? t("rt_ultimo") : t("rt_quedan", dias))} · ${esc(t("rt_paga", PAGO_SEMANA))}</small></h3>
     <div class="tablon${s.sellada ? " sellada" : ""}">
       <div class="rt-top"><div class="admin-say">${cerdo(hechos === 3 ? "admin_enojado" : "admin_presenta")}<div class="bubble">${esc(frase)}</div></div>
         <div class="rt-cuentas"><span class="rt-racha"><svg aria-hidden="true"><use href="#i-fuego"/></svg>${esc(t("rt_racha", R.racha))}</span><span>${esc(t("rt_selladas", R.selladas))}</span></div></div>
@@ -2048,12 +2287,12 @@ function abrirLogro(id) {
   const sig = metas.find((m) => l.valor < m);
   const desc = oculto ? t("lg_secreto") : info[es_() ? 4 : 5](sig ?? metas.at(-1));
   const avance = oculto || l.valor == null ? "" : sig ? `<div class="avance"><div class="barra"><i style="width:${Math.min(100, (100 * l.valor) / sig)}%"></i></div><small>${t("lg_llevas", l.valor, sig)}</small></div>` : `<p class="hecho">${t("lg_completo")}</p>`;
-  const niveles = metas.length > 1 && !oculto ? `<div class="niveles">${metas.map((m, k) => `<div class="niv${l.nivel > k ? " on" : ""} n${k + 1}"><i></i><b>${[t("lg_bronce"), t("lg_plata"), t("lg_oro")][k]}</b><small>${m}</small></div>`).join("")}</div>` : "";
+  const niveles = metas.length > 1 && !oculto ? `<div class="niveles">${metas.map((m, k) => `<div class="niv${l.nivel > k ? " on" : ""} n${k + 1}"><i></i><b>${[t("lg_bronce"), t("lg_plata"), t("lg_oro")][k]}</b><small>${m}</small>${l.id === "primer_amigo" ? "" : `<span class="pago-lg">${t("lg_paga", PAGO_NIVEL[k])}</span>`}</div>`).join("")}</div>` : "";
   const burla = BURLAS[id] && l.nivel ? `<div class="admin-say">${cerdo("admin_burlon")}<div class="bubble">${esc(BURLAS[id][es_() ? 0 : 1])}</div></div>` : "";
   const H = document.createElement("div");
   H.className = "hoja"; H.setAttribute("role", "dialog"); H.setAttribute("aria-modal", "true");
   H.innerHTML = `<div class="caja2 ficha">${medalla(l).replace("<button", "<div").replace("</button>", "</div>")}
-    <h2>${oculto ? "???" : esc(nombreLogro(id))}</h2><p>${esc(desc)}</p>${avance}${niveles}${burla}
+    <h2>${oculto ? "???" : esc(nombreLogro(id))}</h2><p>${esc(desc)}</p>${metas.length > 1 && !oculto ? "" : `<p class="paga">${t("lg_paga", pagoLogro(l, 1))}</p>`}${avance}${niveles}${burla}
     <button class="btn btn-oro" type="button" data-cerrar>${t("cerrar")}</button></div>`;
   const cerrar = () => { H.remove(); document.removeEventListener("keydown", tecla); };
   const tecla = (e) => { if (e.key === "Escape") cerrar(); };
@@ -2121,7 +2360,7 @@ function vistaPartida() {
     const orden = [...r.lugares].sort((a, b) => a[1] - b[1]);
     const g = porPuesto.get(orden[0]?.[0]);
     const miLugar = mio ? r.lugares.find((l) => l[0] === mio.puesto)?.[1] : null;
-    const foto = FOTOS[r.minijuego] ? ` style="background-image:url(../media/j_${FOTOS[r.minijuego]}.jpg)"` : "";
+    const foto = fotoMj(r.minijuego) ? ` style="background-image:url(${fotoMj(r.minijuego)})"` : "";
     return `<div class="mj ronda${miLugar && miLugar > 1 ? " malo" : ""}" style="--c1:${["#e0162e", "#3d8bff", "#2fcb86"][i % 3]}">
       <div class="th"${foto}>${foto ? "" : esc([...nombreMj(r.minijuego).replace(/^[¡¿]/, "")][0])}</div>
       <div class="n">${esc(nombreMj(r.minijuego))}<small>${t("ronda_n", r.ronda)}${g ? " · " + esc(t("gano_x", g.nombre)) : ""}</small>
@@ -2187,7 +2426,7 @@ function conectar() {
       btn.disabled = true; btn.textContent = t("guardando");
       try {
         const r = await api("POST", "/yo", { nombre: n, personaje: elegido, tema: TEMA_PRUEBA ?? "auto" });
-        S.jugador = r.jugador; S.resumen = r.resumen; S.tab = "perfil"; TEMA_PRUEBA = null;
+        S.jugador = r.jugador; S.resumen = r.resumen; S.billetera = r.billetera ?? null; S.tab = "perfil"; TEMA_PRUEBA = null;
         mostrarPerfil();
       } catch (err) {
         btn.disabled = false; btn.textContent = t("guardar");
@@ -2220,6 +2459,14 @@ const acciones = {
   aceptar: (b) => accionAmigo("/amigos/responder", { codigo: b.dataset.c, aceptar: true }, b),
   rechazar: (b) => accionAmigo("/amigos/responder", { codigo: b.dataset.c, aceptar: false }, b),
   quitar: (b) => accionAmigo("/amigos/quitar", { codigo: b.dataset.c }, b),
+  async apostar(b) {
+    if (!S.apuestas) await cargarApuestas();
+    if (!S.billetera) { try { S.billetera = (await api("GET", "/yo")).billetera; } catch {} }
+    abrirApuesta(b.dataset.c, b.dataset.nombre);
+  },
+  ap_aceptar: (b) => responderApuesta(b, true),
+  ap_rechazar: (b) => responderApuesta(b, false),
+  ap_cancelar: (b) => responderApuesta(b, null),
   bloquear: (b) => { if (confirm(t("seguro_bloquear", b.dataset.nombre))) accionAmigo("/amigos/bloquear", { codigo: b.dataset.c }, b); },
   desbloquear: (b) => accionAmigo("/amigos/desbloquear", { codigo: b.dataset.c }, b),
   mi_qr: () => mostrarQr(),
