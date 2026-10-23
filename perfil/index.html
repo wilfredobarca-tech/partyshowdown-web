@@ -853,7 +853,7 @@ const T = {
     ap_que: (mj, n) => `${mj} · ${n === 3 ? "al mejor de 3" : "a 1 partida"}`, ap_en_juego: "Entren al juego: oficina, cartel APUESTAS",
     ap_tengo: (n) => `Tienes ${n} tickets. Quedan apartados hasta que se decida.`, ap_retado: (n) => `Le mandaste el reto a ${n}`, ap_aceptada: "¡Apuesta aceptada! Ahora a jugar.",
     ap_no_alcanza: "No te alcanzan los tickets.", ap_ya: "Ya tienen una apuesta abierta.", ap_no_amigos: "Solo se puede apostar con amigos.",
-    bl_apuestas: "Apuestas", bl_apartado: "Apartado",
+    bl_apuestas: "Apuestas", bl_apartado: "Apartado", bl_retos_juego: "Retos del juego",
     bl_titulo: "Tu billetera", bl_sub: "la misma del juego: gástala en trajes", bl_tickets: "tickets", bl_bienvenida: "Bienvenida", bl_partidas: "Partidas",
     bl_logros: "Logros", bl_retos: "Retos", bl_gastado: "Trajes", bl_tus_trajes: "Tus trajes", bl_puesto: "PUESTO",
     bl_sin_trajes: "Todavía no tienes trajes. Cómpralos en la tienda del juego con estos tickets.",
@@ -946,7 +946,7 @@ const T = {
     ap_que: (mj, n) => `${mj} · ${n === 3 ? "best of 3" : "single game"}`, ap_en_juego: "Go to the game: office, BETS sign",
     ap_tengo: (n) => `You have ${n} tickets. They're set aside until it's decided.`, ap_retado: (n) => `Challenge sent to ${n}`, ap_aceptada: "Bet accepted! Now go play.",
     ap_no_alcanza: "You don't have enough tickets.", ap_ya: "You already have an open bet.", ap_no_amigos: "You can only bet with friends.",
-    bl_apuestas: "Bets", bl_apartado: "Set aside",
+    bl_apuestas: "Bets", bl_apartado: "Set aside", bl_retos_juego: "Game challenges",
     bl_titulo: "Your wallet", bl_sub: "the same one as in the game: spend it on outfits", bl_tickets: "tickets", bl_bienvenida: "Welcome", bl_partidas: "Games",
     bl_logros: "Achievements", bl_retos: "Challenges", bl_gastado: "Outfits", bl_tus_trajes: "Your outfits", bl_puesto: "WEARING",
     bl_sin_trajes: "No outfits yet. Buy them in the game's shop with these tickets.",
@@ -2089,7 +2089,7 @@ function bloqueBilletera() {
   return `<h3>${t("bl_titulo")} <small>${t("bl_sub")}</small></h3>
     <div class="billetera">
       <div class="bl-total"><span class="bl-ico">${ticketIcon}</span><b data-n="${B.tickets}">${fmtN(B.tickets)}</b><span>${t("bl_tickets")}</span></div>
-      <div class="bl-cuenta">${chip(t("bl_bienvenida"), c.bienvenida, "base")}${chip(t("bl_partidas"), c.partidas)}${chip(t("bl_logros"), c.logros)}${chip(t("bl_retos"), c.retos)}${c.apuestas ? chip(t("bl_apuestas"), c.apuestas, c.apuestas < 0 ? "menos" : "") : ""}${c.apartado ? chip(t("bl_apartado"), -c.apartado, "menos") : ""}${c.gastado ? chip(t("bl_gastado"), -c.gastado, "menos") : ""}</div>
+      <div class="bl-cuenta">${chip(t("bl_bienvenida"), c.bienvenida, "base")}${chip(t("bl_partidas"), c.partidas)}${chip(t("bl_logros"), c.logros)}${chip(t("bl_retos"), c.retos)}${c.retos_juego ? chip(t("bl_retos_juego"), c.retos_juego) : ""}${c.apuestas ? chip(t("bl_apuestas"), c.apuestas, c.apuestas < 0 ? "menos" : "") : ""}${c.apartado ? chip(t("bl_apartado"), -c.apartado, "menos") : ""}${c.gastado ? chip(t("bl_gastado"), -c.gastado, "menos") : ""}</div>
       <div class="bl-trajes"><div class="sub-mj">${t("bl_tus_trajes")} <small>${trajes.length}</small></div>
         ${trajes.length ? `<div class="bl-grid">${trajes.map((id) => `<div class="bl-traje${id === B.traje ? " puesto" : ""}"><div class="aro" style="background-image:url(${retrato(id)})"></div><span>${esc(nombrePj(id))}</span>${id === B.traje ? `<em>${t("bl_puesto")}</em>` : ""}</div>`).join("")}</div>`
           : `<p class="nota">${t("bl_sin_trajes")}</p>`}</div>
